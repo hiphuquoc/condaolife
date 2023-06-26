@@ -1,0 +1,241 @@
+$colorTitle         : #334455;
+$colorDesc          : #667788;
+$colorText          : #556677;
+$colorLv1           : #069a8e;
+$colorLv2           : #005555;
+$colorLv3           : #A1E3D8;
+$colorLv4           : #F7FF93;
+
+$colorSLv1          : #f4d03f;
+$colorSLv2          : #f1c40f;
+$colorPrice         : #fd5056;
+$colorSuccess       : #26cf8e;
+
+$bg-1               : #212529;
+$bg-09              : #343a40;
+$bg-08              : #495057;
+$bg-07              : #6c757d;
+$bg-06              : #adb5bd;
+$bg-05              : #ced4da;
+$bg-04              : #dee2e6;
+$bg-03              : #e9ecef;
+$bg-02              : #EDF2F7;
+
+$colorHighlight     : #183153;
+
+
+$opacity-to-hex: (
+    0       : '00',
+    0.05    : '0C',
+    0.1     : '19',
+    0.15    : '26',
+    0.2     : '33',
+    0.25    : '3F',
+    0.3     : '4C',
+    0.35    : '59',
+    0.4     : '66',
+    0.45    : '72',
+    0.5     : '7F',
+    0.55    : '8C',
+    0.6     : '99',
+    0.65    : 'A5',
+    0.7     : 'B2',
+    0.75    : 'BF',
+    0.8     : 'CC',
+    0.85    : 'D8',
+    0.9     : 'E5',
+    0.95    : 'F2',
+    1       : 'FF'
+);
+@mixin colorOpacity($property, $color, $opacity, $important:null) {
+    #{$property}: unquote($color + map-get($opacity-to-hex, $opacity)) $important;
+}
+
+$fontTitle: "SVN-Gilroy Bold", serif;
+$fontText: "SVN-Gilroy", sans-serif;
+
+$backgroundImage: 'https://condaolife.test/storage/images/svg/background-icon.png';
+
+// font Gilroy
+$folderFont : '/fonts/';
+// @font-face{
+// 	font-family:'mt';
+// 	font-style:normal;
+// 	font-weight:400;
+// 	src:url($folderFont+"mt-regular.otf")
+// }
+
+@font-face{
+	font-family:'SVN-Gilroy Thin';
+	font-style:normal;
+	font-weight:400;
+	src:url($folderFont+"svn-gilroy_regular.ttf")
+}
+
+@font-face{
+	font-family:'SVN-Gilroy Light';
+	font-style:normal;
+	font-weight:400;
+	src:url($folderFont+"svn-gilroy_regular.ttf")
+}
+
+@font-face{
+	font-family:'SVN-Gilroy';
+	font-style:normal;
+	font-weight:500;
+	src:url($folderFont+"svn-gilroy_medium.ttf")
+}
+
+@font-face{
+	font-family:'SVN-Gilroy Med';
+	font-style:normal;
+	font-weight:700;
+	src:url($folderFont+"svn-gilroy_med.ttf")
+}
+
+@font-face{
+	font-family:'SVN-Gilroy Semi';
+	font-style:normal;
+	font-weight:700;
+	src:url($folderFont+"svn-gilroy_semibold.ttf")
+}
+
+@font-face{
+	font-family:'SVN-Gilroy Bold';
+	font-style:normal;
+	font-weight:700;
+	src:url($folderFont+"svn-gilroy_semibold.ttf")
+}
+
+@mixin titleOfBox {
+    font-family: $fontTitle;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+@mixin titleSection {
+    font-size: 1.5rem !important;
+    margin: 0 0 0.5rem 0 !important;
+    color: $colorTitle;
+    display: inline-block;
+    @media (min-width: 768px) and (max-width: 1023px){
+        font-size: 1.45rem !important;
+    }
+    @media (max-width: 767px){
+        font-size: 1.4rem !important;
+        margin: 0 0 0.25rem 0 !important;
+    }
+}
+
+@mixin slickSliderMain {
+    &:hover {
+        .slick-prev, .slick-next {
+            display: block;
+        }
+    }
+    .slick-prev, .slick-next {
+        display: none;
+        background: #fff;
+        position: absolute;
+        padding: 0.5rem !important;
+        top: 50% !important;
+        bottom: unset !important;
+        transform: translateY(-50%);
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        z-index: 100;
+        font-size: 1.2rem;
+        // @media (min-width: 768px) and (max-width: 1023px){
+        //     padding: 13px !important;
+        // }
+        // @media (max-width: 767px){
+        //     padding: 11px !important;
+        // }
+    }
+    .slick-prev {
+        left: 0 !important;
+        right: unset !important;
+    }
+    .slick-next {
+        left: unset !important;
+        right: 0 !important;
+    }
+    .slick-dots {
+        position: absolute;
+        bottom: 0;
+        right: 1.5rem;
+        display: flex;
+        li {
+            list-style-type: none;
+            cursor: pointer;
+            button {
+                padding: 0;
+                height: 5px;
+                width: 35px;
+                @include colorOpacity('background', $colorLv1, 0.3);
+                border: none !important;
+                box-shadow: none !important;
+                &::selection {
+                    border: none !important;
+                    outline: none !important;
+                }
+            }
+            &:not(:first-child){
+                margin-left: 0.5rem;
+            }
+        }
+        .slick-active {
+            button {
+                background: $colorLv1;
+            }
+        }
+        @media (max-width: 767px){
+            bottom: 0.5rem !important;
+            li {
+                button {
+                    height: 4px !important;
+                }
+            }
+        }
+        @media (max-width: 577px){
+            right: 1rem;
+            li {
+                button {
+                    width: 25px !important;
+                }
+            }
+        }
+    }
+}
+@mixin slickArrowCircle {
+    position: absolute;
+    transform: translateY(-50%);
+    z-index: 99;
+    border: none;
+    border-radius: 50%;
+    text-align: center;
+    @include colorOpacity('background', $colorSLv1, 0.8);
+    padding: 0.6rem 0.9rem;
+    &:hover {
+        background: $colorSLv1;
+    }
+    &.slick-prev {
+        left: -1rem;
+        top: 50%;
+    }
+    &.slick-next {
+        right: -0.75rem;
+        top: 50%;
+    }
+    i {
+        margin: 0;
+        vertical-align: middle;
+    }
+}
+
+@mixin fontAwesome {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
