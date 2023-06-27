@@ -44,4 +44,9 @@ class Charactor {
         return $result;
     }
 
+    function removeSpecialCharacters($string) {
+        // Xóa các ký tự khoảng trống và ký tự đặc biệt từ chuỗi
+        $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string);
+        return $string;
+    }
 }
