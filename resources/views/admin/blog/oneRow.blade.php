@@ -38,7 +38,7 @@
             <div class="oneLine">
                 <span class="tableHighLight">Category:</span>
                 @foreach($item->categories as $category)
-                    <span class="badge bg-primary">{{ $category->infoCategory->name }}</span>
+                    <span class="badge bg-primary">{{ $category->infoCategory->name ?? null }}</span>
                 @endforeach
             </div>
         @endif
