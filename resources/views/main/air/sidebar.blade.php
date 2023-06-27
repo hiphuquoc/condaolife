@@ -23,6 +23,17 @@
                </a>
             @endforeach
 
+            <!-- combo du lịch -->
+            @foreach($item->airLocation->tourLocations as $tourLocation)
+               @if($tourLocation->infoTourLocation->comboLocations->isNotEmpty())
+                  @foreach($tourLocation->infoTourLocation->comboLocations as $comboLocation)
+                     <a href="/{{ $comboLocation->infoComboLocation->seo->slug_full ?? null }}" title="{{ $comboLocation->infoComboLocation->name ?? $comboLocation->infoComboLocation->seo->title ?? null }}" class="serviceRelatedSidebarBox_box_item">
+                        <i class="fa-solid fa-award"></i><h3>{{ $comboLocation->infoComboLocation->name ?? $comboLocation->infoComboLocation->seo->title ?? null }}</h3>
+                     </a>
+                  @endforeach
+               @endif
+            @endforeach
+
             <!-- dịch vụ tàu -->
             @foreach($item->airLocation->tourLocations as $tourLocation)
                @foreach($tourLocation->infoTourLocation->shipLocations as $shipLocation)
