@@ -233,25 +233,27 @@
     $(window).on('load', function () {
         /* fixed headerMobile khi scroll */
         const elemt                 = $('.header');
-        const positionTopElemt      = elemt.offset().top;
-        $(window).scroll(function(){
-            const positionScrollbar = $(window).scrollTop();
-            // const scrollHeight      = $('body').prop('scrollHeight');
-            // const heightLimit       = parseInt(scrollHeight - heightFooter - elemt.outerHeight());
-            if(positionScrollbar>parseInt(positionTopElemt+50)){
-                elemt.css({
-                    'top'       : '0',
-                    'position'  : 'fixed',
-                    'left'      : 0
-                });
-            }else {
-                elemt.css({
-                    'top'       : '0',
-                    'position'  : 'relative',
-                    'left'      : 0
-                });
-            }
-        });
+        if(elemt.length>0){
+            const positionTopElemt      = elemt.offset().top;
+            $(window).scroll(function(){
+                const positionScrollbar = $(window).scrollTop();
+                // const scrollHeight      = $('body').prop('scrollHeight');
+                // const heightLimit       = parseInt(scrollHeight - heightFooter - elemt.outerHeight());
+                if(positionScrollbar>parseInt(positionTopElemt+50)){
+                    elemt.css({
+                        'top'       : '0',
+                        'position'  : 'fixed',
+                        'left'      : 0
+                    });
+                }else {
+                    elemt.css({
+                        'top'       : '0',
+                        'position'  : 'relative',
+                        'left'      : 0
+                    });
+                }
+            });
+        }
     });
     function showHideListMenuMobile(thisD){
         let elemtC      = $(thisD).parent().find('ul');
