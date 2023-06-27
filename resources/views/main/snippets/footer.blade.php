@@ -82,7 +82,7 @@
         <div class="footerBox">
             <div class="footerBox_item">
                 <div>
-                    Giấy chứng nhận đăng ký kinh doanh số GP/no: 1702204052 cấp bởi Sở Kế hoạch và Đầu tư Tỉnh Kiên Giang ngày 20/08/2020 
+                    {{ config('main.company.gpdkkd') }}
                 </div>
             </div>
             <div class="footerBox_item">
