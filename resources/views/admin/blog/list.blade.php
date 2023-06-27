@@ -71,14 +71,16 @@
     <script type="text/javascript">
 
         function deleteItem(id){
-            $.ajax({
-                url         : "{{ route('admin.blog.delete') }}",
-                type        : "GET",
-                dataType    : "html",
-                data        : { id : id }
-            }).done(function(data){
-                if(data==true) $('#blog_'+id).remove();
-            });
+            if(confirm('{{ config("admin.alert.confirmRemove") }}')) {
+                $.ajax({
+                    url         : "{{ route('admin.blog.delete') }}",
+                    type        : "GET",
+                    dataType    : "html",
+                    data        : { id : id }
+                }).done(function(data){
+                    if(data==true) $('#blog_'+id).remove();
+                });
+            }
         }
 
         function submitForm(idForm){

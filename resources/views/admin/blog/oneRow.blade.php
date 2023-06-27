@@ -2,7 +2,7 @@
 @php
     $no = $no ?? 0;
 @endphp
-<tr id="category_{{ $item->id }}">
+<tr id="blog_{{ $item->id }}">
     <td class="text-center" style="width:60px;font-weight:700;">
         {{ $no }}
     </td>

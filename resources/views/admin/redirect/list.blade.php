@@ -57,14 +57,16 @@
         // }
 
         function deleteItem(id){
-            $.ajax({
-                url         : "{{ route('admin.redirect.delete') }}",
-                type        : "GET",
-                dataType    : "html",
-                data        : { id : id }
-            }).done(function(data){
-                if(data==true) $('#redirect_'+id).remove();
-            });
+            if(confirm('{{ config("admin.alert.confirmRemove") }}')) {
+                $.ajax({
+                    url         : "{{ route('admin.redirect.delete') }}",
+                    type        : "GET",
+                    dataType    : "html",
+                    data        : { id : id }
+                }).done(function(data){
+                    if(data==true) $('#redirect_'+id).remove();
+                });
+            }
         }
     </script>
 @endpush

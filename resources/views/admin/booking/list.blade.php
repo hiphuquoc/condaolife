@@ -168,7 +168,6 @@
     <script type="text/javascript">
         function deleteItem(id){
             if(confirm('{{ config("admin.alert.confirmRemove") }}')) {
-                console.log(123);
                 $.ajax({
                     url         : "{{ route('admin.booking.delete') }}",
                     type        : "get",

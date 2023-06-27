@@ -75,14 +75,16 @@
 @push('scripts-custom')
     <script type="text/javascript">
         function deleteItem(id){
-            $.ajax({
-                url         : "{{ route('admin.category.delete') }}",
-                type        : "GET",
-                dataType    : "html",
-                data        : { id : id }
-            }).done(function(data){
-                if(data==true) $('#category_'+id).remove();
-            });
+            if(confirm('{{ config("admin.alert.confirmRemove") }}')) {
+                $.ajax({
+                    url         : "{{ route('admin.category.delete') }}",
+                    type        : "GET",
+                    dataType    : "html",
+                    data        : { id : id }
+                }).done(function(data){
+                    if(data==true) $('#category_'+id).remove();
+                });
+            }
         }
     </script>
 @endpush
