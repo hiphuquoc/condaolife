@@ -77,7 +77,7 @@
                 dataType    : "html",
                 data        : { id : id }
             }).done(function(data){
-                if(data==true) $('#category_'+id).remove();
+                if(data==true) $('#blog_'+id).remove();
             });
         }
 

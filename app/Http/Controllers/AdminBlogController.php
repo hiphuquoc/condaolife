@@ -176,6 +176,10 @@ class AdminBlogController extends Controller {
                 if(file_exists($imagePath)) @unlink($imagePath);
                 /* xóa blog_info */
                 $info->delete();
+                /* xóa relation với category */
+                RelationCategoryInfoBlogInfo::select('*')
+                    ->where('blog_info_id', $id)
+                    ->delete();
                 DB::commit();
                 return true;
             } catch (\Exception $exception){

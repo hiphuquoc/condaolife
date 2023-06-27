@@ -78,12 +78,12 @@
                 <div>Chép</div>
             </a>
         </div>
-        {{-- <div class="icon-wrapper iconAction">
-            <a href="#" onClick="deleteItem('{{ $item->id }}');">
+        <div class="icon-wrapper iconAction">
+            <div class="actionDelete" onClick="deleteItem('{{ $item->id }}');">
                 <i data-feather='x-square'></i>
                 <div>Xóa</div>
-            </a>
-        </div> --}}
+            </div>
+        </div>
     </td>
 </tr>
 @endif
