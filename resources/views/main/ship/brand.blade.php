@@ -19,7 +19,7 @@
             @foreach($item->partners as $partner)
                 <div class="shipPartnerBox_item">
                     <a href="/{{ $partner->infoPartner->seo->slug_full ?? null }}" title="{{ $partner->infoPartner->name ?? $partner->infoPartner->seo->title ?? $partner->infoPartner->seo->seo_title ?? null }}" class="shipPartnerBox_item_image">
-                        <img src="{{ config('main.svg.loading_main') }}" data-src="{{ $partner->infoPartner->seo->image_small ?? $partner->infoPartner->seo->image ?? config('admin.images.default_750x460') }}" alt="{{ $partner->infoPartner->name ?? $partner->infoPartner->seo->title ?? $partner->infoPartner->seo->seo_title ?? null }}" title="{{ $partner->infoPartner->name ?? $partner->infoPartner->seo->title ?? $partner->infoPartner->seo->seo_title ?? null }}" />
+                        <img src="{{ config('main.svg.loading_main') }}" data-src="{{ $partner->infoPartner->company_logo ?? config('admin.images.default_750x460') }}" alt="{{ $partner->infoPartner->name ?? $partner->infoPartner->seo->title ?? $partner->infoPartner->seo->seo_title ?? null }}" title="{{ $partner->infoPartner->name ?? $partner->infoPartner->seo->title ?? $partner->infoPartner->seo->seo_title ?? null }}" />
                     </a>
                     <div class="shipPartnerBox_item_content">
                         <a href="/{{ $partner->infoPartner->seo->slug_full ?? null }}" title="{{ $partner->infoPartner->name ?? $partner->infoPartner->seo->title ?? $partner->infoPartner->seo->seo_title ?? null }}">
