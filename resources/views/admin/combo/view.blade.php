@@ -88,7 +88,9 @@
                     </div>
                     <div class="pageAdminWithRightSidebar_main_content_item width100 repeater">
                         <div data-repeater-list="contents">
-                            @include('admin.combo.formContent', ['contents' => $item->contents])
+                            @include('admin.combo.formContent', [
+                                'contents' => $item->contents ?? null
+                            ])
                         </div>
                         <div class="card">
                             <button class="btn btn-icon btn-primary waves-effect waves-float waves-light" type="button" aria-label="Thêm" data-repeater-create>

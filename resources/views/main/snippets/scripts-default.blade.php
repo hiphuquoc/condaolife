@@ -402,6 +402,8 @@
                 success     : function(response){
                     /* bật thông báo */
                     setMessageModal(response.title, response.content);
+                    /* clear value input */
+                    inputEmail.val('');
                 }
             });
         }else {

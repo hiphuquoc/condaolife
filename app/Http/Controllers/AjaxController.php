@@ -47,20 +47,32 @@ class AjaxController extends Controller {
     }
 
     public static function registryEmail(Request $request){
-        $idRegistryEmail    = RegistryEmail::insertItem([
-            'email'     => $request->get('registry_email')
-        ]);
-        if(!empty($idRegistryEmail)){
-            $result['type']     = 'success';
-            $result['title']    = 'Đăng ký email thành công!';
-            $result['content']  = '<div>Cảm ơn bạn đã đăng ký nhận tin!</div>
-                                    <div>Trong thời gian tới nếu có bất kỳ chương trình khuyến mãi nào '.config('main.name').' sẽ gửi cho bạn đầu tiên.</div>'; 
-        }else {
-            $result['type']     = 'error';
-            $result['title']    = 'Đăng ký email thất bại!';
-            $result['content']  = 'Có lỗi xảy ra, vui lòng thử lại'; 
+        if(!empty($request->get('registry_email'))){
+            $infoAlready    = RegistryEmail::select('*')
+                                ->where('email', $request->get('registry_email'))
+                                ->first();
+            if(empty($infoAlready)){
+                $idRegistryEmail    = RegistryEmail::insertItem([
+                    'email'     => $request->get('registry_email')
+                ]);
+                if(!empty($idRegistryEmail)){
+                    $result['type']     = 'success';
+                    $result['title']    = 'Đăng ký email thành công!';
+                    $result['content']  = '<div>Cảm ơn bạn đã đăng ký nhận tin!</div>
+                                            <div>Trong thời gian tới nếu có bất kỳ chương trình khuyến mãi nào '.config('main.name').' sẽ gửi cho bạn đầu tiên.</div>'; 
+                }else {
+                    $result['type']     = 'error';
+                    $result['title']    = 'Đăng ký email thất bại!';
+                    $result['content']  = 'Có lỗi xảy ra, vui lòng thử lại'; 
+                }
+            }else {
+                $result['type']     = 'success';
+                $result['title']    = 'Email này đã được đăng ký trước đó!';
+                $result['content']  = '<div>Cảm ơn bạn đã đăng ký nhận tin!</div>
+                                        <div>Trong thời gian tới nếu có bất kỳ chương trình khuyến mãi nào '.config('main.name').' sẽ gửi cho bạn đầu tiên.</div>'; 
+            }
+            return json_encode($result);
         }
-        return json_encode($result);
     }
 
     public static function setMessageModal(Request $request){

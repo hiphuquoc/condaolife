@@ -60,7 +60,7 @@ return [
         [
             'name'      => 'Combo du lịch',
             'route'     => '',
-            'icon'      => '<i class="fa-solid fa-ship"></i>',
+            'icon'      => '<i class="fa-solid fa-award"></i>',
             'child'     => [
                 [
                     'name'  => '1. Điểm đến',

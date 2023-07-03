@@ -2962,44 +2962,6 @@ blockquote{
         }
     }
 }
-.serviceRelatedSidebarBox {
-    &_title {
-        h2, h3 {
-            font-size: 1.25rem;
-            font-family: $fontTitle;
-            margin-bottom: 1rem;
-            margin-top: 0;
-        }
-    }
-    &_box {
-        border: 1px solid $bg-04;
-        border-radius: 5px;
-        &_item {
-            display: flex;
-            padding: 0.65rem 1rem;
-            align-items: center;
-            &:not(:first-child){
-                border-top: 1px dashed $bg-05;
-            }
-            &:hover {
-                background: $bg-03;
-            }
-            h2, h3, h4 {
-                font-size: 1rem;
-                font-weight: 500;
-                color: $colorTitle;
-                margin: 0;
-            }
-            i {
-                width: 25px;
-                margin-right: 1rem;
-                font-size: 1.2rem;
-                color: $colorLv2;
-                text-align: center;
-            }
-        }
-    }
-}
 
 $height-header  : 45px;
 $width-single-menu  : 260px;
@@ -5655,31 +5617,6 @@ $width-single-menu  : 260px;
         display: none;
     }
 }
-.callUseService {
-    background: $colorSLv1;
-    padding: 0.5rem 1rem;
-    border-radius: 10px;
-    text-align: center;
-    position: relative;
-    margin-bottom: 20px;
-    z-index: 2;
-    h2, h3 {
-        margin-bottom: 0;
-        font-size: 1.1rem;
-    }
-    &:after {
-        content: '';
-        z-index: -1;
-        background: url('/storage/images/svg/icon-arrow-fd7300.png') no-repeat;
-        background-size: 100% 100%;
-        width: 50px;
-        aspect-ratio: 1/1;
-        position: absolute;
-        bottom: 0;
-        top: 75%;
-        transform: translateX(-50%);
-    }
-}
 .loginBox {
     display: flex;
     align-items: center;
@@ -6141,5 +6078,74 @@ $width-single-menu  : 260px;
         &_box {
             padding: 0.75rem 1rem;
         }
+    }
+}
+
+.serviceRelatedSidebarBox {
+    margin-top: 1.5rem;
+    &_title {
+        h2, h3 {
+            font-size: 1.25rem;
+            font-family: $fontTitle;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            i {
+                color: $colorLv1;
+            }
+        }
+    }
+    &_box {
+        border: 1px solid $bg-04;
+        border-radius: 5px;
+        &_item {
+            display: flex;
+            padding: 0.65rem 1rem;
+            align-items: center;
+            &:not(:first-child){
+                border-top: 1px dashed $bg-05;
+            }
+            &:hover {
+                background: $bg-03;
+            }
+            h2, h3, h4 {
+                font-size: 1rem;
+                font-weight: 500;
+                color: $colorTitle;
+                margin: 0;
+            }
+            i {
+                width: 25px;
+                margin-right: 1rem;
+                font-size: 1.2rem;
+                color: $colorLv2;
+                text-align: center;
+            }
+        }
+    }
+}
+
+.callUseService {
+    background: $colorSLv1;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+    margin-bottom: 15px;
+    z-index: 2;
+    h2, h3 {
+        margin-bottom: 0;
+        font-size: 1.05rem;
+    }
+    &:after {
+        content: '';
+        z-index: -1;
+        background: url('/storage/images/svg/icon-arrow-fd7300.png') no-repeat;
+        background-size: 100% 100%;
+        width: 50px;
+        aspect-ratio: 1/1;
+        position: absolute;
+        bottom: 0;
+        top: 75%;
+        transform: translateX(-50%);
     }
 }

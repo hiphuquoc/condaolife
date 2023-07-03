@@ -62,14 +62,6 @@
                         <div class="signupReceiveEmail_input">
                             <form id="registryEmailForm" action="#" method="get">
                                 <div class="registryEmailBox">
-                                    {{-- <div class="registryEmailBox_text">
-                                        Đăng ký nhận thông tin 
-                                    </div>
-                                    <div class="registryEmailBox_input">
-                                        <input type="text" name="registry_email" placeholder="Email không hợp lệ!" required="">
-                                        <button type="button" class="button" onclick="submitFormRegistryEmail('registryEmailForm')" aria-label="Gửi email đăng ký nhận tin"><i class="fa-solid fa-paper-plane"></i>Gửi</button>
-                                    </div> --}}
-
                                     <input type="text" name="registry_email" placeholder="Email của bạn" />
                                     <button type="button" aria-label="Đăng ký email" onclick="submitFormRegistryEmail('registryEmailForm')" aria-label="Gửi email đăng ký nhận tin"><i class="fa-solid fa-envelope"></i></button>
                                 </div>

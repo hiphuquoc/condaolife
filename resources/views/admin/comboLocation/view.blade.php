@@ -1,11 +1,11 @@
 @extends('admin.layouts.main')
 @section('content')
     @php
-        $titlePage      = 'Thêm điểm đến Tour mới';
+        $titlePage      = 'Thêm điểm đến Combo mới';
         $submit         = 'admin.comboLocation.create';
         $checkImage     = 'required';
         if(!empty($type)&&$type=='edit'){
-            $titlePage  = 'Chỉnh sửa điểm đến Tour';
+            $titlePage  = 'Chỉnh sửa điểm đến Combo';
             $submit     = 'admin.comboLocation.update';
             $checkImage = null;
         }

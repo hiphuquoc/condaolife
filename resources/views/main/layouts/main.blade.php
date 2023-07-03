@@ -9,27 +9,29 @@
 
 <!-- === START:: Body === -->
 <body>
-    <!-- === START:: Header === -->
-    @include('main.snippets.headerTop')
-    <!-- Cache header main -->
+    <div id="js_openCloseModal_blur">
+        <!-- === START:: Header === -->
+        @include('main.snippets.headerTop')
+        <!-- Cache header main -->
 
-    @include('main.snippets.headerMain')
+        @include('main.snippets.headerMain')
 
-    <!-- === START:: Content === -->
-    <div class="app-content content">
-        <div class="content-overlay"></div>
-        @yield('content')
-    </div>
-
-    <!-- === START:: Footer === -->
-    @include('main.snippets.footer')
-    <!-- === END:: Footer === -->
-
-    <div class="bottom">
-        <div id="gotoTop" class="gotoTop" onclick="javascript:gotoTop();" style="display: block;">
-            <i class="fas fa-chevron-up"></i>
+        <!-- === START:: Content === -->
+        <div class="app-content content">
+            <div class="content-overlay"></div>
+            @yield('content')
         </div>
-        @stack('bottom')
+
+        <!-- === START:: Footer === -->
+        @include('main.snippets.footer')
+        <!-- === END:: Footer === -->
+
+        <div class="bottom">
+            <div id="gotoTop" class="gotoTop" onclick="javascript:gotoTop();" style="display: block;">
+                <i class="fas fa-chevron-up"></i>
+            </div>
+            @stack('bottom')
+        </div>
     </div>
 
     <!-- Modal -->

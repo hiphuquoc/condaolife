@@ -254,6 +254,11 @@ button {
     }
 }
 
+.blurBackground {
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+}
+
 label {
     // font-weight: 600;
     font-size: 0.925rem;
