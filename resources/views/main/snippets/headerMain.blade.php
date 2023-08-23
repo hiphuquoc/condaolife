@@ -20,19 +20,25 @@
                   'icon'         => '<i class="fa-solid fa-person-hiking"></i>'
                ],
                [
-                  'name'         => 'Combo Côn Đảo',
+                  'name'         => 'Combo',
                   'url'          => '/combo-du-lich-con-dao',
-                  'label'        => 'Combo Côn Đảo',
+                  'label'        => 'Combo',
                   'icon'         => '<i class="fa-solid fa-award"></i>'
                ],
                [
-                  'name'         => 'Khách sạn Côn Đảo',
+                  'name'         => 'Khách sạn',
                   'url'          => '/khach-san-con-dao',
                   'label'        => 'Khách sạn',
                   'icon'         => '<i class="fa-solid fa-hotel"></i>'
                ],
                [
-                  'name'         => 'Vé tàu Côn Đảo',
+                  'name'         => 'Vé máy bay',
+                  'url'          => '/ve-may-bay-di-con-dao',
+                  'label'        => 'Vé máy bay',
+                  'icon'         => '<i class="fa-regular fa-paper-plane"></i>'
+               ],
+               [
+                  'name'         => 'Vé tàu',
                   'url'          => '/tau-cao-toc-con-dao',
                   'label'        => 'Vé tàu',
                   'icon'         => '<i class="fa-solid fa-ship"></i>'

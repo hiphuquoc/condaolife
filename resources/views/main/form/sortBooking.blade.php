@@ -1,5 +1,5 @@
 @php
-	$imageSlider 		= 'linear-gradient(-180deg, rgba(0, 123, 255, 0.5), rgb(0, 90, 180))';
+	$imageSlider 		= 'linear-gradient(-180deg, rgb(6, 154, 142), rgba(0, 85, 85, 0.5))';
 	if(!empty($item->files)&&$item->files->isNotEmpty()){
 		foreach($item->files as $file){
 			if($file->file_type=='slider') $imageSlider = 'url('.$file->file_path.') center center';

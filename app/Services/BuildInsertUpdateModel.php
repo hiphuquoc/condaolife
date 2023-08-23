@@ -1236,33 +1236,6 @@ class BuildInsertUpdateModel {
         return $result;
     }
 
-    public static function buildArrayTableComboQuantityAndPrice($idBooking, $dataForm){
-        $result = [];
-        $i      = 0;
-        if(!empty($idBooking)&&!empty($dataForm)){
-            $infoComboOption                     = ComboOption::select('*')
-                                                    ->where('id', $dataForm['combo_option_id'])
-                                                    ->with('prices')
-                                                    ->first();
-            $i                                  = 0;
-            foreach($infoComboOption->prices as $price){
-                foreach($dataForm['quantity'] as $idPrice => $quantity){
-                    if($price->id==$idPrice&&$quantity>0){
-                        $result[$i]['booking_info_id']  = $idBooking;
-                        $result[$i]['option_name']      = $infoComboOption->name;
-                        $result[$i]['option_age']       = $price->apply_age;
-                        $result[$i]['quantity']         = $quantity;
-                        $result[$i]['price']            = $price->price;
-                        $result[$i]['profit']           = $price->profit;
-                        ++$i;
-                        break;
-                    }
-                }
-            }
-        }
-        return $result;
-    }
-
     public static function buildArrayTableFeedbackInfo($dataForm, $seoId){
         $result     = [];
         if(!empty($dataForm)){
@@ -1327,6 +1300,127 @@ class BuildInsertUpdateModel {
             $result['name']             = $dataForm['name'] ?? null;
             $result['days']             = $dataForm['days'] ?? null;
             $result['nights']           = $dataForm['nights'] ?? null;
+        }
+        return $result;
+    }
+
+    public static function buildArrayTableComboQuantityAndPrice($idBooking, $dataForm){
+        $result = [];
+        $i      = 0;
+        if(!empty($idBooking)&&!empty($dataForm)){
+            $infoComboOption                     = ComboOption::select('*')
+                                                    ->where('id', $dataForm['combo_option_id'])
+                                                    ->with('prices')
+                                                    ->first();
+            $i                                  = 0;
+            foreach($infoComboOption->prices as $price){
+                foreach($dataForm['quantity'] as $idPrice => $quantity){
+                    if($price->id==$idPrice&&$quantity>0){
+                        $result[$i]['booking_info_id']  = $idBooking;
+                        $result[$i]['option_name']      = $infoComboOption->name;
+                        $result[$i]['option_age']       = $price->apply_age;
+                        $result[$i]['quantity']         = $quantity;
+                        $result[$i]['price']            = $price->price;
+                        $result[$i]['profit']           = $price->profit;
+                        ++$i;
+                        break;
+                    }
+                }
+            }
+        }
+        return $result;
+    }
+
+    public static function buildArrayTableHotelLocation($dataForm, $seoId = null){
+        /* upload hotel_location */
+        $result                             = [];
+        if(!empty($dataForm)){
+            $result['name']                 = $dataForm['title'] ?? null;
+            $result['description']          = $dataForm['description'] ?? null;
+            $result['display_name']         = $dataForm['display_name'] ?? null;
+            if(!empty($seoId)) $result['seo_id'] = $seoId;
+            $result['region_id']            = $dataForm['region'];
+            $result['island']               = !empty($dataForm['island']) ? 1 : 0;
+            $result['special']              = !empty($dataForm['special']) ? 1 : 0;
+            $result['province_id']          = $dataForm['province'] ?? null;
+            $result['district_id']          = $dataForm['district'] ?? null;
+        }
+        return $result;
+    }
+
+    public static function buildArrayTableHotelInfo($dataForm, $seoId = null){
+        $result         = [];
+        if(!empty($dataForm)){
+            if(!empty($seoId)) $result['seo_id'] = $seoId;
+            $infoHotelLocation  = \App\Models\HotelLocation::select('hotel_location.*')
+                                    ->join('seo', 'seo.id', '=', 'hotel_location.seo_id')
+                                    ->where('seo.id', '=', $dataForm['parent'])
+                                    ->first();
+            $result['hotel_location_id']    = $infoHotelLocation->id;
+            $result['name']                 = $dataForm['title'];
+            $result['description']          = $dataForm['description'] ?? null;
+            $result['code']                 = $dataForm['code'] ?? null;
+            $result['company_name']         = $dataForm['company_name'] ?? null;
+            $result['company_code']         = $dataForm['company_code'] ?? null;
+            $result['address']              = $dataForm['address'] ?? null;
+            $result['website']              = $dataForm['website'] ?? null;
+            $result['hotline']              = $dataForm['hotline'] ?? null;
+            $result['email']                = $dataForm['email'] ?? null;
+            $result['type_name']            = $dataForm['type_name'];
+            $result['type_rating']          = $dataForm['type_rating'] ?? null;
+            $result['status_show']          = !empty($dataForm['status_show']) ? 1 : 0;
+            $result['status_sidebar']       = !empty($dataForm['status_sidebar']) ? 1 : 0;
+            $result['url_crawler_mytour']   = $dataForm['url_crawler_mytour'] ?? null;
+            $result['url_crawler_tripadvisor']  = $dataForm['url_crawler_tripadvisor'] ?? null;
+            $result['url_crawler_traveloka']    = $dataForm['url_crawler_traveloka'] ?? null;
+        }
+        return $result;
+    }
+
+    public static function buildArrayTableHotelRoom($dataForm, $idHotelInfo){
+        $result     = [];
+        if(!empty($dataForm)&&!empty($idHotelInfo)){
+            $result['hotel_info_id']        = $idHotelInfo;
+            $result['name']                 = $dataForm['name'];
+            $result['condition']            = $dataForm['condition'] ?? null;
+            $result['size']                 = $dataForm['size'];
+            $result['number_people']        = $dataForm['number_people'];
+            $result['price']                = $dataForm['price'] ?? null;
+            /* giá cũ */
+            $priceOld                       = $dataForm['price_old'] ?? null;
+            if(empty($priceOld)&&!empty($dataForm['price'])){
+                $priceOld                   = $dataForm['price'];
+            }
+            $result['price_old']            = $priceOld;
+            /* sale_off */
+            $saleOff                        = 0;
+            if($result['price_old']>$result['price']){
+                $saleOff                    = (($dataForm['price_old'] - $dataForm['price'])/$dataForm['price_old'])*100;
+            }
+            $result['sale_off']             = $saleOff;
+            $result['note']                 = $dataForm['note'] ?? null;
+        }
+        return $result;
+    }
+
+    public static function buildArrayTableCommentInfo($dataForm, $referenceId, $referenceType){
+        $result     = [];
+        if(!empty($dataForm)&&!empty($referenceId)&&!empty($referenceType)&&!empty($dataForm['title'])&&!empty($dataForm['author_name'])){
+            $result['reference_type']       = $referenceType;
+            $result['reference_id']         = $referenceId;
+            $result['title']                = $dataForm['title'];
+            $result['comment']              = $dataForm['comment'] ?? null;
+            $result['author_name']          = $dataForm['author_name'];
+            $result['author_phone']         = $dataForm['author_phone'] ?? null;
+            $result['author_email']         = $dataForm['author_email'] ?? null;
+            $result['rating']               = $dataForm['rating'] ?? 0;
+            $result['rating_for_local']     = $dataForm['rating_for_local'] ?? null;
+            $result['rating_for_clean']     = $dataForm['rating_for_clean'] ?? null;
+            $result['rating_for_service']   = $dataForm['rating_for_service'] ?? null;
+            $result['rating_for_value']     = $dataForm['rating_for_value'] ?? null;
+            if($dataForm['created_at']&&$dataForm['created_at']!='1970-01-01'){
+                $result['created_at']       = date('Y-m-d H:i:s', strtotime($dataForm['created_at']));
+            }
         }
         return $result;
     }

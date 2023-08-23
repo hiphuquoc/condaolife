@@ -42,8 +42,8 @@
             <a href="/combo-du-lich-con-dao" title="Combo Côn Đảo">
                 <h2 class="sectionBox_title">Combo du lịch Côn Đảo</h2>
             </a>
-            <p class="sectionBox_desc">Tổng hợp Combo du lịch Côn Đảo hấp dẫn và đa dạng với nhiều lựa chọn linh động và hấp dẫn cho du khách.</p>
-            @include('main.home.comboSlick', ['list' => $combos])
+            <p class="sectionBox_desc">Tổng hợp Combo du lịch Côn Đảo hấp dẫn và đa dạng với nhiều lựa chọn cho du khách.</p>
+            @include('main.comboLocation.comboItem', ['list' => $combos])
         </div>
     </div>
     <!-- END: Combo Côn Đảo -->
@@ -53,24 +53,24 @@
         <div class="container">
             <h2 class="sectionBox_title">Tour Côn Đảo bằng máy bay</h2>
             <p class="sectionBox_desc">Tổng hợp Tour du lịch Côn Đảo hấp dẫn và đa dạng di chuyển bằng máy bay khởi hành từ TPHCM, Hà Nội hoặc Cần Thơ.</p>
-            @include('main.home.tourSlick', ['list' => $tourAir])
+            @include('main.tourLocation.tourItem', ['list' => $tourAir])
         </div>
     </div>
     <!-- END: Tour Côn Đảo bằng máy bay -->
 
     <!-- START: Tour Côn Đảo bằng máy bay -->
-    <div class="sectionBox backgroundPrimary">
+    <div class="sectionBox noBackground">
         <div class="container">
             <h2 class="sectionBox_title">Tour Côn Đảo bằng tàu cao tốc</h2>
             <p class="sectionBox_desc">Tổng hợp Tour du lịch Côn Đảo hấp dẫn và đa dạng di chuyển bằng máy bay khởi hành từ Vũng Tàu, Trần Đề Sóc Trăng hoặc Cần Thơ.</p>
-            @include('main.home.tourSlick', ['list' => $tourShip])
+            @include('main.tourLocation.tourItem', ['list' => $tourShip])
         </div>
     </div>
     <!-- END: Tour Côn Đảo bằng máy bay -->
 
     <!-- Vé tàu cao tốc -->
     @if(!empty($itemTourLocation->shipLocations[0]->infoShipLocation))
-        <div class="sectionBox">
+        <div class="sectionBox" style="background:#e9ecef;">
             <div class="container">
                 @if(!empty($itemTourLocation->shipLocations[0]->infoShipLocation->seo->slug_full))
                     <a href="/{{ $itemTourLocation->shipLocations[0]->infoShipLocation->seo->slug_full }}" title="Vé tàu cao tốc {{ $itemTourLocation->display_name ?? null }}">
@@ -98,7 +98,7 @@
 
     <!-- START: Điểm đến nổi bật -->
     @if(!empty($specialLocations)&&$specialLocations->isNotEmpty())
-        <div class="sectionBox backgroundSecondary">
+        <div class="sectionBox noBackground">
             <div class="container">
                 <h2 class="sectionBox_title">Điểm đến nổi bật Côn Đảo</h2>
                 <p class="sectionBox_desc">Danh sách và thông tin chi tiết về điểm đến hấp dẫn tại Côn Đảo</p>

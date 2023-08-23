@@ -1,3 +1,1 @@
-<div class="bookFormSort_body_item">
-    Form đặt Khách sạn đang cập nhật
-</div>
+<div>Hệ thống đặt Khách sạn đang bảo trì! Để được hỗ trợ nhanh chóng Quý khách vui lòng liên hệ <span style="font-size:1.2rem;color:#069a8e;font-weight:700;">{{ config('main.company.hotline')}}</span>.</div>

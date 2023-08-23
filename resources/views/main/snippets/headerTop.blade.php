@@ -5,7 +5,7 @@
             {{-- <a href="#" class="headerTop_item_list_item">
                Tư vấn khách hàng
             </a> --}}
-            <div class="headerTop_item_list_item" style="font-size:1rem;">
+            <div class="headerTop_item_list_item">
                Xin chào, Có phải bạn đang tìm dịch vụ Côn Đảo chất lượng?
             </div>
          </div>

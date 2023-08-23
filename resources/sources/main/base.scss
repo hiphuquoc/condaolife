@@ -5,18 +5,18 @@
 }
 
 body {
-    font-size: 1.05rem;
+    font-size: 1rem;
     line-height: 1.6rem;
     font-weight: 400;
     font-family: $fontText;
     color: $colorText;
     @media (max-width: 1023px) {
         background: #fff;
-        font-size: 1rem;
+        font-size: 0.975rem;
     }
     @media (max-width: 767px) {
         background: #fff;
-        font-size: 0.975rem;
+        font-size: 0.95rem;
     }
 }
 

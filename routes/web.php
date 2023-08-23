@@ -57,6 +57,12 @@ use App\Http\Controllers\AdminFeedbackController;
 use App\Http\Controllers\AdminRedirectController;
 use App\Http\Controllers\AdminCacheController;
 
+use App\Http\Controllers\AdminHotelLocationController;
+use App\Http\Controllers\AdminHotelInfoController;
+use App\Http\Controllers\AdminHotelRoomController;
+use App\Http\Controllers\AdminHotelContactController;
+use App\Http\Controllers\AdminHotelCommentController;
+
 use App\Http\Controllers\RunTestController;
 use App\Http\Controllers\ToolController;
 use App\Http\Controllers\HomeController;
@@ -67,6 +73,7 @@ use App\Http\Controllers\ShipBookingController;
 use App\Http\Controllers\ServiceBookingController;
 use App\Http\Controllers\ComboBookingController;
 use App\Http\Controllers\TourBookingController;
+use App\Http\Controllers\HotelController;
 
 use App\Http\Controllers\Auth\ProviderController;
 
@@ -426,6 +433,46 @@ Route::prefix('he-thong')->group(function(){
             Route::post('/loadFormContact', [AdminComboPartnerContactController::class, 'loadFormContact'])->name('admin.comboPartner.loadFormContact');
             Route::post('/deleteContact', [AdminComboPartnerContactController::class, 'delete'])->name('admin.comboPartner.deleteContact');
         });
+         /* ===== Hotel LOCATION ===== */
+         Route::prefix('hotelLocation')->group(function(){
+            Route::get('/', [AdminHotelLocationController::class, 'list'])->name('admin.hotelLocation.list');
+            Route::post('/create', [AdminHotelLocationController::class, 'create'])->name('admin.hotelLocation.create');
+            Route::get('/view', [AdminHotelLocationController::class, 'view'])->name('admin.hotelLocation.view');
+            Route::post('/update', [AdminHotelLocationController::class, 'update'])->name('admin.hotelLocation.update');
+            /* Delete AJAX */
+            Route::get('/delete', [AdminHotelLocationController::class, 'delete'])->name('admin.hotelLocation.delete');
+        });
+        /* ===== Hotel Info ===== */
+        Route::prefix('hotel')->group(function(){
+            Route::get('/', [AdminHotelInfoController::class, 'list'])->name('admin.hotel.list');
+            Route::post('/create', [AdminHotelInfoController::class, 'create'])->name('admin.hotel.create');
+            Route::get('/view', [AdminHotelInfoController::class, 'view'])->name('admin.hotel.view');
+            Route::post('/update', [AdminHotelInfoController::class, 'update'])->name('admin.hotel.update');
+            Route::get('/delete', [AdminHotelInfoController::class, 'delete'])->name('admin.hotel.delete');
+            Route::post('/downloadHotelInfo', [AdminHotelInfoController::class, 'downloadHotelInfo'])->name('admin.hotel.downloadHotelInfo');
+            Route::post('/loadFormDownloadImageHotelInfo', [AdminHotelInfoController::class, 'loadFormDownloadImageHotelInfo'])->name('admin.hotel.loadFormDownloadImageHotelInfo');
+            Route::post('/downloadImageHotelInfo', [AdminHotelInfoController::class, 'downloadImageHotelInfo'])->name('admin.hotel.downloadImageHotelInfo');
+            Route::post('/removeImageHotelInfo', [AdminHotelInfoController::class, 'removeAllImageHotelInfo'])->name('admin.hotel.removeAllImageHotelInfo');
+            /* hotel room */
+            Route::post('/loadHotelRoom', [AdminHotelRoomController::class, 'loadHotelRoom'])->name('admin.hotelRoom.loadHotelRoom');
+            Route::post('/loadFormHotelRoom', [AdminHotelRoomController::class, 'loadFormHotelRoom'])->name('admin.hotelRoom.loadFormHotelRoom');
+            Route::post('/downloadHotelRoom', [AdminHotelRoomController::class, 'downloadHotelRoom'])->name('admin.hotelRoom.downloadHotelRoom');
+            Route::post('/createRoom', [AdminHotelRoomController::class, 'create'])->name('admin.hotelRoom.createRoom');
+            Route::post('/updateRoom', [AdminHotelRoomController::class, 'update'])->name('admin.hotelRoom.updateRoom');
+            Route::post('/deleteRoom', [AdminHotelRoomController::class, 'delete'])->name('admin.hotelRoom.deleteRoom');
+            Route::delete('/deleteHotelImage/{idHotelImage}', [AdminHotelRoomController::class, 'deleteHotelImage'])->name('admin.hotelImage.deleteHotelImage');
+            /* thông tin liên hệ */
+            Route::post('/createContact', [AdminHotelContactController::class, 'create'])->name('admin.hotel.createContact');
+            Route::post('/updateContact', [AdminHotelContactController::class, 'update'])->name('admin.hotel.updateContact');
+            Route::post('/loadContact', [AdminHotelContactController::class, 'loadContact'])->name('admin.hotel.loadContact');
+            Route::post('/loadFormContact', [AdminHotelContactController::class, 'loadFormContact'])->name('admin.hotel.loadFormContact');
+            Route::post('/deleteContact', [AdminHotelContactController::class, 'delete'])->name('admin.hotel.deleteContact');
+        });
+        /* ===== Hotel Comment ===== */
+        Route::prefix('hotelComment')->group(function(){
+            Route::get('/view', [AdminHotelCommentController::class, 'view'])->name('admin.hotelComment.view');
+            Route::post('/update', [AdminHotelCommentController::class, 'update'])->name('admin.hotelComment.update');
+        });
         /* ===== TOOL SEO ===== */
         Route::prefix('toolSeo')->group(function(){
             Route::get('/listBlogger', [AdminToolSeoController::class, 'listBlogger'])->name('admin.toolSeo.listBlogger');
@@ -563,6 +610,9 @@ Route::prefix('comboBooking')->group(function(){
     Route::get('/loadBookingSummary', [ComboBookingController::class, 'loadBookingSummary'])->name('main.comboBooking.loadBookingSummary');
     Route::get('/confirm', [ComboBookingController::class, 'confirm'])->name('main.comboBooking.confirm');
 });
+/* ===== HOTEL ===== */
+Route::get('/loadHotelRoom', [HotelController::class, 'loadHotelRoom'])->name('main.hotel.loadHotelRoom');
+Route::get('/loadHotelImage', [HotelController::class, 'loadHotelImage'])->name('main.hotel.loadHotelImage');
 /* login với google */
 // Route::get('/setCsrfFirstTime', [CookieController::class, 'setCsrfFirstTime'])->name('main.setCsrfFirstTime');
 Route::post('/auth/google/callback', [ProviderController::class, 'googleCallback'])->name('main.google.callback');
@@ -573,6 +623,7 @@ Route::get('/auth/facebook/callback', [ProviderController::class, 'facebookCallb
 Route::get('/checkLoginAndSetShow', [AjaxController::class, 'checkLoginAndSetShow'])->name('ajax.checkLoginAndSetShow');
 Route::get('/registryEmail', [AjaxController::class, 'registryEmail'])->name('ajax.registryEmail');
 Route::get('/setMessageModal', [AjaxController::class, 'setMessageModal'])->name('ajax.setMessageModal');
+Route::get('/loadImageFromGoogleCloud', [AjaxController::class, 'loadImageFromGoogleCloud'])->name('ajax.loadImageFromGoogleCloud');
 /* ===== TOC CONTENT ===== */
 Route::get('/buildTocContentSidebar', [AjaxController::class, 'buildTocContentSidebar'])->name('main.buildTocContentSidebar');
 Route::get('/buildTocContentMain', [AjaxController::class, 'buildTocContentMain'])->name('main.buildTocContentMain');

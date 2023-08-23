@@ -95,7 +95,7 @@
                     foreach($item->tours as $tour) if(!empty($tour->infoTour)) $dataTours[] = $tour->infoTour;
                 @endphp
                 @if(!empty($dataTours)&&$dataTours->isNotEmpty())
-                    @include('main.tourLocation.tourGrid', ['list' => $dataTours])
+                    @include('main.tourLocation.tourItem', ['list' => $dataTours])
                 @else 
                     <div style="color:rgb(0,123,255);">Các chương trình <strong>Tour {{ $item->display_name ?? null }}</strong> đang được {{ config('main.name') }} cập nhật và sẽ sớm giới thiệu đến Quý khách trong thời gian tới!</div>
                 @endif
@@ -124,7 +124,7 @@
                     <h2 class="sectionBox_title">Combo du lịch {{ $item->display_name ?? null }}</h2>
                 @endif
                 <p class="sectionBox_desc">Để đến được {{ $item->display_name ?? null }} nhanh chóng, an toàn và tiện lợi tốt nhất bạn nên di chuyển bằng máy bay. Thông tin chi tiết các <strong>chuyến bay đến {{ $item->display_name ?? null }}</strong> bạn có thể tham khảo bên dưới</p>
-                @include('main.tourLocation.comboSlick', [
+                @include('main.comboLocation.comboItem', [
                     'list'          => $combos
                 ])
             </div>
@@ -133,9 +133,14 @@
         <!-- Vé máy bay -->
         @php
             $dataAirs               = new \Illuminate\Support\Collection();
+            $i                      = 0;
             foreach($item->airLocations as $airLocation){
                 foreach($airLocation->infoAirLocation->airs as $air){
-                    $dataAirs[]     = $air;
+                    $dataAirs[$i]               = $air;
+                    $dataAirs[$i]->seo          = $air->seo;
+                    $dataAirs[$i]->location     = $air->location;
+                    $dataAirs[$i]->departure    = $air->departure;
+                    ++$i;
                 }
             }
         @endphp
@@ -150,7 +155,7 @@
                         <h2 class="sectionBox_title">Vé máy bay đi {{ $item->display_name ?? null }}</h2>
                     @endif
                     <p class="sectionBox_desc">Để đến được {{ $item->display_name ?? null }} nhanh chóng, an toàn và tiện lợi tốt nhất bạn nên di chuyển bằng máy bay. Thông tin chi tiết các <strong>chuyến bay đến {{ $item->display_name ?? null }}</strong> bạn có thể tham khảo bên dưới</p>
-                    @include('main.tourLocation.airGrid', [
+                    @include('main.airLocation.airItem', [
                         'list'          => $dataAirs, 
                         'limit'         => 3, 
                         'link'          => $item->airLocations[0]->infoAirLocation->seo->slug_full, 
@@ -267,7 +272,6 @@
         @if(!empty($item->questions)&&$item->questions->isNotEmpty())
             <div class="sectionBox withBorder">
                 <div class="container">
-                    <h2 class="sectionBox_title">Câu hỏi thường gặp về Tour {{ $item->display_name ?? null }}</h2>
                     @include('main.snippets.faq', ['list' => $item->questions, 'title' => $item->name])
                 </div>
             </div>
