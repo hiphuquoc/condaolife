@@ -27,7 +27,7 @@
                ],
                [
                   'name'         => 'Khách sạn',
-                  'url'          => '/khach-san-con-dao',
+                  'url'          => '/khach-san-tai-con-dao',
                   'label'        => 'Khách sạn',
                   'icon'         => '<i class="fa-solid fa-hotel"></i>'
                ],
