@@ -4859,16 +4859,19 @@ $width-single-menu  : 260px;
             border-radius: 50px;
             font-size: 0.9rem;
             background: #fff;
-            color: $colorTitle;
             font-family: $fontTitle;
             border: 1px solid $bg-03;
             cursor: pointer;
+            color: $colorTitle;
             &:hover {
                 @include colorOpacity('background', $colorLv1, 0.1);
             }
             &.active {
+                color: #fff !important;
                 background: $bg-08;
-                color: #fff;
+                h2, h3, h4 {
+                    color: #fff !important;
+                }
             }
             h2, h3, h4 {
                 font-size: inherit;
