@@ -1,4 +1,4 @@
-<div class="tourList tourGrid">
+<div class="tourList tourGrid {{ !empty($slick)&&$slick==true ? 'slickBox' : null }}">
     @foreach($list as $tour)
     <div class="tourList_item">
         <a href="/{{ $tour->seo->slug_full ?? null }}" class="tourList_item_gallery">

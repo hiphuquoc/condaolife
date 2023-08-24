@@ -130,6 +130,23 @@
             </div>
         </div>
 
+        <!-- Cho thuê xe -->
+        @if(!empty($item->carrentalLocations[0]->infoCarrentalLocation))
+            <div class="sectionBox withBorder">
+                <div class="container">
+                    <h2 class="sectionBox_title">Cho thuê xe {{ $item->display_name ?? null }}</h2>
+                    <p class="sectionBox_desc">Nếu cần phương tiện đưa đón, di chuyển và tham quan bạn có thể tham khảo thêm dịch vụ <strong>Cho thuê xe tại {{ $item->display_name ?? null }}</strong> của {{ config('main.name') }} với đầy đủ lựa chọn (tự lái hoặc có tài xế), xe đời mới, nhiều loại phù hợp yêu cầu và mức giá hợp lí.</p>
+                    <div class="guideList">
+                        @foreach($item->carrentalLocations as $carrentalLocation)
+                            <div class="guideList_item">
+                                <i class="fa-solid fa-angles-right"></i>Xem thêm <a href="/{{ $carrentalLocation->infoCarrentalLocation->seo->slug_full }}" title="{{ $carrentalLocation->infoCarrentalLocation->name }}">{{ $carrentalLocation->infoCarrentalLocation->name }}</a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        @endif
+
         <!-- Vé máy bay -->
         @php
             $dataAirs               = new \Illuminate\Support\Collection();
@@ -213,16 +230,16 @@
             </div>
         @endif
 
-        <!-- Cho thuê xe -->
-        @if(!empty($item->carrentalLocations[0]->infoCarrentalLocation))
+        <!-- Cẩm nang du lịch -->
+        @if(!empty($item->guides[0]->infoGuide))
             <div class="sectionBox withBorder">
                 <div class="container">
-                    <h2 class="sectionBox_title">Cho thuê xe {{ $item->display_name ?? null }}</h2>
-                    <p class="sectionBox_desc">Nếu cần phương tiện đưa đón, di chuyển và tham quan bạn có thể tham khảo thêm dịch vụ <strong>Cho thuê xe tại {{ $item->display_name ?? null }}</strong> của {{ config('main.name') }} với đầy đủ lựa chọn (tự lái hoặc có tài xế), xe đời mới, nhiều loại phù hợp yêu cầu và mức giá hợp lí.</p>
+                    <h2 class="sectionBox_title">Cẩm nang du lịch {{ $item->display_name ?? null }}</h2>
+                    <p class="sectionBox_desc">Nếu các chương trình <strong>Tour du lịch {{ $item->display_name ?? null }}</strong> của {{ config('main.name') }} không đáp ứng được nhu cầu của bạn hoặc là người ưu thích du lịch tự túc,... Bạn có thể tham khảo <strong>Cẩm nang du lịch</strong> bên dưới để có đầy đủ thông tin, tự do lên kế hoạch, sắp xếp lịch trình cho chuyến đi của mình được chu đáo nhất.</p>
                     <div class="guideList">
-                        @foreach($item->carrentalLocations as $carrentalLocation)
+                        @foreach($item->guides as $guide)
                             <div class="guideList_item">
-                                <i class="fa-solid fa-angles-right"></i>Xem thêm <a href="/{{ $carrentalLocation->infoCarrentalLocation->seo->slug_full }}" title="{{ $carrentalLocation->infoCarrentalLocation->name }}">{{ $carrentalLocation->infoCarrentalLocation->name }}</a>
+                                <i class="fa-solid fa-angles-right"></i>Xem thêm <a href="/{{ $guide->infoGuide->seo->slug_full }}" title="{{ $guide->infoGuide->name }}">{{ $guide->infoGuide->name }}</a>
                             </div>
                         @endforeach
                     </div>
@@ -251,27 +268,10 @@
             </div>
         @endif
 
-        <!-- Cẩm nang du lịch -->
-        @if(!empty($item->guides[0]->infoGuide))
-            <div class="sectionBox withBorder">
-                <div class="container">
-                    <h2 class="sectionBox_title">Cẩm nang du lịch {{ $item->display_name ?? null }}</h2>
-                    <p class="sectionBox_desc">Nếu các chương trình <strong>Tour du lịch {{ $item->display_name ?? null }}</strong> của {{ config('main.name') }} không đáp ứng được nhu cầu của bạn hoặc là người ưu thích du lịch tự túc,... Bạn có thể tham khảo <strong>Cẩm nang du lịch</strong> bên dưới để có đầy đủ thông tin, tự do lên kế hoạch, sắp xếp lịch trình cho chuyến đi của mình được chu đáo nhất.</p>
-                    <div class="guideList">
-                        @foreach($item->guides as $guide)
-                            <div class="guideList_item">
-                                <i class="fa-solid fa-angles-right"></i>Xem thêm <a href="/{{ $guide->infoGuide->seo->slug_full }}" title="{{ $guide->infoGuide->name }}">{{ $guide->infoGuide->name }}</a>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        @endif
-
         <!-- faq -->
         @if(!empty($item->questions)&&$item->questions->isNotEmpty())
             <div class="sectionBox withBorder">
-                <div class="container">
+                <div class="container" style="border-bottom:none !important;">
                     @include('main.snippets.faq', ['list' => $item->questions, 'title' => $item->name])
                 </div>
             </div>

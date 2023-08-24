@@ -94,8 +94,6 @@
                     foreach($item->combos as $combo){
                         $dataCombos[$i]               = $combo->infoCombo;
                         $dataCombos[$i]->seo          = $combo->infoCombo->seo;
-                        // $dataCombos[$i]->location     = $combo->infoCombo->location;
-                        // $dataCombos[$i]->departure    = $combo->infoCombo->departure;
                         ++$i;
                     }
                 @endphp
@@ -107,8 +105,8 @@
             </div>
         </div>
 
-        <!-- Hướng dẫn đặt Vé -->
-        @include('main.comboLocation.guideBook', ['title' => 'Hướng dẫn đặt Combo '.$item->display_name])
+        {{-- <!-- Hướng dẫn đặt Vé -->
+        @include('main.comboLocation.guideBook', ['title' => 'Hướng dẫn đặt Combo '.$item->display_name]) --}}
 
         <!-- START:: Video -->
         @include('main.tourLocation.videoBox', [

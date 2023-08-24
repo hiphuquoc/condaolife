@@ -43,7 +43,10 @@
                 <h2 class="sectionBox_title">Combo du lịch Côn Đảo</h2>
             </a>
             <p class="sectionBox_desc">Tổng hợp Combo du lịch Côn Đảo hấp dẫn và đa dạng với nhiều lựa chọn cho du khách.</p>
-            @include('main.comboLocation.comboItem', ['list' => $combos])
+            @include('main.comboLocation.comboItem', [
+                'list' => $combos,
+                // 'slick' => true
+            ])
         </div>
     </div>
     <!-- END: Combo Côn Đảo -->
@@ -53,7 +56,10 @@
         <div class="container">
             <h2 class="sectionBox_title">Tour Côn Đảo bằng máy bay</h2>
             <p class="sectionBox_desc">Tổng hợp Tour du lịch Côn Đảo hấp dẫn và đa dạng di chuyển bằng máy bay khởi hành từ TPHCM, Hà Nội hoặc Cần Thơ.</p>
-            @include('main.tourLocation.tourItem', ['list' => $tourAir])
+            @include('main.tourLocation.tourItem', [
+                'list' => $tourAir,
+                'slick' => true
+            ])
         </div>
     </div>
     <!-- END: Tour Côn Đảo bằng máy bay -->
@@ -63,7 +69,10 @@
         <div class="container">
             <h2 class="sectionBox_title">Tour Côn Đảo bằng tàu cao tốc</h2>
             <p class="sectionBox_desc">Tổng hợp Tour du lịch Côn Đảo hấp dẫn và đa dạng di chuyển bằng máy bay khởi hành từ Vũng Tàu, Trần Đề Sóc Trăng hoặc Cần Thơ.</p>
-            @include('main.tourLocation.tourItem', ['list' => $tourShip])
+            @include('main.tourLocation.tourItem', [
+                'list' => $tourShip,
+                'slick' => true
+            ])
         </div>
     </div>
     <!-- END: Tour Côn Đảo bằng máy bay -->
@@ -144,7 +153,7 @@
         function setSlick(){
             $('.slickBox').slick({
                 infinite: false,
-                slidesToShow: 3,
+                slidesToShow: 3.01,
                 slidesToScroll: 3,
                 arrows: true,
                 prevArrow: '<button class="slick-arrow slick-prev" aria-label="Slide trước"><i class="fa-solid fa-angle-left"></i></button>',
@@ -170,7 +179,6 @@
                     },
                     {
                         breakpoint: 577,
-                        // settings: 'unslick'
                         settings: {
                             infinite: false,
                             slidesToShow: 1.3,
@@ -182,7 +190,7 @@
             });
             $('.slickBoxFeedback').slick({
                 infinite: false,
-                slidesToShow: 3,
+                slidesToShow: 3.4,
                 slidesToScroll: 3,
                 arrows: true,
                 prevArrow: '<button class="slick-arrow slick-prev" aria-label="Slide trước"><i class="fa-solid fa-angle-left"></i></button>',

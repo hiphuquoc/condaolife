@@ -1,5 +1,5 @@
 <div class="stickyBox">
-   <div class="callBookTour">
+   <div class="callBookTour" style="border-radius:10px;">
       @include('main.template.callbook', ['button' => 'Đặt vé tàu', 'flagButton' => true, 'linkFull' => route('main.shipBooking.form')])
    </div>
 
@@ -21,6 +21,17 @@
                <a href="/{{ $tourLocation->infoTourLocation->seo->slug_full ?? null }}" title="{{ $tourLocation->infoTourLocation->name ?? $tourLocation->infoTourLocation->seo->title ?? null }}" class="serviceRelatedSidebarBox_box_item">
                   <i class="fa-solid fa-person-hiking"></i><h3>{{ $tourLocation->infoTourLocation->name ?? $tourLocation->infoTourLocation->seo->title ?? null }}</h3>
                </a>
+            @endforeach
+
+            <!-- combo du lịch -->
+            @foreach($item->tourLocations as $tourLocation)
+               @if($tourLocation->infoTourLocation->comboLocations->isNotEmpty())
+                  @foreach($tourLocation->infoTourLocation->comboLocations as $comboLocation)
+                     <a href="/{{ $comboLocation->infoComboLocation->seo->slug_full ?? null }}" title="{{ $comboLocation->infoComboLocation->name ?? $comboLocation->infoComboLocation->seo->title ?? null }}" class="serviceRelatedSidebarBox_box_item">
+                        <i class="fa-solid fa-award"></i><h3>{{ $comboLocation->infoComboLocation->name ?? $comboLocation->infoComboLocation->seo->title ?? null }}</h3>
+                     </a>
+                  @endforeach
+               @endif
             @endforeach
 
             <!-- vé máy bay -->

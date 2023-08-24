@@ -22,9 +22,9 @@
 			<div {{ !empty($active)&&$active=='hotel' ? 'class=active' : null }} data-tab="hotelBookingForm" onClick="changeTab(this);">
 				<div class="maxLine_1"><i class="fa-solid fa-hotel"></i>Khách sạn</div>
 			</div>
-			<div {{ !empty($active)&&$active=='service' ? 'class=active' : null }} data-tab="ticketBookingForm" onClick="changeTab(this);">
+			{{-- <div {{ !empty($active)&&$active=='service' ? 'class=active' : null }} data-tab="ticketBookingForm" onClick="changeTab(this);">
 				<div class="maxLine_1"><i class="fa-solid fa-ticket"></i>Vé vui chơi</div>
-			</div>
+			</div> --}}
 		</div>
 		<div class="bookFormSort_body">
 			<!-- Ship booking form -->
@@ -51,12 +51,12 @@
 					@include('main.form.sortBooking.hotel', compact('item'))
 				</form>
 			</div>
-			<!-- Tour booking form -->
+			{{-- <!-- Tour booking form -->
 			<div id="ticketBookingForm" {{ !empty($active)&&$active!='service' ? 'style=display:none;' : null }}>
 				<form id="serviceBookingSort" method="get" action="{{ route('main.serviceBooking.form') }}">
 					@include('main.form.sortBooking.ticket')
 				</form>
-			</div>
+			</div> --}}
 		</div>
 	</div>
 </div>

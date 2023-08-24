@@ -1,6 +1,6 @@
 <div class="stickyBox">
 
-   <div class="callBookTour">
+   <div class="callBookTour" style="border-radius:10px;">
       @include('main.template.callbook', ['button' => 'Đặt xe', 'flagButton' => false])
    </div>
 

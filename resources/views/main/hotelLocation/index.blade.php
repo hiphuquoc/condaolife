@@ -62,30 +62,6 @@
 
     <div class="pageContent">
 
-        <!-- Hotel box -->
-        <div class="sectionBox backgroundPrimaryGradiend">
-            <div class="container">
-                <h2 class="sectionBox_title">Khách sạn {{ $item->display_name ?? null }} - Danh sách khách sạn {{ $item->display_name ?? null }}</h2>
-                <p class="sectionBox_desc">Tổng hợp các <strong>Khách sạn {{ $item->display_name ?? null }}</strong> thịnh hành, chất lượng, được đánh giá cao và là lựa chọn hàng đầu của khách du lịch.</p>
-                @include('main.hotelLocation.filterBox')
-                @if(!empty($item->hotels)&&$item->hotels->isNotEmpty())
-                    @include('main.hotelLocation.hotelGrid', ['list' => $item->hotels])
-                @else 
-                    <div style="color:#069a8e;">Các <strong>Hotel {{ $item->display_name ?? null }}</strong> đang được {{ config('company.sortname') }} cập nhật và sẽ sớm giới thiệu đến Quý khách trong thời gian tới!</div>
-                @endif
-            </div>
-        </div>
-
-        <!-- Hướng dẫn đặt Vé -->
-        @include('main.hotelLocation.guideBook', ['title' => 'Hướng dẫn đặt Khách sạn '.$item->display_name])
-
-        <!-- START:: Video -->
-        @include('main.tourLocation.videoBox', [
-            'item'  => $item,
-            'title' => 'Video Hotel '.$item->display_name
-        ])
-        <!-- END:: Video -->
-
         <!-- Giới thiệu Hotel du lịch -->
         <div class="sectionBox">
             <div class="container">
@@ -106,6 +82,39 @@
                 @endif
             </div>
         </div>
+
+        <!-- Hotel box -->
+        <div class="sectionBox backgroundPrimaryGradiend">
+            <div class="container">
+                <h2 class="sectionBox_title">Khách sạn {{ $item->display_name ?? null }} - Danh sách khách sạn {{ $item->display_name ?? null }}</h2>
+                <p class="sectionBox_desc">Tổng hợp các <strong>Khách sạn {{ $item->display_name ?? null }}</strong> thịnh hành, chất lượng, được đánh giá cao và là lựa chọn hàng đầu của khách du lịch.</p>
+                @include('main.hotelLocation.filterBox')
+                @if(!empty($item->hotels)&&$item->hotels->isNotEmpty())
+                    @include('main.hotelLocation.hotelGrid', ['list' => $item->hotels])
+                @else 
+                    <div style="color:#069a8e;">Các <strong>Hotel {{ $item->display_name ?? null }}</strong> đang được {{ config('company.sortname') }} cập nhật và sẽ sớm giới thiệu đến Quý khách trong thời gian tới!</div>
+                @endif
+            </div>
+        </div>
+
+        {{-- <!-- Hướng dẫn đặt Vé -->
+        @include('main.hotelLocation.guideBook', ['title' => 'Hướng dẫn đặt Khách sạn '.$item->display_name]) --}}
+
+        <!-- START:: Video -->
+        @include('main.tourLocation.videoBox', [
+            'item'  => $item,
+            'title' => 'Video Hotel '.$item->display_name
+        ])
+        <!-- END:: Video -->
+
+        <!-- faq -->
+        @if(!empty($item->questions)&&$item->questions->isNotEmpty())
+            <div class="sectionBox withBorder">
+                <div class="container" style="border-bottom:none !important;">
+                    @include('main.snippets.faq', ['list' => $item->questions, 'title' => $item->name])
+                </div>
+            </div>
+        @endif
     </div>
 @endsection
 @push('bottom')
