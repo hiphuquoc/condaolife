@@ -84,7 +84,7 @@ class AdminHotelInfoController extends Controller {
         $facilities         = HotelFacility::all();
         $content            = null;
         if(!empty($item->seo->slug)){
-            $content        = Storage::get(config('admin.storage.contentHotelInfo').$item->seo->slug.'.blade.php');
+            $content        = Storage::get(config('admin.storage.contentHotel').$item->seo->slug.'.blade.php');
         }
         /* type */
         $type               = !empty($item) ? 'edit' : 'create';
@@ -176,7 +176,7 @@ class AdminHotelInfoController extends Controller {
                 }
             }
             /* lưu content vào file */
-            if(!empty($request->get('content'))) Storage::put(config('admin.storage.contentHotelInfo').$request->get('slug').'.blade.php', $request->get('content'));
+            if(!empty($request->get('content'))) Storage::put(config('admin.storage.contentHotel').$request->get('slug').'.blade.php', $request->get('content'));
             /* insert relation_hotel_info_hotel_facility */
             if(!empty($request->get('facilities'))){
                 foreach($request->get('facilities') as $idFacility){
@@ -295,9 +295,9 @@ class AdminHotelInfoController extends Controller {
             /* xóa và insert comments => xử lý riêng ở một controller khác (giảm tải) */
             /* lưu content vào file */
             if(!empty($request->get('content'))){
-                Storage::put(config('admin.storage.contentHotelInfo').$request->get('slug').'.blade.php', $request->get('content'));
+                Storage::put(config('admin.storage.contentHotel').$request->get('slug').'.blade.php', $request->get('content'));
             }else {
-                Storage::delete(config('admin.storage.contentHotelInfo').$request->get('slug').'.blade.php');
+                Storage::delete(config('admin.storage.contentHotel').$request->get('slug').'.blade.php');
             }
             /* insert relation_hotel_info_hotel_facility */
             RelationHotelInfoHotelFacility::select('*')
@@ -366,7 +366,7 @@ class AdminHotelInfoController extends Controller {
                 /* xóa câu hỏi thường gặp */
                 $infoHotel->questions()->delete();
                 /* xóa content */
-                Storage::delete(config('admin.storage.contentHotelInfo').$infoHotel->seo->slug.'.blade.php');
+                Storage::delete(config('admin.storage.contentHotel').$infoHotel->seo->slug.'.blade.php');
                 /* xóa comment */
                 $infoHotel->comments()->delete();
                 /* xóa relation_hotel_info_hotel_facility */

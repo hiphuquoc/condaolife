@@ -114,6 +114,8 @@ return [
         'contentTourCountry'        => 'public/contents/tourCountries/',
         'contentSchedule'           => 'public/contents/shipSchedule/',
         'contentComboLocation'      => 'public/contents/comboLocations/',
+        'contentHotelLocation'      => 'public/contents/hotelLocations/',
+        'contentHotel'              => 'public/contents/hotels/'
     ],
 
     'alert'     => [
