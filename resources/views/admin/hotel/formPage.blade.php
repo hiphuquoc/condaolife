@@ -17,10 +17,10 @@
                     {{ !empty($item['name']) ? mb_strlen($item['name']) : 0 }}
                 </div>
             </div>
-            <input type="text" class="form-control" id="title" name="title" value="{{ old('name') ?? $item['name'] ?? '' }}" required>
+            <input type="text" class="form-control" id="title" name="title" value="{{ old('title') ?? $item['name'] ?? '' }}" required>
             <div class="invalid-feedback">{{ config('admin.massage_validate.not_empty') }}</div>
         </div>
-        <!-- One Row -->
+        {{-- <!-- One Row -->
         <div class="formBox_full_item">
             <div class="inputWithNumberChacractor">
                 <span data-toggle="tooltip" data-placement="top" title="
@@ -35,7 +35,7 @@
             </div>
             <textarea class="form-control" id="description"  name="description" rows="5">{{ old('description') ?? $item['description'] ?? '' }}</textarea>
             <div class="invalid-feedback">{{ config('admin.massage_validate.not_empty') }}</div>
-        </div>
+        </div> --}}
         <!-- One Row -->
         <div class="formBox_full_item">
             <span data-toggle="tooltip" data-placement="top" title="

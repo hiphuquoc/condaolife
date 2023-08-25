@@ -562,7 +562,6 @@ foreach(\App\Models\Redirect::all() as $redirect){
 
 /* chạy test */
 Route::get('/mixKeyword', [ToolController::class, 'mixKeyword'])->name('main.tool.mixKeyword');
-// Route::get('/runTest', [RunTestController::class, 'run'])->name('main.test.run');
 // Route::get('/testMail', [MailController::class, 'test'])->name('main.testMail');
 
 Route::get('/', [HomeController::class, 'home'])->name('main.home');

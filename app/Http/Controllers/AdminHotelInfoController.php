@@ -409,13 +409,17 @@ class AdminHotelInfoController extends Controller {
             if(!empty($request->get('url_crawler_tripadvisor'))) $this->downloadHotelInfo_tripadvisor($request->get('url_crawler_tripadvisor'));
             /* ============= Lấy dữ liệu của Traveloka */
             if(!empty($request->get('url_crawler_traveloka'))) $this->downloadHotelInfo_traveloka($request->get('url_crawler_traveloka'));
-            // dd($this->arrayData);
-            // /* truyền biến qua view */
-            // $hotelLocations     = HotelLocation::all();
-            // $staffs             = Staff::all();
-            // $parents            = HotelLocation::select('*')
-            //                         ->with('seo')
-            //                         ->get();
+
+            // $urlMytour      = 'https://mytour.vn/khach-san/49810-orson-con-dao-resort.html';
+            // $urlTripadvisor = 'https://www.tripadvisor.com.vn/Hotel_Review-g1024873-d23483355-Reviews-Orson_Hotel_Resort_Con_Dao-Con_Son_Con_Dao_Islands_Ba_Ria_Vung_Tau_Province.html';
+            // $urlTraveloka   = 'https://www.traveloka.com/vi-vn/hotel/detail?spec=25-08-2023.26-08-2023.1.1.HOTEL.9000000967795.Orson%20Hotel%20%26%20Resort%20Con%20Dao.2&contexts=%7B%22inventoryRateKey%22%3A%22povEwB3ZzsU2C6pd%2B6MdUw6p4Oi4t9ianyz%2Fk%2Fcwm21M0tKsNUio4Rxug1zOzHJilcvZa8YdqqIySdppe7dolTIewZlxfjiOGz6oXLTucMvN0%2BgQ3yZPvZcoHwUFNN%2BZpcr%2F%2FNa8o9ElfN8zOYhzzZeg0X586laFpeUViPi9rxDPW8f24zIHvvkS2%2BIV%2F5%2BZIvEWeildVo7nbHxIWcXPVNGysXwP9P%2F6jQTjnyKeTv%2ByqYmxSenRKFEfSHS0XO3kZfZPEEhT4qTyZ4NnGlioFk6ay4RXlsebEjOdYqJCyZbrOAISZOmoKsKZb50fD4oKXKEkE9homyrbMni8qHitl2fxa3MY%2Bk28ILHsNwZ6G%2FNBz0bbP37DEgTr2mvXG4L6R1hgSE9JVGuYmbD4FB8l0PSBxN9bVvyHTYyRrL6ILghApOwHGw3H8JRC71VUaUZv%2B%2BfNqDfMsi4qyKjapz8T4oVg4uP%2BNd16M8XgjnTkiZDSQb5voiknUxgKT%2Fom%2FJJYi6DAJSTTai4UKGMrEemWlm%2FtVYQKI1lMuX%2BRaPNcBUAvSnVpp3982X8ufymNCG%2Bvqv3rBuUa%2BDAlSlNPC7rHF8TsYmOTADU69%2B%2B%2Fol8yLJTHHQhvr%2Bf5O5wjhPZDddaEMD1lhgrNFX59TpZvCV9M4rSDCIHqoFDFRnsCphC6IUw%3D%22%7D&loginPromo=1&prevSearchId=1775132668909871672';
+            // /* ============= Lấy dữ liệu của Mytour */
+            // $this->downloadHotelInfo_mytour($urlMytour);
+            // /* ============= Lấy dữ liệu của Tripadvisor */
+            // $this->downloadHotelInfo_tripadvisor($urlTripadvisor);
+            // /* ============= Lấy dữ liệu của Traveloka */
+            // $this->downloadHotelInfo_traveloka($urlTraveloka);
+
             $type               = !empty($item) ? 'edit' : 'create';
             $type               = $request->get('type') ?? $type;
             $item               = self::convertToCollectionRecursive($this->arrayData);
@@ -432,10 +436,42 @@ class AdminHotelInfoController extends Controller {
             $item->contents     = $item['contents'];
             $item->questions    = $item['questions'];
 
-            /* => tiến hành lọc facility nào chưa có trong bảng CSDL thì tạo ra */
-            $tmp                = [];
+            /* (xử lý facility lấy từ tripadvisor) tiến hành lọc facility nào chưa có trong bảng CSDL thì tạo ra */
+            $item->facilities   = self::insertOrGetHotelFacility($item['tmpFacilities']);
+            /* trường hợp không lấy được facilities từ tripadvisor thì sẽ xử lý facilities lấy từ traveloka */
+            if(!empty($item->facilities)&&$item->facilities->isNotEmpty()){
+                /* không làm gì cả */
+            }else {
+                $i                  = 0;
+                $arrayFacilities    = [];
+                foreach($this->arrayData['facilitiesTraveloka_item'] as $list){
+                    foreach($list as $child){
+                        $arrayFacilities[] = [
+                            'name'          => $child,
+                            'category_name' => $this->arrayData['facilitiesTraveloka_h3'][$i],
+                            'icon'          => '<svg viewBox="0 0 24 24" width="1em" height="1em" class="d Vb UmNoP"><path fill-rule="evenodd" clip-rule="evenodd" d="M19.53 7.53L9 18.06l-5.53-5.53 1.06-1.06L9 15.94l9.47-9.47 1.06 1.06z"></path></svg>',
+                            'type'          => null,
+                            'highlight'     => 0
+                        ];
+                    }
+                    ++$i;
+                }
+                $item->facilities   = self::insertOrGetHotelFacility($arrayFacilities);
+            }
+            // Lưu trữ trong 60 phút
+            Cache::put('item_download', $item, 3600); 
+            return redirect()->route('admin.hotel.view', ['type' => 'create']);
+        } catch (\Exception $exception){
+            return redirect()->route('admin.hotel.view', ['type' => 'create']);
+        }
+    }
+
+    private static function insertOrGetHotelFacility($arrayFacilities = null){
+        $result = new \Illuminate\Database\Eloquent\Collection;
+        if(!empty($arrayFacilities)){
             $allFacilities      = HotelFacility::all();
-            foreach($item['tmpFacilities'] as $f){
+            $tmp                = [];
+            foreach($arrayFacilities as $f){
                 $flag           = false;
                 foreach($allFacilities as $facility){
                     /* facility này đã có trong cơ sở dữ liệu => lấy id đưa vào mảng */
@@ -455,18 +491,14 @@ class AdminHotelInfoController extends Controller {
                         'highlight'     => $f['highlight'] ?? 0
 
                     ]);
-                    $tmp[]     = $idFacility;
+                    $tmp[]      = $idFacility;
                 }
             }
-            $item->facilities   = HotelFacility::select('*')
+            $result     = HotelFacility::select('*')
                                     ->whereIn('id', $tmp)
                                     ->get();
-            // Lưu trữ trong 60 phút
-            Cache::put('item_download', $item, 3600); 
-            return redirect()->route('admin.hotel.view', ['type' => 'create']);
-        } catch (\Exception $exception){
-            return redirect()->route('admin.hotel.view', ['type' => 'create']);
         }
+        return $result;
     }
 
     public function downloadHotelInfo_mytour($url){
@@ -665,7 +697,18 @@ class AdminHotelInfoController extends Controller {
             }else {
                 $this->arrayData['type_rating']     = 0;
             }
-
+            /* ===== tiện nghi khách sạn (traveloka) ===== */
+            $this->count                    = 0;
+            $crawlerContent->filter('.r-1fdih9r .css-1dbjc4n ul')->each(function($node){
+                $node->filter('li')->each(function($node2){
+                    $this->arrayData['facilitiesTraveloka_item'][$this->count][] = $node2->text();
+                    
+                });
+                $this->count    += 1;
+            });
+            $crawlerContent->filter('.r-1fdih9r .css-1dbjc4n h3')->each(function($node){
+                $this->arrayData['facilitiesTraveloka_h3'][]    = $node->html();
+            });
             $flag   = true;
         }
         return $flag;

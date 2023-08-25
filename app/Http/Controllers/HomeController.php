@@ -104,7 +104,6 @@ class HomeController extends Controller {
                 }
             }
         }
-        dd($fileSuccess);
     }
     public static function actionChangeImageInContentWithLoading($fileName){
         if(!empty($fileName)){
