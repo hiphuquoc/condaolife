@@ -410,16 +410,6 @@ class AdminHotelInfoController extends Controller {
             /* ============= Lấy dữ liệu của Traveloka */
             if(!empty($request->get('url_crawler_traveloka'))) $this->downloadHotelInfo_traveloka($request->get('url_crawler_traveloka'));
 
-            // $urlMytour      = 'https://mytour.vn/khach-san/49810-orson-con-dao-resort.html';
-            // $urlTripadvisor = 'https://www.tripadvisor.com.vn/Hotel_Review-g1024873-d23483355-Reviews-Orson_Hotel_Resort_Con_Dao-Con_Son_Con_Dao_Islands_Ba_Ria_Vung_Tau_Province.html';
-            // $urlTraveloka   = 'https://www.traveloka.com/vi-vn/hotel/detail?spec=25-08-2023.26-08-2023.1.1.HOTEL.9000000967795.Orson%20Hotel%20%26%20Resort%20Con%20Dao.2&contexts=%7B%22inventoryRateKey%22%3A%22povEwB3ZzsU2C6pd%2B6MdUw6p4Oi4t9ianyz%2Fk%2Fcwm21M0tKsNUio4Rxug1zOzHJilcvZa8YdqqIySdppe7dolTIewZlxfjiOGz6oXLTucMvN0%2BgQ3yZPvZcoHwUFNN%2BZpcr%2F%2FNa8o9ElfN8zOYhzzZeg0X586laFpeUViPi9rxDPW8f24zIHvvkS2%2BIV%2F5%2BZIvEWeildVo7nbHxIWcXPVNGysXwP9P%2F6jQTjnyKeTv%2ByqYmxSenRKFEfSHS0XO3kZfZPEEhT4qTyZ4NnGlioFk6ay4RXlsebEjOdYqJCyZbrOAISZOmoKsKZb50fD4oKXKEkE9homyrbMni8qHitl2fxa3MY%2Bk28ILHsNwZ6G%2FNBz0bbP37DEgTr2mvXG4L6R1hgSE9JVGuYmbD4FB8l0PSBxN9bVvyHTYyRrL6ILghApOwHGw3H8JRC71VUaUZv%2B%2BfNqDfMsi4qyKjapz8T4oVg4uP%2BNd16M8XgjnTkiZDSQb5voiknUxgKT%2Fom%2FJJYi6DAJSTTai4UKGMrEemWlm%2FtVYQKI1lMuX%2BRaPNcBUAvSnVpp3982X8ufymNCG%2Bvqv3rBuUa%2BDAlSlNPC7rHF8TsYmOTADU69%2B%2B%2Fol8yLJTHHQhvr%2Bf5O5wjhPZDddaEMD1lhgrNFX59TpZvCV9M4rSDCIHqoFDFRnsCphC6IUw%3D%22%7D&loginPromo=1&prevSearchId=1775132668909871672';
-            // /* ============= Lấy dữ liệu của Mytour */
-            // $this->downloadHotelInfo_mytour($urlMytour);
-            // /* ============= Lấy dữ liệu của Tripadvisor */
-            // $this->downloadHotelInfo_tripadvisor($urlTripadvisor);
-            // /* ============= Lấy dữ liệu của Traveloka */
-            // $this->downloadHotelInfo_traveloka($urlTraveloka);
-
             $type               = !empty($item) ? 'edit' : 'create';
             $type               = $request->get('type') ?? $type;
             $item               = self::convertToCollectionRecursive($this->arrayData);
