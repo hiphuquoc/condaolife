@@ -7486,6 +7486,7 @@ $width-single-menu  : 260px;
                 display: flex;
                 margin-top: 0.25rem;
                 &_item {
+                    width: calc(100% - 0.1666rem);
                     &:not(:first-child){
                         margin-left: 0.25rem;
                     }
