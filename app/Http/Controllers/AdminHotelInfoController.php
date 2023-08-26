@@ -13,7 +13,6 @@ use App\Models\QuestionAnswer;
 use App\Models\Hotel;
 use App\Models\RelationHotelStaff;
 use App\Models\Staff;
-use App\Models\HotelImage;
 use App\Models\Seo;
 use App\Models\Comment;
 use Illuminate\Support\Facades\Cache;
@@ -24,7 +23,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\HotelRequest;
 use App\Jobs\CheckSeo;
 use App\Jobs\DownloadCommentHotelInfo;
-use App\Jobs\DownloadImageToCloudStorage;
+use App\Jobs\DownloadHotelImageToCloudStorage;
 use App\Models\HotelFacility;
 use App\Models\RelationHotelInfoHotelFacility;
 use Goutte\Client;
@@ -779,6 +778,7 @@ class AdminHotelInfoController extends Controller {
 
     public static function saveImage($imageName, $referenceId, $urlImages, $referenceType = 'hotel_info'){
         $i                  = 0;
+        $imageAlreadyUpload = [];
         foreach ($urlImages as $urlImage) {
             /*  folder upload */
             $folderUpload   = config('admin.images.folderHotel');
@@ -787,18 +787,16 @@ class AdminHotelInfoController extends Controller {
             $name           = $imageName.'-'.$i.'-'.time();
             $fileName       = $folderUpload.$name.'.'.$extension;
             /* đưa vào job */
-            $flag           = DownloadImageToCloudStorage::dispatch($urlImage, $fileName, $extension);
-            /* lưu cơ sở dữ liệu */
-            if($flag){
-                HotelImage::insertItem([
-                    'reference_type'    => $referenceType,
-                    'reference_id'      => $referenceId,
-                    'image'             => $fileName,
-                    'image_small'       => null
-                ]);
-                ++$i;
-            }
+            $data           = [
+                'url_image'         => $urlImage,
+                'file_name'         => $fileName,
+                'reference_type'    => $referenceType,
+                'reference_id'      => $referenceId
+            ];
+            $imageAlreadyUpload[] = DownloadHotelImageToCloudStorage::dispatch($data);
+            ++$i;
         }
+        return $imageAlreadyUpload;
     }
 
     public static function convertToCollectionRecursive($array = []){
