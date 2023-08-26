@@ -25,7 +25,7 @@ class DownloadHotelImageToCloudStorage implements ShouldQueue
     */
 
     public function __construct($data){
-        $this->data     = $data
+        $this->data     = $data;
     }
 
     public function handle(){
@@ -39,9 +39,9 @@ class DownloadHotelImageToCloudStorage implements ShouldQueue
         $idImage            = null;
         if($flag==true){
             \App\Models\HotelImage::insertItem([
-                'reference_type'    => $referenceType,
-                'reference_id'      => $referenceId,
-                'image'             => $fileName,
+                'reference_type'    => $this->data['reference_type'],
+                'reference_id'      => $this->data['reference_id'],
+                'image'             => $this->data['file_name'],
                 'image_small'       => null
             ]);
         }
