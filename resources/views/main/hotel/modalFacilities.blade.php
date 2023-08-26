@@ -73,7 +73,6 @@
         <script type="text/javascript">
             function tabFacilities(key){
                 const button        = $(document).find('[for*='+key+']');
-                // console.log(button);
                 const tabContent    = $('#'+key);
                 if(tabContent!=''){
                     /* xóa selected tất cả button */

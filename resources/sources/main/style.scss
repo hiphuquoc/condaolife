@@ -6601,7 +6601,7 @@ $width-single-menu  : 260px;
             }
             &_title {
                 font-family: $fontTitle;
-                font-size: 1.2rem;
+                font-size: 1.15rem;
                 color: $colorTitle;
                 margin-bottom: 0.5rem;
                 letter-spacing: 0.5px;
@@ -6623,6 +6623,66 @@ $width-single-menu  : 260px;
                 line-height: 2.25;
                 &_item {
                     width: calc(50% - 0.75rem);
+                    display: flex;
+                    align-items: center;
+                    svg {
+                        margin-right: 0.5rem;
+                        vertical-align: middle;
+                        filter: invert(60%) sepia(20%) saturate(10000%) hue-rotate(135deg) brightness(100%) contrast(100%);
+                        transform: scale(1.1);
+                    }
+                }
+            }
+            &_button {
+                padding: 0.75rem 0;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                font-family: $fontTitle;
+                cursor: pointer;
+                &:hover {
+                    color: $colorLv1;
+                }
+                &:after {
+                    content: '\f101';
+                    @include fontAwesome;
+                    font-size: 0.75rem;
+                    margin-left: 0.35rem;
+                }
+            }
+        }
+    }
+    &_facilities2 {
+        width: 60%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        &_item {
+            height: fit-content;
+            width: calc(50% - 0.625rem);
+            &:nth-child(n + 3){
+                margin-top: 1rem;
+            }
+            &_title {
+                font-family: $fontTitle;
+                font-size: 1.15rem;
+                color: $colorTitle;
+                margin-bottom: 0.5rem;
+                letter-spacing: 0.5px;
+                display: flex;
+            }
+            &_list {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: flex-start;
+                position: relative;
+                height: fit-content;
+                // max-height: 140px;
+                // overflow: hidden;
+                line-height: 2.25;
+                &_item {
+                    width: 100%;
                     display: flex;
                     align-items: center;
                     svg {
@@ -6708,9 +6768,18 @@ $width-single-menu  : 260px;
                 }
             }
         }
+        &_facilities2 {
+            width: 100%;
+            &_item {
+                width: calc(33.33% - 0.8333rem);
+                &:not(:nth-child(n + 4)){
+                    margin-top: 0;
+                }
+            }
+        }
         &_desc {
             width: 100%;
-            margin-top: 1rem;
+            margin-top: 1.25rem;
             
         }
     }
@@ -6718,19 +6787,37 @@ $width-single-menu  : 260px;
         &_facilities {
             width: 100%;
             &_item {
+                max-height: 185px;
                 &:not(:first-child){
-                    margin-top: 1.25rem;
+                    margin-top: 0.5rem;
+                }
+                &_title {
+                    font-size: 1.1rem;
+                    margin-bottom: 0.25rem;
                 }
                 &_list {
+                    line-height: 2;
+                    max-height: 115px;
                     &_item {
                         width: calc(50% - 0.5rem);
                     }
                 }
             }
         }
+        &_facilities2 {
+            &_item {
+                &_title {
+                    font-size: 1.1rem;
+                    margin-bottom: 0.25rem;
+                }
+                &_list {
+                    line-height: 2;
+                }
+            }
+        }
         &_desc {
             padding: 1rem;
-            margin-top: 0.75rem;
+            margin-top: 1rem;
             max-height: 600px;
             &_viewmore {
                 height: 120px;
@@ -6743,17 +6830,29 @@ $width-single-menu  : 260px;
     @media(max-width: 577px){
         &_facilities {
             &_item {
-                max-height: 195px;
-                // &:not(:first-child){
-                //     margin-top: 1rem;
-                // }
-                &_list {
-                    max-height: 130px;
+                max-height: 180px;
+                &_title {
+                    font-size: 1.05rem;
+                    margin-bottom: 0;
+                }
+            }
+        }
+        &_facilities2 {
+            &_item {
+                width: calc(50% - 0.375rem);
+                &:not(:nth-child(n + 3)){
+                    margin-top: 0;
+                }
+                &:nth-child(n + 3){
+                    margin-top: 0.5rem;
+                }
+                &_title {
+                    font-size: 1.05rem;
+                    margin-bottom: 0;
                 }
             }
         }
         &_desc {
-            padding: 0.75rem;
             margin-top: 0.25rem;
             max-height: 500px;
             &_viewmore {
