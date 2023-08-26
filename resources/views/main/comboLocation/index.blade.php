@@ -115,6 +115,13 @@
         ])
         <!-- END:: Video -->
 
+        <!-- Câu hỏi thường gặp -->
+        <div class="sectionBox withBorder">
+            <div class="container" style="border-bottom:none !important;">
+                @include('main.snippets.faq', ['list' => $item->questions, 'title' => $item->name])
+            </div>
+        </div>
+
     </div>
 @endsection
 @push('bottom')

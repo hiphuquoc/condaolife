@@ -66,7 +66,7 @@
         <div class="sectionBox">
             <div class="container">
                 <!-- title -->
-                <h1 class="titlePage">Khách sạn {{ $item->display_name ?? null }} - Giới thiệu Khạch sạn {{ $item->display_name ?? null }}</h1>
+                <h1 class="titlePage">Khách sạn {{ $item->display_name ?? null }} - Giới thiệu chung về khách sạn {{ $item->display_name ?? null }}</h1>
                 <!-- rating -->
                 @include('main.template.rating', compact('item'))
                 <!-- content -->

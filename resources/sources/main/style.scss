@@ -2659,7 +2659,7 @@ blockquote{
         display: flex;
         > * {
             opacity: 0.8;
-            background: #f1f1f1;
+            background: $bg-02;
             padding: .25rem .75rem;
             font-family: $fontTitle;
             font-size: 0.925rem;
@@ -2689,7 +2689,7 @@ blockquote{
         width: 100%;
         background: $bg-02;
         border: 1px solid $bg-04;
-        box-shadow: 0px 0px 3px $bg-07;
+        box-shadow: 0px 0px 10px $bg-04;
         border-top: 2px solid $colorLv1;
         padding: 1rem;
         border-radius: 0 10px 10px 10px;
@@ -2958,9 +2958,11 @@ blockquote{
     }
 	&_content {
         &_item {
-            border-bottom: 1px dashed $bg-04;
             &:not(:first-child){
                 margin-top: 0.6rem;
+            }
+            &:not(:last-child){
+                border-bottom: 1px dashed $bg-04;
             }
             &_question {
                 display: flex;
@@ -3324,7 +3326,7 @@ $width-single-menu  : 260px;
     padding-bottom: 2.5rem;
     margin-top: -1px;
     &:not(:first-child){
-        padding-top: 1.5rem;
+        padding-top: 1rem;
     }
     &.withBorder {
         padding: 0 !important;

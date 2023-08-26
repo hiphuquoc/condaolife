@@ -424,7 +424,9 @@ class AdminHotelInfoController extends Controller {
             $item->email        = null;
             $item->contents     = $item['contents'];
             $item->questions    = $item['questions'];
-
+            $item->url_crawler_mytour       = $request->get('url_crawler_mytour') ?? null;
+            $item->url_crawler_traveloka    = $request->get('url_crawler_traveloka') ?? null;
+            $item->url_crawler_tripadvisor  = $request->get('url_crawler_tripadvisor') ?? null;
             /* (xử lý facility lấy từ tripadvisor) tiến hành lọc facility nào chưa có trong bảng CSDL thì tạo ra */
             $item->facilities   = self::insertOrGetHotelFacility($item['tmpFacilities']);
             /* trường hợp không lấy được facilities từ tripadvisor thì sẽ xử lý facilities lấy từ traveloka */

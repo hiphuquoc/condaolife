@@ -92,6 +92,8 @@ use Illuminate\Support\Facades\Redirect;
 |
 */
 
+Route::get('/testHtml', [HomeController::class, 'testHtml'])->name('main.home.testHtml');
+
 Route::prefix('he-thong')->group(function(){
     /* login */
     Route::get('/', [LoginController::class, 'showLoginForm'])->name('admin.showLoginForm');

@@ -176,4 +176,9 @@ class HomeController extends Controller {
         }
         return \Illuminate\Support\Facades\Redirect::to(route('main.home'), 301);
     }
+
+    public static function testHtml(){
+        
+        \App\Jobs\DownloadCommentHotelInfo::dispatch(3, 0);
+    }
 }
