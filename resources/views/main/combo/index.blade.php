@@ -52,7 +52,9 @@
                     <!-- title -->
                     <h1 class="titlePage">{{ $item->name }}</h1>
                     <!-- rating -->
-                    @include('main.template.rating', compact('item'))
+                    <div style="margin-bottom:0.5rem;">
+                        @include('main.template.rating', compact('item'))
+                    </div>
                 </div>
     
                 <div class="pageContent_body">

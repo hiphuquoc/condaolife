@@ -56,7 +56,7 @@
                     $options    = \App\Http\Controllers\AdminTourOptionController::margeTourPriceByDate($item->options);
                     // dd($options);
                 @endphp
-                <table class="tableContentBorder">
+                <table class="tableContentBorder" style="margin-bottom:0;">
                     <thead>
                         <tr>
                             <th>Tùy chọn</th>

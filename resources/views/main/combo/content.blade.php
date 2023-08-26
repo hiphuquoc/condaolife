@@ -7,7 +7,7 @@
                 <h2>Bảng giá {{ $item->name ?? null }}</h2>
             </div>
             <div class="contentTour_item_text">
-                <table class="tableContentBorder">
+                <table class="tableContentBorder" style="margin-bottom:0;">
                     <thead>
                         <tr>
                             <th>Tùy chọn</th>
