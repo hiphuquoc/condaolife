@@ -6594,10 +6594,10 @@ $width-single-menu  : 260px;
         width: 60%;
         &_item {
             height: fit-content;
-            max-height: 205px;
+            max-height: 220px;
             overflow: hidden;
             &:not(:first-child){
-                margin-top: 2rem;
+                margin-top: 1.25rem;
             }
             &_title {
                 font-family: $fontTitle;
@@ -6618,9 +6618,9 @@ $width-single-menu  : 260px;
                 align-items: flex-start;
                 position: relative;
                 height: fit-content;
-                max-height: 140px;
+                max-height: 155px;
                 overflow: hidden;
-                line-height: 2.25;
+                line-height: 2;
                 &_item {
                     width: calc(50% - 0.75rem);
                     display: flex;
@@ -6678,9 +6678,7 @@ $width-single-menu  : 260px;
                 align-items: flex-start;
                 position: relative;
                 height: fit-content;
-                // max-height: 140px;
-                // overflow: hidden;
-                line-height: 2.25;
+                line-height: 2;
                 &_item {
                     width: 100%;
                     display: flex;
@@ -6756,12 +6754,7 @@ $width-single-menu  : 260px;
         &_facilities {
             width: 100%;
             &_item {
-                max-height: 200px;
-                &:not(:first-child){
-                    margin-top: 1.75rem;
-                }
                 &_list {
-                    max-height: 135px;
                     &_item {
                         width: calc(33.33% - 1rem);
                     }
@@ -6787,7 +6780,6 @@ $width-single-menu  : 260px;
         &_facilities {
             width: 100%;
             &_item {
-                max-height: 185px;
                 &:not(:first-child){
                     margin-top: 0.5rem;
                 }
@@ -6796,8 +6788,7 @@ $width-single-menu  : 260px;
                     margin-bottom: 0.25rem;
                 }
                 &_list {
-                    line-height: 2;
-                    max-height: 115px;
+                    max-height: 150px;
                     &_item {
                         width: calc(50% - 0.5rem);
                     }
@@ -6809,9 +6800,6 @@ $width-single-menu  : 260px;
                 &_title {
                     font-size: 1.1rem;
                     margin-bottom: 0.25rem;
-                }
-                &_list {
-                    line-height: 2;
                 }
             }
         }
@@ -6830,11 +6818,14 @@ $width-single-menu  : 260px;
     @media(max-width: 577px){
         &_facilities {
             &_item {
-                max-height: 180px;
-                &_title {
-                    font-size: 1.05rem;
-                    margin-bottom: 0;
+                max-height: 215px;
+                &_list {
+                    max-height: 145px;
                 }
+            }
+            &_title {
+                font-size: 1.05rem;
+                // margin-bottom: 0;
             }
         }
         &_facilities2 {
