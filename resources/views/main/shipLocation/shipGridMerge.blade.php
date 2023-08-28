@@ -29,7 +29,7 @@
                     <div class="shipGrid_item_content">
                         <div class="shipGrid_item_content_title maxLine_1">
                         <a href="/{{ $ship->seo->slug_full ?? null }}" title="{{ $ship->name ?? $ship->seo->title ?? null }}">
-                            @if(!empty($shipHeading)&&$shipHeading=='h3')
+                            @if(!empty($itemHeading)&&$itemHeading=='h3')
                                 <h3>{{ $ship->name ?? $ship->seo->title ?? null }}</h3>
                             @else 
                                 <h2>{{ $ship->name ?? $ship->seo->title ?? null }}</h2>
@@ -88,7 +88,7 @@
                                 <div class="maxLine_1">
                                     Chặng {{ $key }}
                                 </div>
-                                <div class="maxLine_1" style="color:rgb(20, 60, 70);">
+                                <div class="maxLine_1" style="color:#003B7B;">
                                     @foreach(array_unique($value) as $v)
                                         <span style="font-weight:bold;">{{ $v }}</span>{{ !$loop->last ? ' | ' : null }}
                                     @endforeach
@@ -146,10 +146,10 @@
                         </div>
                     </div>
                     <div class="shipGrid_item_btn">
-                        <a href="{{ route('main.shipBooking.form', ['ship_port_departure_id' => $ship->portDeparture->id, 'ship_port_location_id' => $ship->portLocation->id]) }}" title="Đặt vé tàu {{ $ship->name ?? $ship->seo->title ?? null }}" style="border-radius:0 0 0 5px;">
+                        <a href="{{ route('main.shipBooking.form', ['ship_port_departure_id' => $ship->portDeparture->id, 'ship_port_location_id' => $ship->portLocation->id]) }}" title="Đặt vé tàu {{ $ship->name ?? $ship->seo->title ?? null }}" style="border-radius:0 0 0 10px;">
                             <i class="far fa-edit"></i>Đặt vé
                         </a>
-                        <a href="/{{ $ship->seo->slug_full ?? null }}" title="Xem chi tiết tàu cao tốc {{ $ship->name ?? $ship->seo->title ?? null }}" style="border-radius:0 0 5px 0;">
+                        <a href="/{{ $ship->seo->slug_full ?? null }}" title="Xem chi tiết tàu cao tốc {{ $ship->name ?? $ship->seo->title ?? null }}" style="border-radius:0 0 10px 0;">
                             <i class="fas fa-external-link-alt"></i>Xem chi tiết
                         </a>
                     </div>
@@ -160,7 +160,7 @@
             @endphp
         @endforeach
     @else 
-        <div style="color:rgb(0,123,255);">Hiện không có lịch tàu đi {{ $item->display_name ?? null }} trên hệ thống {{ config('main.name') }}!</div>
+        <div style="color:rgb(0,123,255);">Hiện không có lịch tàu đi {{ $item->display_name ?? null }} trên hệ thống {{ config('company.sortname') }}!</div>
     @endif
  </div>
  @if(!empty($limit)&&$list->count()>$limit)

@@ -113,22 +113,37 @@
         <!-- Hướng dẫn đặt Tour -->
         @include('main.tourLocation.guideBook', ['title' => 'Hướng dẫn đặt Tour '.$item->display_name])
 
-        <!-- Combo Côn Đảo -->
-        <div class="sectionBox">
-            <div class="container">
-                @if(!empty($item->comboLocations[0]->infoComboLocation->seo->slug_full))
-                    <a href="/{{ $item->comboLocations[0]->infoComboLocation->seo->slug_full }}" title="Combo du lịch {{ $item->display_name ?? null }}">
+        <!-- Combo du lịch -->
+        @php
+            $dataCombos             = new \Illuminate\Support\Collection();
+            $i                      = 0;
+            foreach($item->comboLocations as $comboLocation){
+                foreach($comboLocation->infoComboLocation->combos as $combo){
+                    $dataCombos[$i]               = $combo->infoCombo;
+                    $dataCombos[$i]->seo          = $combo->infoCombo->seo;
+                    $dataCombos[$i]->location     = $combo->infoCombo->location;
+                    $dataCombos[$i]->departure    = $combo->infoCombo->departure;
+                    ++$i;
+                }
+            }
+        @endphp
+        @if(!empty($dataCombos)&&$dataCombos->isNotEmpty())
+            <div class="sectionBox">
+                <div class="container">
+                    @if(!empty($item->comboLocations[0]->infoComboLocation->seo->slug_full))
+                        <a href="/{{ $item->comboLocations[0]->infoComboLocation->seo->slug_full }}" title="Combo du lịch {{ $item->display_name ?? null }}">
+                            <h2 class="sectionBox_title">Combo du lịch {{ $item->display_name ?? null }}</h2>
+                        </a>
+                    @else 
                         <h2 class="sectionBox_title">Combo du lịch {{ $item->display_name ?? null }}</h2>
-                    </a>
-                @else 
-                    <h2 class="sectionBox_title">Combo du lịch {{ $item->display_name ?? null }}</h2>
-                @endif
-                <p class="sectionBox_desc">Để đến được {{ $item->display_name ?? null }} nhanh chóng, an toàn và tiện lợi tốt nhất bạn nên di chuyển bằng máy bay. Thông tin chi tiết các <strong>chuyến bay đến {{ $item->display_name ?? null }}</strong> bạn có thể tham khảo bên dưới</p>
-                @include('main.comboLocation.comboItem', [
-                    'list'          => $combos
-                ])
+                    @endif
+                    <p class="sectionBox_desc">Danh sách Combo các dịch vụ tại Côn Đảo đang được ưa chương có thể phù hợp với bạn</p>
+                    @include('main.comboLocation.comboItem', [
+                        'list'          => $dataCombos
+                    ])
+                </div>
             </div>
-        </div>
+        @endif
 
         <!-- Cho thuê xe -->
         @if(!empty($item->carrentalLocations[0]->infoCarrentalLocation))

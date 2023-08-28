@@ -78,13 +78,13 @@ class RoutingController extends Controller {
                                             }])
                                             ->with('seo', 'airLocations', 'guides', 'shipLocations', 'carrentalLocations', 'serviceLocations', 'comboLocations', 'destinations', 'specials')
                                             ->first();
-                    /* danh sách combo */
-                    $idComboLocation    = $item->id;
-                    $combos             = Combo::select('*')
-                                            ->whereHas('locations.infoLocation.tourLocations', function($query) use($idComboLocation){
+                    // /* danh sách combo */
+                    // $idComboLocation    = $item->id;
+                    // $combos             = Combo::select('*')
+                    //                         ->whereHas('locations.infoLocation.tourLocations', function($query) use($idComboLocation){
 
-                                            })
-                                            ->get();
+                    //                         })
+                    //                         ->get();
                     /* danh sách blog điểm đến */
                     $arrayIdDestination = [];
                     foreach($item->destinations as $destination) $arrayIdDestination[] = $destination->infoCategory->id;
@@ -105,7 +105,7 @@ class RoutingController extends Controller {
                                             ->get();                    
                     $content            = Blade::render(Storage::get(config('admin.storage.contentTourLocation').$item->seo->slug.'.blade.php'));
                     $breadcrumb         = Url::buildBreadcrumb($checkExists->slug_full);
-                    $xhtml              = view('main.tourLocation.index', compact('item', 'breadcrumb', 'combos', 'destinationList', 'specialList', 'content'))->render();
+                    $xhtml              = view('main.tourLocation.index', compact('item', 'breadcrumb', 'destinationList', 'specialList', 'content'))->render();
                 }
                 /* ===== TOUR INFO */
                 if($checkExists->type=='tour_info'){
