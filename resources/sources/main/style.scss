@@ -3326,7 +3326,7 @@ $width-single-menu  : 260px;
     padding-bottom: 2.25rem;
     margin-top: -1px;
     &:not(:first-child){
-        padding-top: 1rem;
+        padding-top: 1.5rem;
     }
     &.withBorder {
         padding: 0 !important;
@@ -3408,10 +3408,16 @@ $width-single-menu  : 260px;
     @media (max-width: 767px){
         padding-bottom: 1.75rem;
         &:not(:first-child){
-            padding-top: 0.75rem;
+            padding-top: 1rem;
         }
         .viewMore {
             margin: 0.75rem auto 0 auto;
+        }
+    }
+    @media (max-width: 577px){
+        padding-bottom: 1.5rem;
+        &:not(:first-child){
+            padding-top: 0.75rem;
         }
     }
 }
