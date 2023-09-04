@@ -11,9 +11,11 @@
                 }
             @endphp
             <div>{{ date('d-m-Y', strtotime($dateApply[0]['date_start'])) }} - {{ date('d-m-Y', strtotime($dateApply[0]['date_end'])) }}</div>
-            <div> 
-                <i class="fa-solid fa-bed"></i> <a href="/{{ $option['hotel']['seo']['slug_full'] }}">{{ $option['hotel']['name'] }}</a> - {{ $option['hotelRoom']['name'] }} ({{ number_format($option['hotelRoom']['price']) }}<sup>đ</sup>)
-            </div>
+            @if(!empty($option['hotelRoom']))
+                <div> 
+                    <i class="fa-solid fa-bed"></i> <a href="/{{ $option['hotel']['seo']['slug_full'] ?? null }}">{{ $option['hotel']['name'] ?? null }}</a> - {{ $option['hotelRoom']['name'] ?? null }} ({{ number_format($option['hotelRoom']['price']) }}<sup>đ</sup>)
+                </div>
+            @endif
 
         @endforeach
     </div>
