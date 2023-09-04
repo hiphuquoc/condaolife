@@ -9,6 +9,7 @@ use App\Models\Combo;
 use App\Models\ComboOption;
 use App\Models\ComboPrice;
 use App\Models\TourDeparture;
+use App\Models\Hotel;
 use Illuminate\Support\Facades\DB;
 
 class AdminComboOptionController extends Controller {
@@ -47,9 +48,12 @@ class AdminComboOptionController extends Controller {
                             ComboPrice::insertItem([
                                 'departure_id'      => $dataForm['departure_id'],
                                 'combo_option_id'   => $idComboOption,
-                                'apply_age'         => $request->get('dataForm')['apply_age'][$i],
-                                'price'             => $request->get('dataForm')['price'][$i],
-                                'profit'            => $request->get('dataForm')['profit'][$i],
+                                'apply_age'         => $dataForm['apply_age'][$i],
+                                'include'           => $dataForm['include'],
+                                'price'             => $dataForm['price'][$i],
+                                'price_old'         => $dataForm['price_old'][$i],
+                                'sale_off'          => \App\Helpers\Number::calculatorSaleoff($dataForm['price'][$i], $dataForm['price_old'][$i]),
+                                'profit'            => $dataForm['profit'][$i],
                                 'date_start'        => $dateStart,
                                 'date_end'          => $dateEnd
                             ]);
@@ -82,9 +86,12 @@ class AdminComboOptionController extends Controller {
                             ComboPrice::insertItem([
                                 'departure_id'      => $dataForm['departure_id'],
                                 'combo_option_id'   => $dataForm['combo_option_id'],
-                                'apply_age'         => $request->get('dataForm')['apply_age'][$i],
-                                'price'             => $request->get('dataForm')['price'][$i],
-                                'profit'            => $request->get('dataForm')['profit'][$i],
+                                'apply_age'         => $dataForm['apply_age'][$i],
+                                'include'           => $dataForm['include'],
+                                'price'             => $dataForm['price'][$i],
+                                'price_old'         => $dataForm['price_old'][$i],
+                                'sale_off'          => \App\Helpers\Number::calculatorSaleoff($dataForm['price'][$i], $dataForm['price_old'][$i]),
+                                'profit'            => $dataForm['profit'][$i],
                                 'date_start'        => $dateStart,
                                 'date_end'          => $dateEnd
                             ]);
@@ -113,17 +120,31 @@ class AdminComboOptionController extends Controller {
     public function loadFormOption(Request $request){
         if(!empty($request->get('combo_info_id'))){
             $option             = [];
-            if(!empty($request->get('combo_option_id'))) $option   = ComboOption::select('*')
+            if(!empty($request->get('combo_option_id'))) $option    = ComboOption::select('*')
                                                                         ->where('id', $request->get('combo_option_id'))
-                                                                        ->with('prices')
+                                                                        ->with('prices', 'hotel', 'hotelRoom')
                                                                         ->get();
             $options            = self::margeComboPriceByDate($option);
             /* lấy option đầu tiên vì là duy nhất */
             foreach($options as $o) $option = $o;
             /* lấy dach sách departure */
             $departures         = TourDeparture::all();
+            /* lấy thông tin combo */
+            $combo              = Combo::select('*')
+                                    ->where('id', $request->get('combo_info_id'))
+                                    ->with('locations')
+                                    ->first();
+            /* lấy quận /huyện của combo */
+            $arrayDistrict      = [];
+            foreach($combo->locations as $location) $arrayDistrict[] = $location->infoLocation->district_id;
+            /* tìm hotel trong quận /huyện đó */
+            $hotels             = Hotel::select('*')
+                                    ->whereHas('location', function($query) use($arrayDistrict){
+                                        $query->whereIn('district_id', $arrayDistrict);
+                                    })
+                                    ->get();
             $result['header']   = !empty($option) ? 'Chỉnh sửa Option' : 'Thêm Option';
-            $result['body']     = view('admin.combo.formComboOption', compact('option', 'departures'))->render();
+            $result['body']     = view('admin.combo.formComboOption', compact('option', 'departures', 'hotels'))->render();
         }else {
             $result['header']   = 'Thêm Option';
             $result['body']     = '<div style="margin-top:1rem;font-weight:600;">Vui lòng tạo và lưu Tour trước khi tạo Option & Giá!</div>';
@@ -137,9 +158,13 @@ class AdminComboOptionController extends Controller {
             foreach($options as $option){
                 $result[$option->name]['combo_info_id']     = $option->combo_info_id;
                 $result[$option->name]['combo_option_id']   = $option->id;
+                $result[$option->name]['hotel_info_id']     = $option->hotel_info_id;
+                $result[$option->name]['hotel_room_id']     = $option->hotel_room_id;
                 $result[$option->name]['name']              = $option->name;
                 $result[$option->name]['days']              = $option->days;
                 $result[$option->name]['nights']            = $option->nights;
+                $result[$option->name]['hotel']             = $option->hotel;
+                $result[$option->name]['hotelRoom']         = $option->hotelRoom;
                 foreach($option->prices as $price){
                     $result[$option->name]['date_apply'][$price->date_start.'-'.$price->date_end][]    = $price->toArray();
                 }

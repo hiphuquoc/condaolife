@@ -532,6 +532,8 @@
 }
 .chooseOptionTourBox {
     background: $bg-02;
+    border-radius: 10px;
+    overflow: hidden;
     &_body {
         display: flex;
         flex-direction: column;
@@ -556,12 +558,12 @@
                 }
             }
             &:hover {
-                @include colorOpacity('background', $colorLv1, 0.1);
+                @include colorOpacity('background', $colorLv1, 0.1)
             }
             > * {
                 width: 100%;
                 &:not(:first-child){
-                    padding-left: 1rem;
+                    padding-left: 0.5rem;
                 }
             }
             &_icon {
@@ -569,6 +571,22 @@
                 &:before {
                     @include fontAwesome;
                     content: '\f1ce';
+                }
+            }
+            &_details {
+                &_title {
+                    font-weight: bold;
+                }
+                &_list {
+                    > * {
+                        &::before {
+                            @include fontAwesome;
+                            content: '\f00c';
+                            font-size: 0.85rem;
+                            margin-right: 0.5rem;
+                            color: $colorDesc;
+                        }
+                    }
                 }
             }
             .highLight {

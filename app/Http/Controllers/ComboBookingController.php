@@ -18,7 +18,7 @@ class ComboBookingController extends Controller {
         $this->BuildInsertUpdateModel  = $BuildInsertUpdateModel;
     }
 
-    public function form(Request $request){
+    public static function form(Request $request){
         $comboLocations   = ComboLocation::select('*')
                                 ->whereHas('combos', function(){
 
@@ -50,7 +50,7 @@ class ComboBookingController extends Controller {
         return redirect()->route('main.comboBooking.confirm', ['no' => $noBooking]);
     }
 
-    public static function loadService(Request $request){
+    public static function loadCombo(Request $request){
         $result                     = null;
         if(!empty($request->get('combo_location_id'))){
             $idComboLocation        = $request->get('combo_location_id');
@@ -71,10 +71,16 @@ class ComboBookingController extends Controller {
             $idCombo            = $request->get('combo_info_id');
             $infoCombo          = Combo::select('*')
                                     ->where('id', $idCombo)
-                                    ->with('options.prices')
+                                    ->with('options.prices', 'options.hotel', 'options.hotelRoom')
                                     ->first();
             $data               = \App\Http\Controllers\TourBookingController::getTourOptionByDate($request->get('date'), $infoCombo->options);
-            $result             = view('main.comboBooking.formChooseOption', compact('data'));
+            /* lấy location */
+            $location           = [];
+            foreach($infoCombo->locations as $l){
+                $location[]     = $l->infoLocation->display_name;
+            }
+            $location           = implode(', ', $location);
+            $result             = view('main.comboBooking.formChooseOption', compact('data', 'location'));
             /* dùng cho edit trong admin */
             if(!empty($request->get('type'))&&$request->get('type')=='admin') {
                 $result                             = [];
@@ -120,14 +126,13 @@ class ComboBookingController extends Controller {
             }
             /* gộp vào dataForm */
             $dataForm['quantity']   = $arrayQuantity;
-            
             /* lấy thông tin option */
             $infoOption     = ComboOption::select('*')
                                 ->where('id', $dataForm['combo_option_id'])
                                 ->with('prices')
                                 ->first();
             $dataForm['options'] = $infoOption->toArray();
-            
+            // dd($dataForm);
             $result         = view('main.comboBooking.summary', ['data' => $dataForm]);
         }
         echo $result;

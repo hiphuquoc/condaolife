@@ -1,3 +1,4 @@
+@if(!empty($option['date_apply']))
 <div id="optionPrice_{{ $option['combo_option_id'] }}" class="flexBox">
     <div class="flexBox_item">
         <div><b>{{ $option['name'] }}</b></div>
@@ -10,6 +11,10 @@
                 }
             @endphp
             <div>{{ date('d-m-Y', strtotime($dateApply[0]['date_start'])) }} - {{ date('d-m-Y', strtotime($dateApply[0]['date_end'])) }}</div>
+            <div> 
+                <i class="fa-solid fa-bed"></i> <a href="/{{ $option['hotel']['seo']['slug_full'] }}">{{ $option['hotel']['name'] }}</a> - {{ $option['hotelRoom']['name'] }} ({{ number_format($option['hotelRoom']['price']) }}<sup>đ</sup>)
+            </div>
+
         @endforeach
     </div>
     <div class="flexBox_item">
@@ -36,3 +41,4 @@
         </div>
     </div>
 </div>
+@endif

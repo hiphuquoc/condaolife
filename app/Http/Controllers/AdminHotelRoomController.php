@@ -50,7 +50,6 @@ class AdminHotelRoomController extends Controller {
         $result     = null;
         if(!empty($request->get('data'))){
             $data               = $request->get('data');
-            // $data               = view('admin.hotel.room')->render();
             $crawlerRoom        = new Crawler($data);
             /* lấy hình ảnh phòng */
             $crawlerRoom->filter('.slick-track img')->each(function($node){
@@ -100,13 +99,16 @@ class AdminHotelRoomController extends Controller {
             });
             $this->count        = 0;
             $crawlerRoom->filter('.hprt-facilities-facility')->each(function($node){
-                $spanNode       = $node->filter('svg')->getNode(0);
-                $spanDom        = $node->getNode(0)->ownerDocument->saveHTML($spanNode);
-                $this->arrayData['tmp'][$this->count]['icon'] = trim($spanDom);
-                $this->count    += 1;
+                if($node->html()!=null){ /* sửa lỗi có class trống */
+                    $spanNode       = $node->filter('svg')->getNode(0);
+                    $spanDom        = $node->getNode(0)->ownerDocument->saveHTML($spanNode);
+                    $this->arrayData['tmp'][$this->count]['icon'] = trim($spanDom);
+                    $this->count    += 1;
+                }
             });
             /* => tiến hành lọc qua xem nào chưa có trong bảng CSDL thì tạo ra */
             $allRoomFacilities  = HotelRoomFacility::all();
+            
             foreach($this->arrayData['tmp'] as $r){
                 $flag           = false;
                 foreach($allRoomFacilities as $roomFacility){
@@ -173,15 +175,14 @@ class AdminHotelRoomController extends Controller {
                     ]);
                 }
             }
-            /* Message */
-            if(!empty($idHotelRoom)) $flag = true;
             DB::commit();
-            return true;
+            if(!empty($idHotelRoom)) $flag = true;
         } catch (\Exception $exception){
             DB::rollBack();
-            return false;
         }
-        return $flag;
+        $response['status']     = $flag;
+        $response['content']    = self::getHtmlHotelRoom($idHotelRoom);
+        return json_encode($response);
     }
 
     public function update(Request $request){
@@ -295,16 +296,33 @@ class AdminHotelRoomController extends Controller {
     }
 
     public function loadHotelRoom(Request $request){
-        $result     = '';
+        $result     = self::getHtmlHotelRoom($request->get('hotel_room_id'));
+        echo $result;
+    }
+
+    private static function getHtmlHotelRoom($idHotelRoom = 0){
+        $result = null;
+        $item   = HotelRoom::select('*')
+                        ->where('id', $idHotelRoom)
+                        ->first();
+        if(!empty($item)) $result = view('admin.hotel.oneRowHotelRoom', compact('item'))->render();
+        return $result;
+    }
+
+    public function loadOptionHotelRoomByIdHotel(Request $request){
+        $response           = '<option value="0">- Vui lòng chọn -</option>';
         if(!empty($request->get('hotel_info_id'))){
-            $data   = HotelRoom::select('*')
-                        ->where('hotel_info_id', $request->get('hotel_info_id'))
-                        ->get();
-            foreach($data as $item){
-                $result .= view('admin.hotel.oneRowHotelRoom', compact('item'))->render();
+            
+            $hotelRooms     = HotelRoom::select('*')
+                                ->where('hotel_info_id', $request->get('hotel_info_id'))
+                                ->get();
+            $idHotelRoom    = $request->get('hotel_room_id') ?? 0;
+            foreach($hotelRooms as $hotelRoom){
+                $selected   = '';
+                if($idHotelRoom==$hotelRoom->id) $selected = 'selected';
+                $response   .= '<option value="'.$hotelRoom->id.'" '.$selected.'>'.$hotelRoom->name.'</option>';
             }
         }
-        if(empty($result)) $result = 'Không có dữ liệu phù hợp!';
-        echo $result;
+        return $response;
     }
 }
