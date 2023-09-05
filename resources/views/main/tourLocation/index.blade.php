@@ -101,7 +101,6 @@
                 @endif
             </div>
         </div>
-        
 
         <!-- START:: Video -->
         @include('main.tourLocation.videoBox', [

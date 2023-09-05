@@ -104,7 +104,7 @@ class Tour extends Model {
         return $result;
     }
 
-    public function seo() {
+    public function seo(){
         return $this->hasOne(\App\Models\Seo::class, 'id', 'seo_id');
     }
 
