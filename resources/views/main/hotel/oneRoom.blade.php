@@ -1,28 +1,10 @@
-<div class="hotelList_item_gallery" onClick="openCloseModal('js_loadHotelRoom_modal_{{ $room->id }}');">
-    <div class="hotelList_item_gallery_top">
-        @php
-            $imageContent       = config('admin.images.default_750x460');
-            $contentImage       = Storage::disk('gcs')->get($room->images[0]->image);
-            if(!empty($contentImage)){
-                $thumbnail      = \Intervention\Image\ImageManagerStatic::make($contentImage)->resize(550, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->encode();
-                $imageContent   = 'data:image/jpeg;base64,'.base64_encode($thumbnail);
-            }
-        @endphp
-        <img src="{{ $imageContent }}" alt="{{ $room->name }}" title="{{ $room->name }}" />
-    </div>
-    <div class="hotelList_item_gallery_bottom">
-        @php
-            $j = 0;
-        @endphp
-        @foreach($room->images as $image)
+
+<div class="hotelList_item_gallery" onClick="openCloseModal('js_loadHotelPrice_modal_{{ $price->id }}');">
+    @if(!empty($price->room->images)&&$price->room->images->isNotEmpty())
+        <div class="hotelList_item_gallery_top">
             @php
-                ++$j;
-                if($j==1) continue;
-                if($j==5) break;
                 $imageContent       = config('admin.images.default_750x460');
-                $contentImage       = Storage::disk('gcs')->get($image->image);
+                $contentImage       = Storage::disk('gcs')->get($price->room->images[0]->image);
                 if(!empty($contentImage)){
                     $thumbnail      = \Intervention\Image\ImageManagerStatic::make($contentImage)->resize(550, null, function ($constraint) {
                         $constraint->aspectRatio();
@@ -30,15 +12,37 @@
                     $imageContent   = 'data:image/jpeg;base64,'.base64_encode($thumbnail);
                 }
             @endphp
-            <div class="hotelList_item_gallery_bottom_item">
-                <img src="{{ $imageContent }}" alt="{{ $room->name }}" title="{{ $room->name }}" />
-            </div>
-        @endforeach
-    </div>
+            <img src="{{ $imageContent }}" alt="{{ $price->room->name }}" title="{{ $price->room->name }}" />
+        </div>
+        <div class="hotelList_item_gallery_bottom">
+            @php
+                $j = 0;
+            @endphp
+            @foreach($price->room->images as $image)
+                @php
+                    ++$j;
+                    if($j==1) continue;
+                    if($j==5) break;
+                    $imageContent       = config('admin.images.default_750x460');
+                    $contentImage       = Storage::disk('gcs')->get($image->image);
+                    if(!empty($contentImage)){
+                        $thumbnail      = \Intervention\Image\ImageManagerStatic::make($contentImage)->resize(550, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })->encode();
+                        $imageContent   = 'data:image/jpeg;base64,'.base64_encode($thumbnail);
+                    }
+                @endphp
+                <div class="hotelList_item_gallery_bottom_item">
+                    <img src="{{ $imageContent }}" alt="{{ $price->room->name }}" title="{{ $price->room->name }}" />
+                </div>
+            @endforeach
+        </div>
+    @endif
 </div>
+
 <div class="hotelList_item_info">
-    <div class="hotelList_item_info_title" onClick="openCloseModal('js_loadHotelRoom_modal_{{ $room->id }}');">
-        <h2>{{ $room->name }}</h2>
+    <div class="hotelList_item_info_title" onClick="openCloseModal('js_loadHotelPrice_modal_{{ $price->id }}');">
+        <h2>{{ $price->room->name }}</h2>
     </div>
     {{-- <div class="hotelList_item_info_rating">
         @php
@@ -68,22 +72,28 @@
     <div class="hotelList_item_info_sub">
         <div>
             Kích thước phòng: 
-            <span class="highLight">{{ $room->size }} m<sup>2</sup></span>
+            <span class="highLight">{{ $price->room->size }} m<sup>2</sup></span>
         </div>
         <div>
             Tối đa: 
             <span class="highLight">
-                @for($i=0;$i<$room->number_people;++$i)
+                @for($i=0;$i<$price->number_people;++$i)
                     <i class="fa-solid fa-person"></i>
+                    @php
+                        if($price->number_people>4){
+                            echo 'x'.$price->number_people;
+                            break;
+                        }
+                    @endphp
                 @endfor
             </span>
         </div>
     </div>
     <div class="hotelList_item_info_condition">
-        {!! $room->condition !!}
+        {!! $price->description !!}
     </div>
     <div class="hotelList_item_info_facilities">
-        @foreach($room->facilities as $facility)
+        @foreach($price->room->facilities as $facility)
             <div class="hotelList_item_info_facilities_item">
                 {!! $facility->infoHotelRoomFacility->icon !!}
                 <span class="maxLine_1">{{ $facility->infoHotelRoomFacility->name }}</span>
@@ -92,25 +102,25 @@
                 if($loop->index==8) break;
             @endphp
         @endforeach
-        @if(($room->facilities->count() - 9) > 0)
-            <div class="hotelList_item_info_facilities_item">+ {{ $room->facilities->count() - 9 }} tiện ích khác</div>
+        @if(($price->room->facilities->count() - 9) > 0)
+            <div class="hotelList_item_info_facilities_item">+ {{ $price->room->facilities->count() - 9 }} tiện ích khác</div>
         @endif
     </div>
 </div>
 <div class="hotelList_item_action">
     <div class="hotelList_item_action_price">
-        @if(!empty($room->sale_off))
+        @if(!empty($price->sale_off))
             <div class="hotelList_item_action_price_old">
                 <div class="hotelList_item_action_price_old_number">
-                    {{ number_format($room->price_old) }} <sup>đ</sup>
+                    {{ number_format($price->price_old) }} <sup>đ</sup>
                 </div>
                 <div class="hotelList_item_action_price_old_saleoff">
-                    -{{ $room->sale_off }}%
+                    -{{ $price->sale_off }}%
                 </div>
             </div>
         @endif
         <div class="hotelList_item_action_price_now">
-            {{ number_format($room->price) }} <sup>đ</sup>
+            {{ number_format($price->price) }} <sup>đ</sup>
         </div>
     </div>
     <a href="#" class="hotelList_item_action_button">Đặt phòng</a>

@@ -47,6 +47,8 @@ $opacity-to-hex: (
     0.95    : 'F2',
     1       : 'FF'
 );
+$colorRed: #E74C3C;
+
 @mixin colorOpacity($property, $color, $opacity, $important:null) {
     #{$property}: unquote($color + map-get($opacity-to-hex, $opacity)) $important;
 }

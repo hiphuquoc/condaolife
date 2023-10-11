@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\BuildInsertUpdateModel;
-use App\Models\Hotel;
-use App\Models\HotelFacility;
 use App\Models\HotelRoom;
+use App\Models\HotelPrice;
 use App\Models\HotelImage;
 use App\Models\HotelRoomDetail;
 use App\Models\HotelRoomFacility;
@@ -33,7 +32,7 @@ class AdminHotelRoomController extends Controller {
         if(!empty($request->get('hotel_room_id'))){
             $data                       = HotelRoom::select('*')
                                             ->where('id', $request->get('hotel_room_id'))
-                                            ->with('facilities', 'details', 'images')
+                                            ->with('facilities', 'details', 'images', 'prices')
                                             ->first();
             $result['head']             = 'Chỉnh sửa Phòng';
         }else {
@@ -165,6 +164,13 @@ class AdminHotelRoomController extends Controller {
                     ]);
                 }
             }
+            /* insert hotel_price */
+            if(!empty($dataForm['prices'])){
+                foreach($dataForm['prices'] as $price){
+                    $insertHotelPrice = $this->BuildInsertUpdateModel->buildArrayTableHotelPrice($price, $idHotelRoom);
+                    HotelPrice::insertItem($insertHotelPrice);
+                }
+            }
             /* insert hotel_room_details */
             if(!empty($dataForm['details'])){
                 foreach($dataForm['details'] as $roomDetail){
@@ -207,6 +213,16 @@ class AdminHotelRoomController extends Controller {
                     ]);
                 }
             }
+            /* update hotel_price */
+            HotelPrice::select('*')
+                ->where('hotel_room_id', $idHotelRoom)
+                ->delete();
+            if(!empty($dataForm['prices'])){
+                foreach($dataForm['prices'] as $price){
+                    $insertHotelPrice = $this->BuildInsertUpdateModel->buildArrayTableHotelPrice($price, $idHotelRoom);
+                    HotelPrice::insertItem($insertHotelPrice);
+                }
+            }
             /* update hotel_room_details */
             HotelRoomDetail::select('*')
                 ->where('hotel_room_id', $idHotelRoom)
@@ -238,13 +254,14 @@ class AdminHotelRoomController extends Controller {
             $idHotelRoom    = $request->get('id');
             $infoHotelRoom  = HotelRoom::select('*')
                                 ->where('id', $idHotelRoom)
-                                ->with('facilities', 'details', 'images')
+                                ->with('facilities', 'details', 'images', 'prices')
                                 ->first();
             /* xóa ảnh trong storage */
             foreach($infoHotelRoom->images as $image) self::deleteHotelImage($image->id);
             /* xóa các relation */
             $infoHotelRoom->facilities()->delete();
             $infoHotelRoom->details()->delete();
+            $infoHotelRoom->prices()->delete();
             /* xóa hotel room */
             $infoHotelRoom->delete();
             $flag   = true;

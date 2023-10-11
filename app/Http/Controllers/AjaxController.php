@@ -31,7 +31,7 @@ class AjaxController extends Controller {
         $xhtmlModal             = '';
         $xhtmlButton            = '';
         $xhtmlButtonMobile      = '';
-        $user = $request->user();
+        $user                   = $request->user();
         $language               = $request->get('language') ?? 'vi';
         if(!empty($user)){
             /* đã đăng nhập => hiển thị button thông tin tài khoản */

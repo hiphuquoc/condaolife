@@ -1,4 +1,4 @@
-@extends('main.layouts.main')
+@extends('main.layouts.booking')
 @push('head-custom')
     <link rel="stylesheet" type="text/css" href="{{ asset('sources/admin/app-assets/vendors/css/vendors.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('sources/admin/app-assets/vendors/css/pickers/pickadate/pickadate.css') }}">
@@ -18,15 +18,15 @@
         <div class="sectionBox">
             <div class="container">
                 <!-- title -->
-                <h1 class="titlePage" style="margin-bottom:0.5rem;">Đặt vé tàu cao tốc</h1>
-                <div style="margin-bottom:1rem;">Quý khách vui lòng điền thông tin liên hệ, chọn giờ khởi hành và xem lại đặt chỗ.</div>
+                <h1 class="titlePage titlePageBooking">Đặt vé tàu cao tốc</h1>
+                {{-- <div style="margin-bottom:1rem;">Quý khách vui lòng điền thông tin liên hệ, chọn giờ khởi hành và xem lại đặt chỗ.</div> --}}
                 <!-- ship box -->
                 <div class="pageContent_body">
                     <div class="pageContent_body_content">
                         
                         <div class="bookingForm">
-                             <!-- chứng nhận -->
-                             <div class="bookingForm_item">
+                            <!-- chứng nhận -->
+                            <div class="bookingForm_item">
                                 @include('main.serviceBooking.certifiedService')
                             </div>
                             <!-- thông tin liên hệ -->
@@ -39,21 +39,12 @@
                                     <div class="bookingForm_item_body_item">
                                         <div class="formColumnCustom">
                                             <div class="formColumnCustom_item">
-                                                {{-- <div>
-                                                    <label class="form-label inputRequired" for="name">Họ và Tên</label>
-                                                    <input type="text" class="form-control" name="name" value="" required>
-                                                </div>
-                                                <div class="messageValidate_error" data-validate="name">{{ config('main.message_validate.not_empty') }}</div> --}}
                                                 <div class="inputWithLabelInside">
                                                     <label class="inputRequired" for="name">Họ tên</label>
                                                     <input type="text" id="name" name="name" value="" onkeyup="validateWhenType(this)" required />
                                                 </div>
                                             </div>
                                             <div class="formColumnCustom_item">
-                                                {{-- <div>
-                                                    <label class="form-label" for="email">Email (nếu có)</label>
-                                                    <input type="text" class="form-control" name="email" value="">
-                                                </div> --}}
                                                 <div class="inputWithLabelInside email">
                                                     <label for="email">Email (nếu có)</label>
                                                     <input type="text" id="email" name="email" value="" onkeyup="validateWhenType(this, 'email')" />
@@ -65,21 +56,12 @@
                                     <div class="bookingForm_item_body_item">
                                         <div class="formColumnCustom">
                                             <div class="formColumnCustom_item">
-                                                {{-- <div>
-                                                    <label class="form-label inputRequired" for="phone">Điện thoại</label>
-                                                    <input type="text" class="form-control" name="phone" value="" required>
-                                                </div>
-                                                <div class="messageValidate_error" data-validate="phone">{{ config('main.message_validate.not_empty') }}</div> --}}
                                                 <div class="inputWithLabelInside phone">
                                                     <label class="inputRequired" for="phone">Điện thoại</label>
                                                     <input type="text" id="phone" name="phone" value="" onkeyup="validateWhenType(this, 'phone')" required />
                                                 </div>
                                             </div>
                                             <div class="formColumnCustom_item">
-                                                {{-- <div>
-                                                    <label class="form-label" for="zalo">Zalo (nếu có)</label>
-                                                    <input type="text" class="form-control" name="zalo" value="">
-                                                </div> --}}
                                                 <div class="inputWithLabelInside message">
                                                     <label for="zalo">Zalo (nếu có)</label>
                                                     <input type="text" id="zalo" name="zalo" value="" />
@@ -87,7 +69,16 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- One Row -->
+                                </div>
+                                <div class="bookingForm_item_footer">
+                                    *Đây là thông tin của Người Đặt để nhân viên Hitour có thể liên hệ và hỗ trợ bạn hoàn tất booking này!
+                                </div>
+                            </div>
+                            <div class="bookingForm_item">
+                                <div class="bookingForm_item_head">
+                                    Hành trình
+                                </div>
+                                <div class="bookingForm_item_body" style="border-radius:inherit;">
                                     <div class="bookingForm_item_body_item">
                                         <input type="hidden" id="type_booking" name="type_booking" value="2">
                                         <div class="chooseTripBox">
@@ -127,31 +118,11 @@
                                 <div class="bookingForm_item_head">
                                     {{ $i==1 ? 'Chuyến đi' : 'Chuyến về' }}
                                 </div>
-                                <div class="bookingForm_item_body">
+                                <div class="bookingForm_item_body" style="border-radius:inherit;">
                                     <!-- One Row -->
                                     <div class="bookingForm_item_body_item">
                                         <div class="formColumnCustom">
                                             <div class="formColumnCustom_item">
-                                                {{-- <div class="inputWithIcon location">
-                                                    <label class="form-label {{ $requiredClass }}" for="ship_port_departure_id_{{ $i }}">Điểm khởi hành</label>
-                                                    <select id="js_loadShipLocationByShipDeparture_element_{{ $i }}" class="select2 form-select select2-hidden-accessible" name="ship_port_departure_id_{{ $i }}" onChange="loadShipLocationByShipDeparture(this, 'js_loadShipLocationByShipDeparture_idWrite_{{ $i }}', {{ $i }});">
-                                                        <option value="">- Lựa chọn -</option>
-                                                        @if(!empty($ports))
-                                                            @foreach($ports as $port)
-                                                                @php
-                                                                    $selected   = null;
-                                                                    if(!empty(request('ship_port_departure_id'))&&$i==1&&request('ship_port_departure_id')==$port->id) $selected = 'selected';
-                                                                    if(!empty(request('ship_port_location_id'))&&$i==2&&request('ship_port_location_id')==$port->id) $selected = 'selected';
-                                                                    $portFull   = \App\Helpers\Build::buildFullShipPort($port);
-                                                                @endphp
-                                                                <option value="{{ $port->id }}"{{ $selected }}>
-                                                                    {!! $portFull !!}
-                                                                </option>
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
-                                                </div>
-                                                <div class="messageValidate_error" data-validate="ship_port_departure_id_{{ $i }}">{{ config('main.message_validate.not_empty') }}</div> --}}
                                                 <div class="inputWithLabelInside location">
                                                     <label class="form-label {{ $requiredClass }}" for="ship_port_departure_id_{{ $i }}">Điểm khởi hành</label>
                                                     <select id="js_loadShipLocationByShipDeparture_element_{{ $i }}" class="select2 form-select select2-hidden-accessible" name="ship_port_departure_id_{{ $i }}" onChange="loadShipLocationByShipDeparture(this, 'js_loadShipLocationByShipDeparture_idWrite_{{ $i }}', {{ $i }});">
@@ -173,13 +144,6 @@
                                                 </div>
                                             </div>
                                             <div class="formColumnCustom_item">
-                                                {{-- <div class="inputWithIcon location">
-                                                    <label class="form-label {{ $requiredClass }}" for="ship_port_location_id_{{ $i }}">Điểm đến</label>
-                                                    <select id="js_loadShipLocationByShipDeparture_idWrite_{{ $i }}" class="select2 form-select select2-hidden-accessible" name="ship_port_location_id_{{ $i }}" onChange="loadDeparture({{ $i }});">
-                                                        <option value="">- Lựa chọn -</option>
-                                                    </select>
-                                                </div>
-                                                <div class="messageValidate_error" data-validate="ship_port_location_id_{{ $i }}">{{ config('main.message_validate.not_empty') }}</div> --}}
                                                 <div class="inputWithLabelInside location">
                                                     <label class="form-label {{ $requiredClass }}" for="ship_port_location_id_{{ $i }}">Điểm đến</label>
                                                     <select id="js_loadShipLocationByShipDeparture_idWrite_{{ $i }}" class="select2 form-select select2-hidden-accessible" name="ship_port_location_id_{{ $i }}" onChange="loadDeparture({{ $i }});">
@@ -193,11 +157,6 @@
                                     <div class="bookingForm_item_body_item">
                                         <div class="formColumnCustom">
                                             <div class="formColumnCustom_item">
-                                                {{-- <div>
-                                                    <label class="form-label {{ $requiredClass }}" for="date_{{ $i }}">Ngày khởi hành</label>
-                                                    <input type="text" class="form-control flatpickr-basic flatpickr-input active" name="date_{{ $i }}" placeholder="YYYY-MM-DD" value="{{ $i==1 ? $valueDate_1 : $valueDate_2 }}" readonly="readonly" onChange="loadDeparture({{ $i }});" {{ $required }} />
-                                                </div>
-                                                <div class="messageValidate_error" data-validate="date_{{ $i }}">{{ config('main.message_validate.not_empty') }}</div> --}}
                                                 <div class="inputWithLabelInside date">
                                                     <label class="form-label {{ $requiredClass }}" for="date_{{ $i }}">Ngày khởi hành</label>
                                                     <input type="text" class="form-control flatpickr-basic flatpickr-input active" id="date_{{ $i }}" name="date_{{ $i }}" placeholder="YYYY-MM-DD" value="{{ $i==1 ? $valueDate_1 : $valueDate_2 }}" readonly="readonly" onChange="loadDeparture({{ $i }});" {{ $required }} />
@@ -209,30 +168,18 @@
                                     <div class="bookingForm_item_body_item">
                                         <div class="formColumnCustom">
                                             <div class="formColumnCustom_item">
-                                                {{-- <div class="inputWithIcon adult">
-                                                    <label class="form-label" for="quantity_adult_{{ $i }}">Người lớn</label>
-                                                    <input type="number" class="form-control" name="quantity_adult_{{ $i }}" placeholder="0" value="{{ !empty(request('adult_ship')) ? request('adult_ship') : null }}" onInput="loadBookingSummary();">
-                                                </div> --}}
                                                 <div class="inputWithLabelInside adult">
                                                     <label class="form-label" for="quantity_adult_{{ $i }}">Người lớn</label>
                                                     <input type="number" class="form-control" name="quantity_adult_{{ $i }}" placeholder="0" value="{{ !empty(request('adult_ship')) ? request('adult_ship') : null }}" onInput="loadBookingSummary();">
                                                 </div>
                                             </div>
                                             <div class="formColumnCustom_item">
-                                                {{-- <div class="inputWithIcon child">
-                                                    <label class="form-label" for="quantity_child_{{ $i }}">Trẻ em (6 - 11 tuổi)</label>
-                                                    <input type="number" class="form-control" name="quantity_child_{{ $i }}" placeholder="0" value="{{ !empty(request('child_ship')) ?  request('child_ship') : null }}" onInput="loadBookingSummary();">
-                                                </div> --}}
                                                 <div class="inputWithLabelInside child">
                                                     <label class="form-label" for="quantity_child_{{ $i }}">Trẻ em (6 - 11 tuổi)</label>
                                                     <input type="number" class="form-control" name="quantity_child_{{ $i }}" placeholder="0" value="{{ !empty(request('child_ship')) ?  request('child_ship') : null }}" onInput="loadBookingSummary();">
                                                 </div>
                                             </div>
                                             <div class="formColumnCustom_item">
-                                                {{-- <div class="inputWithIcon old">
-                                                    <label class="form-label" for="quantity_old_{{ $i }}">Cao tuổi (trên 60 tuổi)</label>
-                                                    <input type="number" class="form-control" name="quantity_old_{{ $i }}" placeholder="0" value="{{ !empty(request('old_ship')) ? request('old_ship') : null }}" onInput="loadBookingSummary();">
-                                                </div> --}}
                                                 <div class="inputWithLabelInside child">
                                                     <label class="form-label" for="quantity_old_{{ $i }}">Cao tuổi (trên 60 tuổi)</label>
                                                     <input type="number" class="form-control" name="quantity_old_{{ $i }}" placeholder="0" value="{{ !empty(request('old_ship')) ? request('old_ship') : null }}" onInput="loadBookingSummary();">
@@ -290,7 +237,7 @@
     <script src="{{ asset('sources/admin/app-assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
     <script src="{{ asset('sources/admin/app-assets/js/scripts/forms/form-select2.min.js') }}"></script>
     <script type="text/javascript">
-        $(window).ready(function(){
+        $(window).on('load', function () {
             /* tải selectbox điểm đến (nếu có điểm khởi hành) */
             loadShipLocationByShipDeparture($('#js_loadShipLocationByShipDeparture_element_1'), 'js_loadShipLocationByShipDeparture_idWrite_1', 1, '{{ $namePortLocation }}');
             loadShipLocationByShipDeparture($('#js_loadShipLocationByShipDeparture_element_2'), 'js_loadShipLocationByShipDeparture_idWrite_2', 2, '{{ $namePortDeparture }}');
