@@ -72,6 +72,7 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\ShipBookingController;
 use App\Http\Controllers\ServiceBookingController;
 use App\Http\Controllers\ComboBookingController;
+use App\Http\Controllers\HotelBookingController;
 use App\Http\Controllers\TourBookingController;
 use App\Http\Controllers\HotelController;
 
@@ -611,6 +612,16 @@ Route::prefix('comboBooking')->group(function(){
     Route::get('/loadFormQuantityByOption', [ComboBookingController::class, 'loadFormQuantityByOption'])->name('main.comboBooking.loadFormQuantityByOption');
     Route::get('/loadBookingSummary', [ComboBookingController::class, 'loadBookingSummary'])->name('main.comboBooking.loadBookingSummary');
     Route::get('/confirm', [ComboBookingController::class, 'confirm'])->name('main.comboBooking.confirm');
+});
+/* ===== HOTEL BOOKING ===== */
+Route::prefix('hotelBooking')->group(function(){
+    Route::get('/form', [HotelBookingController::class, 'form'])->name('main.hotelBooking.form');
+    // Route::post('/create', [ServiceBookingController::class, 'create'])->name('main.serviceBooking.create');
+    // Route::get('/loadService', [ServiceBookingController::class, 'loadService'])->name('main.serviceBooking.loadService');
+    // Route::get('/loadOption', [ServiceBookingController::class, 'loadOption'])->name('main.serviceBooking.loadOption');
+    // Route::get('/loadFormQuantityByOption', [ServiceBookingController::class, 'loadFormQuantityByOption'])->name('main.serviceBooking.loadFormQuantityByOption');
+    // Route::get('/loadBookingSummary', [ServiceBookingController::class, 'loadBookingSummary'])->name('main.serviceBooking.loadBookingSummary');
+    // Route::get('/confirm', [ServiceBookingController::class, 'confirm'])->name('main.serviceBooking.confirm');
 });
 /* ===== HOTEL ===== */
 Route::get('/loadHotelPrice', [HotelController::class, 'loadHotelPrice'])->name('main.hotel.loadHotelPrice');

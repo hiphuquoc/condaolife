@@ -6948,6 +6948,27 @@ $width-single-menu  : 260px;
                 &_size {
                     margin-bottom: 0.25rem;
                     margin-top: 0.25rem;
+                    display: flex;
+                    > * {
+                        &:not(:first-child){
+                            margin-left: 0.75rem;
+                            padding-left: 0.75rem;
+                            border-left: 2px solid $bg-03;
+                        }
+                    }
+                }
+                &_include {
+                    > * {
+                        display: inline-block;
+                        &:not(:last-child){
+                            margin-right: 0.5rem;
+                        }
+                    }
+                    i {
+                        font-size: 0.85rem;
+                        color: $colorSuccess;
+                        margin-right: 0.25rem;
+                    }
                 }
                 &_numberpeople {
                     margin-bottom: 0.25rem;
@@ -7525,7 +7546,7 @@ $width-single-menu  : 260px;
                 }
             }
             &_title {
-                margin-bottom: 0.35rem;
+                margin-bottom: 0.25rem;
                 h2, h3 {
                     font-size: 1rem;
                     letter-spacing: .25px;
@@ -7537,7 +7558,7 @@ $width-single-menu  : 260px;
             }
             &_highlightTitle {
                 display: flex;
-                margin-bottom: 0.35rem;
+                margin-bottom: 0.25rem;
                 h3, h4 {
                     font-size: 1.1rem;
                     font-family: $fontTitle;
@@ -7585,7 +7606,6 @@ $width-single-menu  : 260px;
                 display: flex;
                 align-items: flex-end;
                 color: $colorDesc;
-                margin-top: -0.5rem !important;
                 > * {
                     &:not(:first-child){
                         margin-left: 0.75rem;
@@ -7593,6 +7613,9 @@ $width-single-menu  : 260px;
                         border-left: 2px solid $bg-03;
                     }
                 }
+            }
+            &_bed {
+                color: $colorDesc;
             }
             &_desc {
                 font-size: 0.95rem;
@@ -7874,7 +7897,7 @@ $width-single-menu  : 260px;
                     order: 2;
                     width: 100%;
                     &_sub {
-                        margin-top: -0.5rem !important;
+                        
                     }
                     &_title {
                         h2, h3 {
@@ -7952,7 +7975,7 @@ $width-single-menu  : 260px;
                 &_info {
                     padding: 0.5rem 0.75rem;
                     &_sub {
-                        margin-bottom: 0 !important;
+                        
                     }
                     &_type {
                         margin-top: 0.15rem;
