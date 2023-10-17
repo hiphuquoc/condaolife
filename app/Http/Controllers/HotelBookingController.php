@@ -1,13 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Customer;
-use App\Models\Service;
-use App\Models\ServiceLocation;
-use App\Models\ServiceOption;
-use App\Models\ServicePrice;
-use App\Models\Booking;
-use App\Models\BookingQuantityAndPrice;
+use App\Models\Hotel;
+use App\Models\HotelRoom;
 use Illuminate\Http\Request;
 
 use App\Services\BuildInsertUpdateModel;
@@ -18,13 +13,54 @@ class HotelBookingController extends Controller {
         $this->BuildInsertUpdateModel  = $BuildInsertUpdateModel;
     }
 
-    public function form(Request $request){
-        // $serviceLocations   = ServiceLocation::select('*')
-        //                         ->whereHas('services', function(){
+    public static function form(Request $request){
+        $dataForm           = $request->all();
+        $idHotelPrice       = $dataForm['hotel_price_id'] ?? 0;
+        /* lấy prices được chọn */
+        $room               = HotelRoom::select('*')
+                                ->whereHas('prices', function ($query) use ($idHotelPrice) {
+                                    $query->where('id', $idHotelPrice);
+                                })
+                                ->with(['prices' => function ($query) use ($idHotelPrice) {
+                                    $query->where('id', $idHotelPrice);
+                                }])
+                                ->first();
+        /* lấy thông tin hotel với đầy đủ price và room => cho tính năng thay đổi */
+        $hotel              = Hotel::select('*')
+                                ->whereHas('rooms.prices', function ($query) use ($idHotelPrice) {
+                                    $query->where('id', $idHotelPrice);
+                                })
+                                ->with('rooms.prices')
+                                ->first();
+        if(!empty($room)&&!empty($hotel)) {
+            return view('main.hotelBooking.form', compact('hotel', 'room', 'dataForm'));
+        }else {
+            return redirect()->route('main.home');
+        }
+    }
 
-        //                         })
-        //                         ->get();
-        return view('main.hotelBooking.form');
+    public static function loadBookingSummary(Request $request){
+        $result             = null;
+        if(!empty($request->get('dataForm'))){
+            $dataForm       = [];
+            foreach($request->get('dataForm') as $value){
+                $dataForm[$value['name']]   = $value['value'];
+            }
+            $idHotelPrice   = $dataForm['hotel_price_id'];
+            $room           = HotelRoom::select('*')
+                                ->whereHas('prices', function ($query) use ($idHotelPrice) {
+                                    $query->where('id', $idHotelPrice);
+                                })
+                                ->with(['prices' => function ($query) use ($idHotelPrice) {
+                                    $query->where('id', $idHotelPrice);
+                                }])
+                                ->first();
+            $result         = view('main.hotelBooking.summary', [
+                'data'  => $dataForm,
+                'room'  => $room
+            ]);
+        }
+        echo $result;
     }
 
     // public function create(Request $request){
@@ -32,51 +68,59 @@ class HotelBookingController extends Controller {
     //     $insertCustomer             = $this->BuildInsertUpdateModel->buildArrayTableCustomerInfo($request->all());
     //     $idCustomer                 = Customer::insertItem($insertCustomer);
     //     /* insert ship_booking */
-    //     $insertBooking              = $this->BuildInsertUpdateModel->buildArrayTableBookingInfo($idCustomer, 'service_info', $request->all());
+    //     $insertBooking              = $this->BuildInsertUpdateModel->buildArrayTableBookingInfo($idCustomer, 'combo_info', $request->all());
     //     $noBooking                  = $insertBooking['no'];
     //     $idBooking                  = Booking::insertItem($insertBooking);
     //     /* insert service_booking_quantity_and_price */
-    //     $arrayInsertServiceQuantity = $this->BuildInsertUpdateModel->buildArrayTableServiceQuantityAndPrice($idBooking, $request->all());
+    //     $arrayInsertServiceQuantity = $this->BuildInsertUpdateModel->buildArrayTableComboQuantityAndPrice($idBooking, $request->all());
     //     foreach($arrayInsertServiceQuantity as $insertServiceQuantity){
     //         BookingQuantityAndPrice::insertItem($insertServiceQuantity);
     //     }
     //     /* thông báo email cho nhân viên */
     //     $infoBooking                = Booking::select('*')
     //                                     ->where('id', $idBooking)
-    //                                     ->with('customer_contact', 'customer_list', 'status', 'service', 'tour', 'quantityAndPrice', 'costMoreLess', 'vat')
+    //                                     ->with('customer_contact', 'customer_list', 'status', 'service', 'tour', 'combo', 'quantityAndPrice', 'costMoreLess', 'vat')
     //                                     ->first();
     //     \App\Jobs\ConfirmBooking::dispatch($infoBooking, null, 'notice');
     //     return redirect()->route('main.hotelBooking.confirm', ['no' => $noBooking]);
     // }
 
-    // public static function loadService(Request $request){
+    // public static function loadCombo(Request $request){
     //     $result                     = null;
-    //     if(!empty($request->get('service_location_id'))){
-    //         $idServiceLocation      = $request->get('service_location_id');
-    //         $idServiceInfoActive    = $request->get('service_info_id');
-    //         $data                   = Service::select('*')
-    //                                     ->where('service_location_id', $idServiceLocation)
+    //     if(!empty($request->get('combo_location_id'))){
+    //         $idComboLocation        = $request->get('combo_location_id');
+    //         $idComboInfoActive      = $request->get('combo_info_id');
+    //         $data                   = Combo::select('*')
+    //                                     ->whereHas('locations.infoLocation', function($query) use($idComboLocation){
+    //                                         $query->where('combo_location_id', $idComboLocation);
+    //                                     })
     //                                     ->get();
-    //         $result                 = view('main.hotelBooking.selectbox', compact('data', 'idServiceInfoActive'));
+    //         $result                 = view('main.hotelBooking.selectbox', compact('data', 'idComboInfoActive'));
     //     }
     //     return $result;
     // }
 
     // public static function loadOption(Request $request){
     //     $result                 = null;
-    //     if(!empty($request->get('service_info_id'))){
-    //         $idService          = $request->get('service_info_id');
-    //         $infoService        = Service::select('*')
-    //                                 ->where('id', $idService)
-    //                                 ->with('options.prices')
+    //     if(!empty($request->get('combo_info_id'))){
+    //         $idCombo            = $request->get('combo_info_id');
+    //         $infoCombo          = Combo::select('*')
+    //                                 ->where('id', $idCombo)
+    //                                 ->with('options.prices', 'options.hotel', 'options.hotelRoom')
     //                                 ->first();
-    //         $data               = \App\Http\Controllers\TourBookingController::getTourOptionByDate($request->get('date'), $infoService->options->toArray());
-    //         $result             = view('main.hotelBooking.formChooseOption', compact('data'));
+    //         $data               = \App\Http\Controllers\TourBookingController::getTourOptionByDate($request->get('date'), $infoCombo->options);
+    //         /* lấy location */
+    //         $location           = [];
+    //         foreach($infoCombo->locations as $l){
+    //             $location[]     = $l->infoLocation->display_name;
+    //         }
+    //         $location           = implode(', ', $location);
+    //         $result             = view('main.hotelBooking.formChooseOption', compact('data', 'location'));
     //         /* dùng cho edit trong admin */
     //         if(!empty($request->get('type'))&&$request->get('type')=='admin') {
     //             $result                             = [];
-    //             $result['content']                  = view('admin.booking.optionService', ['options' => $data])->render();
-    //             $result['service_option_id_active'] = $data[0]['id'];
+    //             $result['content']                  = view('admin.booking.optionCombo', ['options' => $data])->render();
+    //             $result['combo_option_id_active']   = $data[0]['id'];
     //             return $result;
     //         }
     //     }
@@ -85,9 +129,9 @@ class HotelBookingController extends Controller {
 
     // public static function loadFormQuantityByOption(Request $request){
     //     $result         = null;
-    //     if(!empty($request->get('service_option_id'))){
-    //         $prices     = ServicePrice::select('*')
-    //                         ->where('service_option_id', $request->get('service_option_id'))
+    //     if(!empty($request->get('combo_option_id'))){
+    //         $prices     = ComboPrice::select('*')
+    //                         ->where('combo_option_id', $request->get('combo_option_id'))
     //                         ->get();
     //         $result     = view('main.hotelBooking.formQuantity', compact('prices'))->render();
     //         /* dùng cho edit trong admin */
@@ -98,33 +142,6 @@ class HotelBookingController extends Controller {
     //                                 ->first();
     //             $result         = view('admin.booking.formQuantity', ['prices' => $prices, 'quantity' => $infoBooking->quantityAndPrice])->render();
     //         }
-    //     }
-    //     echo $result;
-    // }
-
-    // public static function loadBookingSummary(Request $request){
-    //     $result             = null;
-    //     if(!empty($request->get('dataForm'))){
-    //         $dataForm       = [];
-    //         foreach($request->get('dataForm') as $value){
-    //             $dataForm[$value['name']]   = $value['value'];
-    //         }
-    //         /* tách name quantity và tour_price_id */
-    //         $arrayQuantity      = [];
-    //         foreach($dataForm as $key => $quantity){
-    //             preg_match('#quantity\[(.*)\]#imsU', $key, $match);
-    //             if(!empty($match[1])&&!empty($quantity)) $arrayQuantity[$match[1]] = $quantity;
-    //         }
-    //         /* gộp vào dataForm */
-    //         $dataForm['quantity']   = $arrayQuantity;
-    //         /* lấy thông tin option */
-    //         $infoOption     = ServiceOption::select('*')
-    //                             ->where('id', $dataForm['service_option_id'])
-    //                             ->with('prices')
-    //                             ->first();
-    //         $dataForm['options'] = $infoOption->toArray();
-            
-    //         $result         = view('main.hotelBooking.summary', ['data' => $dataForm]);
     //     }
     //     echo $result;
     // }

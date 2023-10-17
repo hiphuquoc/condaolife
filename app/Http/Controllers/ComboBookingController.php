@@ -59,6 +59,9 @@ class ComboBookingController extends Controller {
                                         ->whereHas('locations.infoLocation', function($query) use($idComboLocation){
                                             $query->where('combo_location_id', $idComboLocation);
                                         })
+                                        ->whereHas('options', function($query){
+                                            
+                                        })
                                         ->get();
             $result                 = view('main.comboBooking.selectbox', compact('data', 'idComboInfoActive'));
         }
@@ -131,8 +134,8 @@ class ComboBookingController extends Controller {
                                 ->where('id', $dataForm['combo_option_id'])
                                 ->with('prices')
                                 ->first();
+            
             $dataForm['options'] = $infoOption->toArray();
-            // dd($dataForm);
             $result         = view('main.comboBooking.summary', ['data' => $dataForm]);
         }
         echo $result;

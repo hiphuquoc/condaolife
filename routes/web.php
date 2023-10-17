@@ -607,7 +607,7 @@ Route::prefix('serviceBooking')->group(function(){
 Route::prefix('comboBooking')->group(function(){
     Route::get('/form', [ComboBookingController::class, 'form'])->name('main.comboBooking.form');
     Route::post('/create', [ComboBookingController::class, 'create'])->name('main.comboBooking.create');
-    Route::get('/loadService', [ComboBookingController::class, 'loadService'])->name('main.comboBooking.loadService');
+    Route::get('/loadCombo', [ComboBookingController::class, 'loadCombo'])->name('main.comboBooking.loadCombo');
     Route::get('/loadOption', [ComboBookingController::class, 'loadOption'])->name('main.comboBooking.loadOption');
     Route::get('/loadFormQuantityByOption', [ComboBookingController::class, 'loadFormQuantityByOption'])->name('main.comboBooking.loadFormQuantityByOption');
     Route::get('/loadBookingSummary', [ComboBookingController::class, 'loadBookingSummary'])->name('main.comboBooking.loadBookingSummary');
@@ -616,12 +616,14 @@ Route::prefix('comboBooking')->group(function(){
 /* ===== HOTEL BOOKING ===== */
 Route::prefix('hotelBooking')->group(function(){
     Route::get('/form', [HotelBookingController::class, 'form'])->name('main.hotelBooking.form');
-    // Route::post('/create', [ServiceBookingController::class, 'create'])->name('main.serviceBooking.create');
-    // Route::get('/loadService', [ServiceBookingController::class, 'loadService'])->name('main.serviceBooking.loadService');
-    // Route::get('/loadOption', [ServiceBookingController::class, 'loadOption'])->name('main.serviceBooking.loadOption');
-    // Route::get('/loadFormQuantityByOption', [ServiceBookingController::class, 'loadFormQuantityByOption'])->name('main.serviceBooking.loadFormQuantityByOption');
-    // Route::get('/loadBookingSummary', [ServiceBookingController::class, 'loadBookingSummary'])->name('main.serviceBooking.loadBookingSummary');
-    // Route::get('/confirm', [ServiceBookingController::class, 'confirm'])->name('main.serviceBooking.confirm');
+    Route::get('/loadBookingSummary', [HotelBookingController::class, 'loadBookingSummary'])->name('main.hotelBooking.loadBookingSummary');
+    /* chưa dùng */
+    Route::post('/create', [HotelBookingController::class, 'create'])->name('main.hotelBooking.create');
+    // Route::get('/loadCombo', [HotelBookingController::class, 'loadCombo'])->name('main.hotelBooking.loadCombo');
+    // Route::get('/loadOption', [HotelBookingController::class, 'loadOption'])->name('main.hotelBooking.loadOption');
+    // Route::get('/loadFormQuantityByOption', [HotelBookingController::class, 'loadFormQuantityByOption'])->name('main.hotelBooking.loadFormQuantityByOption');
+    
+    // Route::get('/confirm', [HotelBookingController::class, 'confirm'])->name('main.hotelBooking.confirm');
 });
 /* ===== HOTEL ===== */
 Route::get('/loadHotelPrice', [HotelController::class, 'loadHotelPrice'])->name('main.hotel.loadHotelPrice');

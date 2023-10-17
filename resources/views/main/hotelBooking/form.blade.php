@@ -11,162 +11,258 @@
 
     @include('main.snippets.breadcrumb')
 
-    <form id="formBooking" action="{{ route('main.serviceBooking.create') }}" method="POST">
-    @csrf
-    {{-- <input type="hidden" name="ship_booking_status_id" value="1" /> --}}
     @php
-        /* xác định service_info_id */
-        $idServiceInfo      = request('service_info_id') ?? 0;
+        if(!empty($dataForm['range_itme'])){
+            $tmp        = explode(' - ', $rangeTime);
+            $checkIn    = !empty($tmp[0]) ? strtotime($tmp[0]) : null;
+            $checkOut   = !empty($tmp[1]) ? strtotime($tmp[1]) : null;
+            /* xử lý trường hợp không range_time cùng một ngày (không có trường hợp này nên phải là ngày hôm sau) */
+            if(empty($checkOut)) $checkOut   = $checkIn + 86400;
+        }else {
+            /* xử lý trường hợp chưa có time */
+            $checkIn    = time() + 86400;
+            $checkOut   = $checkIn + 86400;
+        }
+        $price              = $room->prices[0];
+        $numberNight        = ($checkOut - $checkIn)/86400;
+        $dayOfWeekCheckIn   = \App\Helpers\DateAndTime::convertMktimeToDayOfWeek($checkIn);
+        $xhtmlCheckIn       = '14:00, '.$dayOfWeekCheckIn.', '.date('d \t\hm', $checkIn);
+        $dayOfWeekCheckOut  = \App\Helpers\DateAndTime::convertMktimeToDayOfWeek($checkOut);
+        $xhtmlCheckOut      = '12:00, '.$dayOfWeekCheckOut.', '.date('d \t\hm', $checkOut);
+
+        $quantity           = $dataForm['quantity'] ?? 1;
     @endphp
     <div class="pageContent">
         <div class="sectionBox">
             <div class="container">
                 <!-- title -->
-                {{-- <h1 class="titlePage" style="margin-bottom:0.5rem;">Đặt vé vui chơi & giải trí</h1> --}}
-                <div style="margin-bottom:1rem;">Quý khách vui lòng điền thông tin liên hệ và xem lại đặt chỗ.</div>
-                <!-- service box -->
+                {{-- <h1 class="titlePage titlePageBooking">Đặt phòng Khách Sạn</h1> --}}
                 <div class="pageContent_body">
                     <div class="pageContent_body_content">
-                        <div class="bookingForm">
-                            <!-- chứng nhận -->
-                            <div class="bookingForm_item">
-                                @include('main.serviceBooking.certifiedService')
-                            </div>
-                            <!-- thông tin liên hệ -->
-                            <div class="bookingForm_item">
-                                <div class="bookingForm_item_head">
-                                    Thông tin liên hệ
-                                </div>
-                                <div class="bookingForm_item_body">
-                                    <!-- One Row -->
-                                    <div class="bookingForm_item_body_item">
-                                        <div class="formColumnCustom">
-                                            <div class="formColumnCustom_item">
-                                                {{-- <div>
-                                                    <label class="form-label inputRequired" for="name">Họ và Tên</label>
-                                                    <input type="text" class="form-control" name="name" value="" required>
-                                                </div>
-                                                <div class="messageValidate_error" data-validate="name">{{ config('main.message_validate.not_empty') }}</div> --}}
-                                                <div class="inputWithLabelInside">
-                                                    <label class="inputRequired" for="name">Họ tên</label>
-                                                    <input type="text" id="name" name="name" value="" onkeyup="validateWhenType(this)" required />
-                                                </div>
+                        <!-- ===== BOOKING HIỆN SẴN -->
+                        <form id="formBooking" action="{{ route('main.hotelBooking.create') }}" method="GET">
+                            @csrf
+                            <input type="hidden" name="hotel_name" value="{{ $hotel->name }}" /> 
+                            <input type="hidden" name="hotel_info_id" value="{{ $hotel->id }}" />
+                            <input type="hidden" name="hotel_price_id" value="{{ $price->id }}" />
+                            <input type="hidden" name="range_time" value="{{ $dataForm['range_time'] ?? null }}" />
+                            <input type="hidden" name="quantity" value="{{ $quantity }}" />
+                            <input type="hidden" name="number_night" value="{{ $numberNight }}" /> 
+                            <div class="bookingForm">
+                                <div class="bookingForm_item">
+                                    
+                                    <div class="hotelBookingInfoBox">
+                                        <div class="hotelBookingInfoBox_hotel">
+                                            <div class="hotelBookingInfoBox_hotel_image">
+                                                <img class="" src="{{ config('main.svg.loading_main') }}"  data-google-cloud="{{ $hotel->images[0]->image }}" data-size="200" />
                                             </div>
-                                            <div class="formColumnCustom_item">
-                                                {{-- <div>
-                                                    <label class="form-label" for="email">Email (nếu có)</label>
-                                                    <input type="text" class="form-control" name="email" value="">
-                                                </div> --}}
-                                                <div class="inputWithLabelInside email">
-                                                    <label for="email">Email (nếu có)</label>
-                                                    <input type="text" id="email" name="email" value="" onkeyup="validateWhenType(this, 'email')" />
+                                            <div class="hotelBookingInfoBox_hotel_info">
+                                                <div class="hotelBookingInfoBox_hotel_info_title">{{ $hotel->name }}</div>
+                                                <div class="hotelBookingInfoBox_hotel_info_type">
+                                                    <div class="hotelBookingInfoBox_hotel_info_type_name">
+                                                        {{ $hotel->type_name }}
+                                                    </div>
+                                                    <div class="hotelBookingInfoBox_hotel_info_type_rating">
+                                                        @for($i=0;$i<$hotel->type_rating;++$i)
+                                                            <i class="fa-solid fa-star"></i>
+                                                        @endfor
+                                                    </div>
+                                                </div>
+                                                <div class="hotelBookingInfoBox_hotel_info_address maxLine_1">
+                                                    {{ $hotel->address }}
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="bookingForm_item_body_item">
-                                        <div class="formColumnCustom">
-                                            <div class="formColumnCustom_item">
-                                                {{-- <div>
-                                                    <label class="form-label inputRequired" for="phone">Điện thoại</label>
-                                                    <input type="text" class="form-control" name="phone" value="" required>
-                                                </div>
-                                                <div class="messageValidate_error" data-validate="phone">{{ config('main.message_validate.not_empty') }}</div> --}}
-                                                <div class="inputWithLabelInside phone">
-                                                    <label class="inputRequired" for="phone">Điện thoại</label>
-                                                    <input type="text" id="phone" name="phone" value="" onkeyup="validateWhenType(this, 'phone')" required />
-                                                </div>
-                                            </div>
-                                            <div class="formColumnCustom_item">
-                                                {{-- <div>
-                                                    <label class="form-label" for="zalo">Zalo (nếu có)</label>
-                                                    <input type="text" class="form-control" name="zalo" value="">
-                                                </div> --}}
-                                                <div class="inputWithLabelInside message">
-                                                    <label for="zalo">Zalo (nếu có)</label>
-                                                    <input type="text" id="zalo" name="zalo" value="" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Thông tin dịch vụ -->
-                            <div class="bookingForm_item">
-                                <div class="bookingForm_item_head">
-                                    Thông tin dịch vụ
-                                </div>
-                                <div class="bookingForm_item_body">
-                                    <!-- One Row -->
-                                    <div class="bookingForm_item_body_item">
-                                        <div class="formColumnCustom">
-                                            <div class="formColumnCustom_item">
-                                                <div class="inputWithLabelInside location">
-                                                    <label class="form-label" for="service_location_id">Điểm đến</label>
-                                                    <select class="select2 form-select select2-hidden-accessible" id="service_location_id" name="service_location_id" onChange="loadServiceByLocation('js_loadServiceByLocation_idWrite', {{ $idServiceInfo }});">
-                                                        @if(!empty($serviceLocations)&&$serviceLocations->isNotEmpty())
-                                                            @foreach($serviceLocations as $serviceLocation)
-                                                                @php
-                                                                    $selected = null;
-                                                                    if(!empty(request('service_location_id'))&&request('service_location_id')==$serviceLocation->id) $selected = 'selected';
-                                                                @endphp
-                                                                <option value="{{ $serviceLocation->id }}" {{ $selected }}>
-                                                                    {{ $serviceLocation->display_name }}
-                                                                </option>
-                                                            @endforeach
+                                        <div class="hotelBookingInfoBox_booking">
+                                            <div class="hotelBookingInfoBox_booking_room">
+                                                <div class="hotelBookingInfoBox_booking_room_info">
+                                                    <div class="hotelBookingInfoBox_booking_room_info_title">
+                                                        {{ $room->name }}
+                                                        @if($price->breakfast==1||$price->given==1)
+                                                            @php
+                                                                $tmp            = [];
+                                                                if($price->breakfast==1) $tmp[] = 'Bữa sáng';
+                                                                if($price->given==1) $tmp[] = 'Đưa đón';
+                                                                $xhtmlInclude   = implode(' + ', $tmp);
+                                                            @endphp
+                                                                ({{ $xhtmlInclude }})
                                                         @endif
-                                                    </select>
+                                                    </div>
+                                                    @if(!empty($price->breakfast)||!empty($price->given))
+                                                        @php
+                                                            $tmp = [];
+                                                            if($price->breakfast==1) $tmp[] = '<i class="fa-solid fa-check"></i>Bữa sáng ngon';
+                                                            if($price->given==1) $tmp[] = '<i class="fa-solid fa-check"></i>Đưa - đón khách sạn';
+                                                            $xhtmlInclude = implode(' ', $tmp);
+                                                        @endphp
+                                                        <div class="hotelBookingInfoBox_booking_room_info_include">
+                                                            Bao gồm: {!! $xhtmlInclude !!}
+                                                        </div>
+                                                    @endif
+                                                    <div class="hotelBookingInfoBox_booking_room_info_sub">
+                                                        <div> 
+                                                            <svg class="bk-icon -streamline-room_size" fill="#678" size="medium" width="16" height="16" viewBox="0 0 24 24"><path d="M3.75 23.25V7.5a.75.75 0 0 0-1.5 0v15.75a.75.75 0 0 0 1.5 0zM.22 21.53l2.25 2.25a.75.75 0 0 0 1.06 0l2.25-2.25a.75.75 0 1 0-1.06-1.06l-2.25 2.25h1.06l-2.25-2.25a.75.75 0 0 0-1.06 1.06zM5.78 9.22L3.53 6.97a.75.75 0 0 0-1.06 0L.22 9.22a.75.75 0 1 0 1.06 1.06l2.25-2.25H2.47l2.25 2.25a.75.75 0 1 0 1.06-1.06zM7.5 3.75h15.75a.75.75 0 0 0 0-1.5H7.5a.75.75 0 0 0 0 1.5zM9.22.22L6.97 2.47a.75.75 0 0 0 0 1.06l2.25 2.25a.75.75 0 1 0 1.06-1.06L8.03 2.47v1.06l2.25-2.25A.75.75 0 1 0 9.22.22zm12.31 5.56l2.25-2.25a.75.75 0 0 0 0-1.06L21.53.22a.75.75 0 1 0-1.06 1.06l2.25 2.25V2.47l-2.25 2.25a.75.75 0 0 0 1.06 1.06zM10.5 13.05v7.2a2.25 2.25 0 0 0 2.25 2.25h6A2.25 2.25 0 0 0 21 20.25v-7.2a.75.75 0 0 0-1.5 0v7.2a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1-.75-.75v-7.2a.75.75 0 0 0-1.5 0zm13.252 2.143l-6.497-5.85a2.25 2.25 0 0 0-3.01 0l-6.497 5.85a.75.75 0 0 0 1.004 1.114l6.497-5.85a.75.75 0 0 1 1.002 0l6.497 5.85a.75.75 0 0 0 1.004-1.114z"></path></svg> 
+                                                            <span>Diện tích: {{ $price->room->size }} m2</span>
+                                                        </div>
+                                                    </div>
+                                                    @if(!empty($price->beds)&&$price->beds->isNotEmpty())
+                                                        <div class="hotelBookingInfoBox_booking_room_info_bed">
+                                                            <i class="fa-solid fa-bed"></i>Loại giường:
+                                                            @foreach($price->beds as $bed)
+                                                                <span>{{ $bed->quantity }}</span> {{ $bed->infoHotelBed->name }}
+                                                                @if($loop->index!=($price->beds->count()-1))
+                                                                    +
+                                                                @endif
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
+                                                    <div class="hotelBookingInfoBox_booking_room_info_bed">
+                                                        <i class="fa-solid fa-user-check"></i>Đủ chỗ ngủ cho: {{ $price->number_people }} người lớn
+                                                    </div>
+                                                    @if(!empty($price->description))
+                                                        <div class="hotelBookingInfoBox_booking_room_info_condition">
+                                                            {!! $price->description !!}
+                                                        </div>
+                                                    @endif
+
                                                 </div>
-                                                <div class="messageValidate_error" data-validate="service_location_id">{{ config('main.message_validate.not_empty') }}</div>
+                                                <div class="hotelBookingInfoBox_booking_room_image">
+                                                    @foreach($room->images as $image)
+                                                        <div class="hotelBookingInfoBox_booking_room_image_item">
+                                                            <img src="{{ config('main.svg.loading_main') }}" data-google-cloud="{{ $image->image }}" data-size="400" />
+                                                        </div>
+                                                        @php
+                                                            if($loop->index==2) break;
+                                                        @endphp
+                                                    @endforeach
+                                                </div>
+                                                <div class="iconAction" onclick="openCloseModal('bookingModal');">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                </div>
                                             </div>
-                                            <div class="formColumnCustom_item">
-                                                <div class="inputWithLabelInside">
-                                                    <label class="form-label" for="service_info_id">Chọn dịch vụ</label>
-                                                    <select id="js_loadServiceByLocation_idWrite" class="select2 form-select select2-hidden-accessible" name="service_info_id" onChange="loadOptionService();">
-                                                        <!-- loadAjax : loadServiceByLocation -->
-                                                    </select>
+                                            <div class="hotelBookingInfoBox_booking_time">
+                                                <div class="hotelBookingInfoBox_booking_time_item">
+                                                    <div class="hotelBookingInfoBox_booking_time_item_label">
+                                                        Nhận phòng
+                                                    </div>
+                                                    <div class="hotelBookingInfoBox_booking_time_item_info highLight">
+                                                        {{ $xhtmlCheckIn }}
+                                                    </div>
+                                                </div>
+                                                <div class="hotelBookingInfoBox_booking_time_item">
+                                                    <div class="hotelBookingInfoBox_booking_time_item_label">
+                                                        Trả phòng
+                                                    </div>
+                                                    <div class="hotelBookingInfoBox_booking_time_item_info highLight">
+                                                        {{ $xhtmlCheckOut }}
+                                                    </div>
+                                                </div>
+                                                <div class="hotelBookingInfoBox_booking_time_item">
+                                                    <div class="hotelBookingInfoBox_booking_time_item_label">
+                                                        Số đêm
+                                                    </div>
+                                                    <div class="hotelBookingInfoBox_booking_time_item_info highLight">
+                                                        {{ $numberNight }}
+                                                    </div>
+                                                </div>
+                                                <div class="iconAction" onclick="openCloseModal('bookingModal');">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                </div>
+                                            </div>
+                                            <div class="hotelBookingInfoBox_booking_quantity">
+                                                <div class="hotelBookingInfoBox_booking_quantity_label">
+                                                    Số phòng
+                                                </div>
+                                                <div class="hotelBookingInfoBox_booking_quantity_info">
+                                                    <span class="highLight">{{ $quantity }} x</span> 1-Bedroom Wellness Pool Villa
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- One Row -->
-                                    <div class="bookingForm_item_body_item">
-                                        <div class="formColumnCustom">
-                                            <div class="formColumnCustom_item">
-                                                <div class="inputWithLabelInside date">
-                                                    <label class="form-label" for="date">Ngày khởi hành</label>
-                                                    <input type="text" class="form-control flatpickr-basic flatpickr-input active" name="date" placeholder="YYYY-MM-DD" value="{{ request('date') ?? null }}" readonly="readonly" onChange="loadOptionService();" />
+
+                                </div>
+                                <!-- thông tin liên hệ -->
+                                <div class="bookingForm_item">
+                                    <div class="bookingForm_item_head">
+                                        Thông tin liên hệ
+                                    </div>
+                                    <div class="bookingForm_item_body">
+                                        <!-- One Row -->
+                                        <div class="bookingForm_item_body_item">
+                                            <div class="formColumnCustom">
+                                                <div class="formColumnCustom_item">
+                                                    <div class="inputWithLabelInside">
+                                                        <label class="inputRequired" for="name">Họ tên</label>
+                                                        <input type="text" id="name" name="name" value="{{ $dataForm['name'] ?? null }}" onkeyup="validateWhenType(this)" required />
+                                                    </div>
+                                                </div>
+                                                <div class="formColumnCustom_item">
+                                                    <div class="inputWithLabelInside email">
+                                                        <label for="email">Email (nếu có)</label>
+                                                        <input type="text" id="email" name="email" value="{{ $dataForm['email'] ?? null }}" onkeyup="validateWhenType(this, 'email')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bookingForm_item_body_item">
+                                            <div class="formColumnCustom">
+                                                <div class="formColumnCustom_item">
+                                                    <div class="inputWithLabelInside phone">
+                                                        <label class="inputRequired" for="phone">Điện thoại</label>
+                                                        <input type="text" id="phone" name="phone" value="{{ $dataForm['phone'] ?? null }}" onkeyup="validateWhenType(this, 'phone')" required />
+                                                    </div>
+                                                </div>
+                                                <div class="formColumnCustom_item">
+                                                    <div class="inputWithLabelInside message">
+                                                        <label for="zalo">Zalo (nếu có)</label>
+                                                        <input type="text" id="zalo" name="zalo" value="{{ $dataForm['zalo'] ?? null }}" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- One Row -->
-                                    <div class="bookingForm_item_body_item">
-                                        <label class="form-label" for="quantity_adult">Chọn loại dịch vụ</label>
-                                        <div id="js_loadOptionService_idWrite">
-                                            <!-- AJAX: loadDeparture -->
-                                            <div style="color:rgb(0,123,255);">Vui lòng chọn Ngày khởi hành và Dịch vụ trước!</div>
+                                    <div class="bookingForm_item_footer">
+                                        *Đây là thông tin của Người Đặt để nhân viên Hitour có thể liên hệ và hỗ trợ bạn hoàn tất booking này!
+                                    </div>
+                                </div>
+                                <!-- Yêu cầu đặc biệt -->
+                                <div class="bookingForm_item">
+                                    <div class="bookingForm_item_head">
+                                        Yêu cầu đặc biệt
+                                    </div>
+                                    <div class="bookingForm_item_body">
+                                        <!-- One Row -->
+                                        <div class="bookingForm_item_body_item">
+                                            <div class="textareaWithLabelInside">
+                                                <label class="form-label" for="note_customer">Thời gian nhận phòng dự kiến (không bắt buộc)</label>
+                                                <select class="select2 form-select select2-hidden-accessible" name="receive_time" tabindex="-1" aria-hidden="true">
+                                                    @foreach(config('main.hotel_time_receive') as $timeReceive)
+                                                        @php
+                                                            $selected = null;
+                                                            if(!empty($dataForm['receive_time'])&&$dataForm['receive_time']==$timeReceive) $selected = 'selected';
+                                                        @endphp
+                                                        <option value="{{ $timeReceive }}" {{ $selected }}>{{ $timeReceive }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- One Row -->
+                                        <div class="bookingForm_item_body_item">
+                                            <div class="textareaWithLabelInside">
+                                                <label class="form-label" for="note_customer">Ghi chú của bạn</label>
+                                                <textarea name="note_customer" rows="3" placeholder="Nếu có ghi chú đặc biệt cho booking của bạn, hãy điền ở đây!">{{ $dataForm['note_customer'] ?? null }}</textarea>
+                                            </div>
                                         </div>
                                     </div>
-                                    <!-- One Row -->
-                                    <div class="bookingForm_item_body_item">
-                                        <div id="js_loadFormQuantityByOption_idWrite">
-                                            <!-- AJAX: loadDeparture -->
-                                        </div>
-                                    </div>
-                                    <!-- One Row -->
-                                    <div class="bookingForm_item_body_item">
-                                        <div class="textareaWithLabelInside">
-                                            <label class="form-label" for="note_customer">Ghi chú của bạn</label>
-                                            <textarea name="note_customer" rows="3" placeholder="Nếu có ghi chú đặc biệt cho booking của bạn, hãy điền ở đây!"></textarea>
-                                        </div>
+                                    <div class="bookingForm_item_footer">
+                                        *Yêu câu này sẽ được Chỗ Nghỉ tiếp nhận để hỗ trợ Quý khách tốt nhất trong quá trình nhận phòng!
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>                        
                     </div>
                     <div class="pageContent_body_sidebar">
-                        @include('main.shipBooking.sidebar')
+                        @include('main.hotelBooking.sidebar')
                     </div>
                 </div>
     
@@ -174,8 +270,23 @@
 
         </div>
     </div>
-    </form>
+    
 @endsection
+@push('modal')
+    <!-- ===== BOOKING MODAL -->
+    <div id="bookingModal" class="bookingModal">
+        <div class="bookingModal_box">
+            <div class="bookingModal_box_body customScrollBar-y">
+                @include('main.hotelBooking.formModal')
+            </div>
+            <div class="bookingModal_box_footer">
+                <div class="button buttonCancel" onclick="openCloseModal('bookingModal');">Hủy thay đổi</div>
+                <div class="button buttonPrimary" onclick="submitModalChangeHotelRoom();">Lưu thay đổi</div>
+            </div>
+        </div>
+        <div class="bookingModal_bg"></div>
+    </div>
+@endpush
 @push('bottom')
     <!-- button book tour mobile -->
     <div class="show-990">
@@ -183,7 +294,7 @@
             <div class="callBookTourMobile_textNormal maxLine_1" onClick="showHideBox();">
                 <i class="fa-solid fa-eye"></i>Tóm tắt booking
             </div>
-            <div class="callBookTourMobile_button"><h2 onclick="submitForm('formBooking');">Xác nhận</h2></div>
+            <div class="callBookTourMobile_button"><h2 onclick="">Xác nhận</h2></div>
         </div>
         <!-- Summary mobile -->
         @include('main.shipBooking.summaryMobile')
@@ -203,19 +314,80 @@
     <script src="{{ asset('sources/admin/app-assets/js/scripts/forms/form-select2.min.js') }}"></script>
     <script type="text/javascript">
         $(window).ready(function(){
-            loadServiceByLocation('js_loadServiceByLocation_idWrite', '{{ $idServiceInfo }}');
+
+            loadBookingSummary();
+
+            @foreach ($hotel->rooms as $room)
+                @foreach ($room->prices as $price)
+                    loadHotelPrice('{{ $price->id }}');
+                @endforeach
+            @endforeach
+
         })
+
+        function loadHotelPrice(idHotelPrice){
+            $.ajax({
+                url         : "{{ route('main.hotel.loadHotelPrice') }}",
+                type        : "GET",
+                dataType    : "json",
+                data        : { hotel_price_id : idHotelPrice }
+            }).done(function(data){
+                /* ghi nội dung room vào bảng */
+                if(data.row!='') {
+                    $('#js_loadHotelPrice_'+idHotelPrice).html(data.row);
+                }else {
+                    $('#js_loadHotelPrice_'+idHotelPrice).hidden();
+                }
+                /* ghi nội dung modal room */
+                if(data.row!='') {
+                    $('#js_loadHotelPrice_modal_'+idHotelPrice).html(data.modal);
+                }else {
+                    $('#js_loadHotelPrice_modal_'+idHotelPrice).hidden();
+                }
+            });
+        }
+
+        $('.flatpickr-input').flatpickr({
+            mode: 'range'
+        });
 
         $('#formBooking').find('input, select, textarea').each(function(){
             $(this).on('input', () => {
                 loadBookingSummary();
                 const nameInput   = $(this).attr('name');
                 showHideMessageValidate(nameInput, 'hide');
-                if(nameInput=='quantity_adult'||nameInput=='quantity_child'||nameInput=='quantity_old'){
-                    showHideMessageValidate('quantity', 'hide');
-                }
+                // if(nameInput=='quantity_adult'||nameInput=='quantity_child'||nameInput=='quantity_old'){
+                //     showHideMessageValidate('quantity', 'hide');
+                // }
             })
         })
+
+        function chooseHotelPrice(idHotelPrice){
+            const boxChoose = $('#js_chooseHotelPrice_'+idHotelPrice);
+            /* remove class selected tất cả child */
+            boxChoose.parent().children().each(function(){
+                $(this).removeClass('selected');
+            })
+            /* selected lại box được chọn */ 
+            boxChoose.addClass('selected');
+            /* ghi giá trị hotel_price_id được chọn vào input */
+            $('#modal_hotel_price_id').val(idHotelPrice);
+        }
+
+        function submitModalChangeHotelRoom(){
+            var form = $('#formBooking');
+            /* lấy giá trị từ input của modal */
+            const quantity  = $('#modal_quantity').val();
+            const timeRange = $('#modal_range_time').val();
+            const idHotelPrice = $('#modal_hotel_price_id').val();
+            /* điền giá trị qua form chính */
+            form.find('[name="quantity"]').val(quantity);
+            form.find('[name="range_time"]').val(timeRange);
+            form.find('[name="hotel_price_id"]').val(idHotelPrice);
+            /* submit */
+            form.attr('action', '{{ route("main.hotelBooking.form") }}');
+            form.submit();
+        }
 
         function submitForm(idForm){
             event.preventDefault();
@@ -241,56 +413,18 @@
             }
         }
 
-        function loadServiceByLocation(idWrite, idServiceInfo = 0){
-            const idServiceLocation = $('#service_location_id').val();
+        function loadBookingSummary(){
+            const dataForm = $("#formBooking").serializeArray();
             $.ajax({
-                url         : '{{ route("main.serviceBooking.loadService") }}',
+                url         : '{{ route("main.hotelBooking.loadBookingSummary") }}',
                 type        : 'get',
                 dataType    : 'html',
                 data        : {
-                    service_location_id : idServiceLocation,
-					service_info_id     : idServiceInfo
+                    dataForm    : dataForm
                 },
                 success     : function(data){
-                    $('#'+idWrite).html(data);
-                    loadOptionService();
-                }
-            });
-        }
-
-        function loadOptionService(){
-            const date              = $(document).find('[name=date]').val();
-            const idServiceInfo     = $(document).find('[name=service_info_id]').val();
-            if(date!=''&&idServiceInfo!=''){
-                $.ajax({
-                    url         : '{{ route("main.serviceBooking.loadOption") }}',
-                    type        : 'get',
-                    dataType    : 'html',
-                    data        : {
-                        service_info_id         : idServiceInfo,
-                        date
-                    },
-                    success     : function(data){
-                        $('#js_loadOptionService_idWrite').html(data);
-                        loadFormQuantityByOption();
-                        loadBookingSummary();
-                    }
-                });
-            }
-        }
-
-        function loadFormQuantityByOption(){
-            const idOption = $('#service_option_id').val();
-            $.ajax({
-                url         : '{{ route("main.serviceBooking.loadFormQuantityByOption") }}',
-                type        : 'get',
-                dataType    : 'html',
-                data        : {
-                    service_option_id  : idOption
-                },
-                success     : function(data){
-                    $('#js_loadFormQuantityByOption_idWrite').html(data);
-                    loadBookingSummary();
+                    $('#js_loadBookingSummary_idWrite').html(data);
+                    $('#js_loadBookingSummaryMobile_idWrite').html(data);
                 }
             });
         }
@@ -323,29 +457,5 @@
             }
         }
 
-        function loadBookingSummary(){
-            const dataForm = $("#formBooking").serializeArray();
-            $.ajax({
-                url         : '{{ route("main.serviceBooking.loadBookingSummary") }}',
-                type        : 'get',
-                dataType    : 'html',
-                data        : {
-                    dataForm    : dataForm
-                },
-                success     : function(data){
-                    $('#js_loadBookingSummary_idWrite').html(data);
-                    $('#js_loadBookingSummaryMobile_idWrite').html(data);
-                }
-            });
-        }
-
-        function highLightChoose(element, valueChange){
-            $(element).parent().children().each(function(){
-                $(this).removeClass('active');
-            });
-            $(element).addClass('active');
-            $('#service_option_id').val(valueChange);
-            loadFormQuantityByOption();
-        }
     </script>
 @endpush

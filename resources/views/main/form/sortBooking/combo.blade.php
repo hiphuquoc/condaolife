@@ -66,7 +66,7 @@
         function loadComboByLocation(idWrite, idComboInfo = 0){
             const idComboLocation = $('#combo_location_id').val();
             $.ajax({
-                url         : '{{ route("main.comboBooking.loadService") }}',
+                url         : '{{ route("main.comboBooking.loadCombo") }}',
                 type        : 'get',
                 dataType    : 'html',
                 data        : {

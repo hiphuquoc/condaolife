@@ -22,8 +22,8 @@
         <div class="sectionBox">
             <div class="container">
                 <!-- title -->
-                <h1 class="titlePage" style="margin-bottom:0.5rem;">Đặt vé vui chơi & giải trí</h1>
-                <div style="margin-bottom:1rem;">Quý khách vui lòng điền thông tin liên hệ và xem lại đặt chỗ.</div>
+                {{-- <h1 class="titlePage titlePageBooking">Đặt vé vui chơi & giải trí</h1> --}}
+                {{-- <div style="margin-bottom:1rem;">Quý khách vui lòng điền thông tin liên hệ và xem lại đặt chỗ.</div> --}}
                 <!-- service box -->
                 <div class="pageContent_body">
                     <div class="pageContent_body_content">
@@ -90,13 +90,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="bookingForm_item_footer">
+                                    *Đây là thông tin của Người Đặt để nhân viên Hitour có thể liên hệ và hỗ trợ bạn hoàn tất booking này!
+                                </div>
                             </div>
                             <!-- Thông tin dịch vụ -->
                             <div class="bookingForm_item">
                                 <div class="bookingForm_item_head">
                                     Thông tin dịch vụ
                                 </div>
-                                <div class="bookingForm_item_body">
+                                <div class="bookingForm_item_body" style="border-radius:inherit;">
                                     <!-- One Row -->
                                     <div class="bookingForm_item_body_item">
                                         <div class="formColumnCustom">

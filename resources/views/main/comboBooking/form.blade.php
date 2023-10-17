@@ -22,7 +22,8 @@
         <div class="sectionBox">
             <div class="container">
                 <!-- title -->
-                <h1 class="titlePage titlePageBooking">Đặt combo du lịch</h1>
+                {{-- <h1 class="titlePage titlePageBooking">Đặt combo du lịch</h1> --}}
+                {{-- <div style="margin-bottom:1rem;">Quý khách vui lòng điền thông tin liên hệ và xem lại đặt chỗ.</div> --}}
                 <!-- service box -->
                 <div class="pageContent_body">
                     <div class="pageContent_body_content">
@@ -267,7 +268,7 @@
         function loadComboByLocation(idWrite, idComboInfo = 0){
             const idcomboLocation = $('#combo_location_id').val();
             $.ajax({
-                url         : '{{ route("main.comboBooking.loadService") }}',
+                url         : '{{ route("main.comboBooking.loadCombo") }}',
                 type        : 'get',
                 dataType    : 'html',
                 data        : {
@@ -313,7 +314,6 @@
                 },
                 success     : function(data){
                     $('#js_loadFormQuantityByOption_idWrite').html(data);
-                    console.log(data);
                     loadBookingSummary();
                 }
             });

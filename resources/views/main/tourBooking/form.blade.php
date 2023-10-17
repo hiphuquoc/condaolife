@@ -18,7 +18,7 @@
         <div class="sectionBox">
             <div class="container">
                 <!-- title -->
-                <h1 class="titlePage" style="margin-bottom:0.5rem;">Đặt Tour du lịch</h1>
+                {{-- <h1 class="titlePage titlePageBooking">Đặt Tour du lịch</h1> --}}
                 {{-- <div style="margin-bottom:1rem;">Quý khách vui lòng điền thông tin liên hệ và xem lại đặt chỗ.</div> --}}
                 <!-- ship box -->
                 <div class="pageContent_body">
@@ -87,13 +87,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="bookingForm_item_footer">
+                                    *Đây là thông tin của Người Đặt để nhân viên Hitour có thể liên hệ và hỗ trợ bạn hoàn tất booking này!
+                                </div>
                             </div>
                             <!-- thông tin dịch vụ -->
                             <div class="bookingForm_item">
                                 <div class="bookingForm_item_head">
                                     Thông tin tour
                                 </div>
-                                <div class="bookingForm_item_body">
+                                <div class="bookingForm_item_body" style="border-radius:inherit;">
                                     <!-- One Row -->
                                     <div class="bookingForm_item_body_item">
                                         <div class="formColumnCustom">
@@ -135,7 +138,7 @@
                                                                 }
                                                             @endphp         
                                                             @foreach($dataTourLocation as $region => $tourLocationsByRegion)
-                                                                {{-- <optgroup label="{{ $region }}, Việt Nam"> --}}
+                                                                <optgroup label="{{ $region }}, Việt Nam">
                                                                 @foreach($tourLocationsByRegion as $tourLocation)
                                                                     @php
                                                                         $selected   = null;
@@ -241,7 +244,7 @@
     <script src="{{ asset('sources/admin/app-assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
     <script src="{{ asset('sources/admin/app-assets/js/scripts/forms/form-select2.min.js') }}"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(window).on('load', function () {
             loadTourByTourLocation($('#js_loadTourByTourLocation_element'), 'js_loadTourByTourLocation_idWrite', "{{ request('tour_info_id') ?? 0  }}");
         });
 

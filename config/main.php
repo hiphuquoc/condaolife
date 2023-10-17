@@ -63,5 +63,8 @@ return [
         'hotline'       => '0912 014 151',
         'website'       => 'https://condaofile.com',
         'email'         => 'dichvucondao@gmail.com'
+    ],
+    'hotel_time_receive' => [
+        'Tôi chưa biết', '14h00 - 15h00', '15h00 - 16h00', '16h00 - 17h00', '17h00 - 18h00', '18h00 - 19h00', '20h00 - 21h00', '21h00 - 22h00', '22h00 - 23h00', '23h00 - 00h00', '00h00 - 01h00 (hôm sau)', '01h00 - 02h00 (hôm sau)'
     ]
 ];
