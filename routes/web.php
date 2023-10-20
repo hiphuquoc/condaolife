@@ -626,6 +626,7 @@ Route::prefix('hotelBooking')->group(function(){
     // Route::get('/confirm', [HotelBookingController::class, 'confirm'])->name('main.hotelBooking.confirm');
 });
 /* ===== HOTEL ===== */
+Route::get('/loadHotelInfo', [HotelController::class, 'loadHotelInfo'])->name('main.hotel.loadHotelInfo');
 Route::get('/loadHotelPrice', [HotelController::class, 'loadHotelPrice'])->name('main.hotel.loadHotelPrice');
 Route::get('/loadHotelImage', [HotelController::class, 'loadHotelImage'])->name('main.hotel.loadHotelImage');
 /* login với google */

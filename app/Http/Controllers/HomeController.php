@@ -55,7 +55,7 @@ class HomeController extends Controller {
                                     ->with(['questions' => function($q){
                                         $q->where('relation_table', 'tour_location');
                                     }])
-                                    ->with('seo', 'airLocations', 'guides', 'shipLocations', 'carrentalLocations', 'serviceLocations', 'destinations', 'specials')
+                                    ->with('seo', 'airLocations', 'guides', 'shipLocations', 'carrentalLocations', 'serviceLocations', 'comboLocations', 'destinations', 'specials')
                                     ->first();
             $combos             = Combo::select('combo_info.*')
                                     ->whereHas('locations.infoLocation.seo', function($query){

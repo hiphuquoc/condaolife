@@ -57,7 +57,7 @@
         </div>
 
         <!-- START: -->
-        <div class="sectionBox noBackground">
+        <div class="sectionBox backgroundSecondary">
             <div class="container">
                 <h2 class="sectionBox_title">Feedback tương tự</h2>
                 <p class="sectionBox_desc">Nhận xét của khách hàng đã từng sử dụng dịch vụ của LifeTour.</p>

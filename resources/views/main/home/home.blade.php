@@ -64,8 +64,8 @@
     </div>
     <!-- END: Tour Côn Đảo bằng máy bay -->
 
-    <!-- START: Tour Côn Đảo bằng máy bay -->
-    <div class="sectionBox noBackground">
+    <!-- START: Tour Côn Đảo bằng cao tốc -->
+    <div class="sectionBox backgroundSecondary">
         <div class="container">
             <h2 class="sectionBox_title">Tour Côn Đảo bằng tàu cao tốc</h2>
             <p class="sectionBox_desc">Tổng hợp Tour du lịch Côn Đảo hấp dẫn và đa dạng di chuyển bằng máy bay khởi hành từ Vũng Tàu, Trần Đề Sóc Trăng hoặc Cần Thơ.</p>
@@ -75,11 +75,65 @@
             ])
         </div>
     </div>
-    <!-- END: Tour Côn Đảo bằng máy bay -->
+    <!-- END: Tour Côn Đảo bằng cao tốc -->
+
+    <!-- Cho thuê xe -->
+    @if(!empty($itemTourLocation->carrentalLocations[0]->infoCarrentalLocation))
+        <div class="sectionBox withBorder">
+            <div class="container">
+                <h2 class="sectionBox_title">Cho thuê xe {{ $item->display_name ?? null }}</h2>
+                <p class="sectionBox_desc">Nếu cần phương tiện đưa đón, di chuyển và tham quan bạn có thể tham khảo thêm dịch vụ <strong>Cho thuê xe tại {{ $item->display_name ?? null }}</strong> của {{ config('main.name') }} với đầy đủ lựa chọn (tự lái hoặc có tài xế), xe đời mới, nhiều loại phù hợp yêu cầu và mức giá hợp lí.</p>
+                <div class="guideList">
+                    @foreach($itemTourLocation->carrentalLocations as $carrentalLocation)
+                        <div class="guideList_item">
+                            <i class="fa-solid fa-angles-right"></i>Xem thêm <a href="/{{ $carrentalLocation->infoCarrentalLocation->seo->slug_full }}" title="{{ $carrentalLocation->infoCarrentalLocation->name }}">{{ $carrentalLocation->infoCarrentalLocation->name }}</a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <!-- Vé máy bay -->
+    @php
+        $dataAirs               = new \Illuminate\Support\Collection();
+        $i                      = 0;
+        if(!empty($itemTourLocation->airLocations)){
+            foreach($itemTourLocation->airLocations as $airLocation){
+                foreach($airLocation->infoAirLocation->airs as $air){
+                    $dataAirs[$i]               = $air;
+                    $dataAirs[$i]->seo          = $air->seo;
+                    $dataAirs[$i]->location     = $air->location;
+                    $dataAirs[$i]->departure    = $air->departure;
+                    ++$i;
+                }
+            }
+        }
+    @endphp
+    @if(!empty($dataAirs)&&$dataAirs->isNotEmpty())
+        <div class="sectionBox" style="background:#e9ecef;">
+            <div class="container">
+                @if(!empty($itemTourLocation->airLocations[0]->infoAirLocation->seo->slug_full))
+                    <a href="/{{ $itemTourLocation->airLocations[0]->infoAirLocation->seo->slug_full }}" title="Vé máy bay đi {{ $itemTourLocation->display_name ?? null }}">
+                        <h2 class="sectionBox_title">Vé máy bay đi {{ $itemTourLocation->display_name ?? null }}</h2>
+                    </a>
+                @else 
+                    <h2 class="sectionBox_title">Vé máy bay đi {{ $item->display_name ?? null }}</h2>
+                @endif
+                <p class="sectionBox_desc">Để đến được {{ $itemTourLocation->display_name ?? null }} nhanh chóng, an toàn và tiện lợi tốt nhất bạn nên di chuyển bằng máy bay. Thông tin chi tiết các <strong>chuyến bay đến {{ $itemTourLocation->display_name ?? null }}</strong> bạn có thể tham khảo bên dưới</p>
+                @include('main.airLocation.airItem', [
+                    'list'          => $dataAirs, 
+                    'limit'         => 3, 
+                    'link'          => $itemTourLocation->airLocations[0]->infoAirLocation->seo->slug_full, 
+                    'itemHeading'   => 'h3'
+                ])
+            </div>
+        </div>
+    @endif
 
     <!-- Vé tàu cao tốc -->
     @if(!empty($itemTourLocation->shipLocations[0]->infoShipLocation))
-        <div class="sectionBox" style="background:#e9ecef;">
+        <div class="sectionBox backgroundPrimary">
             <div class="container">
                 @if(!empty($itemTourLocation->shipLocations[0]->infoShipLocation->seo->slug_full))
                     <a href="/{{ $itemTourLocation->shipLocations[0]->infoShipLocation->seo->slug_full }}" title="Vé tàu cao tốc {{ $itemTourLocation->display_name ?? null }}">
@@ -105,6 +159,34 @@
         </div>
     @endif
 
+    <!-- Cẩm nang du lịch -->
+    @if(!empty($itemTourLocation->guides[0]->infoGuide))
+        <div class="sectionBox withBorder">
+            <div class="container">
+                <h2 class="sectionBox_title">Cẩm nang du lịch {{ $itemTourLocation->display_name ?? null }}</h2>
+                <p class="sectionBox_desc">Nếu các chương trình <strong>Tour du lịch {{ $itemTourLocation->display_name ?? null }}</strong> của {{ config('main.name') }} không đáp ứng được nhu cầu của bạn hoặc là người ưu thích du lịch tự túc,... Bạn có thể tham khảo <strong>Cẩm nang du lịch</strong> bên dưới để có đầy đủ thông tin, tự do lên kế hoạch, sắp xếp lịch trình cho chuyến đi của mình được chu đáo nhất.</p>
+                <div class="guideList">
+                    @foreach($itemTourLocation->guides as $guide)
+                        <div class="guideList_item">
+                            <i class="fa-solid fa-angles-right"></i>Xem thêm <a href="/{{ $guide->infoGuide->seo->slug_full }}" title="{{ $guide->infoGuide->name }}">{{ $guide->infoGuide->name }}</a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <!-- Đặc sản -->
+    @if(!empty($specialList[0]))
+        <div class="sectionBox backgroundPrimary">
+            <div class="container">
+                <h2 class="sectionBox_title">Đặc sản {{ $item->display_name ?? null }}</h2>
+                <p class="sectionBox_desc">Tổng hợp những món ngon, đặc sản nổi tiếng tại {{ $item->display_name ?? null }} bạn nên mua làm quà hoặc thưởng thức ít nhất một lần.</p>
+                @include('main.tourLocation.blogGridSlick', ['list' => $specialList, 'link' => $item->specials[0]->infoCategory->seo->slug_full ?? null, 'limit' => 10])
+            </div>
+        </div>
+    @endif
+
     <!-- START: Điểm đến nổi bật -->
     @if(!empty($specialLocations)&&$specialLocations->isNotEmpty())
         <div class="sectionBox noBackground">
@@ -118,7 +200,7 @@
     <!-- END: Điểm đến nổi bật -->
 
     <!-- START: Điểm đến nổi bật -->
-    <div class="sectionBox">
+    <div class="sectionBox backgroundPrimary">
         <div class="container">
             <h2 class="sectionBox_title">Khách hàng nói về LifeTour</h2>
             <p class="sectionBox_desc">Nhận xét của khách hàng đã từng sử dụng dịch vụ của LifeTour.</p>

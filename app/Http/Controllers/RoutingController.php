@@ -76,7 +76,7 @@ class RoutingController extends Controller {
                                             ->with(['questions' => function($q){
                                                 $q->where('relation_table', 'tour_location');
                                             }])
-                                            ->with('seo', 'airLocations', 'guides', 'shipLocations', 'carrentalLocations', 'serviceLocations', 'comboLocations', 'destinations', 'specials')
+                                            ->with('seo')
                                             ->first();
                     // /* danh sách combo */
                     // $idComboLocation    = $item->id;

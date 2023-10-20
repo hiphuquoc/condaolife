@@ -303,11 +303,11 @@ label {
     }
   }
 
-input, textarea {
+  input, textarea {
     font-size: 1rem;
     font-family: $fontText;
     width: 100%;
-    border-radius: 7px;
+    border-radius: 10px;
     border: 1px solid $bg-05;
     padding: 0.6rem 1rem;
     outline: none;

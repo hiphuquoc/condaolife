@@ -13,8 +13,6 @@
 
 <script type="text/javascript">
     $(window).ready(function(){
-        loadImage()
-        loadImageFromGoogleCloud()
         addTableResponsive()
         /* check login để hiện thị button */
         checkLoginAndSetShow()
@@ -45,25 +43,65 @@
                 }
             });
         }
+
+        lazyLoadImagesGoogleCloud();
+        lazyLoadImages();
+        $(window).scroll(function() {
+            lazyLoadImagesGoogleCloud();
+            lazyLoadImages();
+        });
     });
-    /* load image from goole cloud */
-    function loadImageFromGoogleCloud(){
-        $(document).find('img[data-google-cloud]').each(function(){
-            var elementImg          = $(this);
-            const urlGoogleCloud    = elementImg.attr('data-google-cloud');
-            const size              = elementImg.attr('data-size');
-            $.ajax({
-                url         : '{{ route("ajax.loadImageFromGoogleCloud") }}',
-                type        : 'get',
-                dataType    : 'html',
-                data        : {
-                    url_google_cloud    : urlGoogleCloud,
-                    size
-                },
-                success     : function(response){
-                    elementImg.attr('src', response);
+   /* lazyload image google cloud */
+   const imagesWithGoogleCloud = $('img[data-google-cloud]');
+    function lazyLoadImagesGoogleCloud() {
+        const windowTop = $(window).scrollTop();
+        const windowHeight = $(window).height();
+        imagesWithGoogleCloud.each(function() {
+            const image = $(this);
+            if (!image.hasClass('loaded')&&image.is(":visible")) {
+                const imageTop = image.offset().top;
+                if (imageTop < windowTop + windowHeight + 2000) {
+                    loadImageFromGoogleCloud(image);
+                    image.addClass('loaded');
                 }
-            });
+            }
+        });
+    }
+    /* lazyload image */ 
+    const imagesWithDataSrc = $('img[data-src]');
+    function lazyLoadImages() {
+        const windowTop = $(window).scrollTop();
+        const windowHeight = $(window).height();
+        imagesWithDataSrc.each(function() {
+            const image = $(this);
+            if (!image.hasClass('loaded')&&image.is(":visible")) {
+                const imageTop = image.offset().top;
+                if (imageTop < windowTop + windowHeight + 2000) {
+                    loadImageFromHosting(image);
+                    image.addClass('loaded');
+                }
+            }
+        });
+    }
+    /* load image */
+    function loadImageFromHosting(imageElement){
+        $(imageElement).attr('src', $(imageElement).attr('data-src'));
+    }
+    /* load image from goole cloud */
+    function loadImageFromGoogleCloud(imageElement){
+        const urlGoogleCloud    = $(imageElement).attr('data-google-cloud');
+        const size              = $(imageElement).attr('data-size');
+        $.ajax({
+            url         : '{{ route("ajax.loadImageFromGoogleCloud") }}',
+            type        : 'get',
+            dataType    : 'html',
+            data        : {
+                url_google_cloud    : urlGoogleCloud,
+                size
+            },
+            success     : function(response){
+                $(imageElement).attr('src', response);
+            }
         });
     }
     /* Go to top */
@@ -78,12 +116,6 @@
     }
     function gotoTop() {
         document.documentElement.scrollTop          = 0;
-    }
-    /* load image */
-    function loadImage(){
-        $(document).find('img[data-src]').each(function(){
-            $(this).attr('src', $(this).attr('data-src'));
-        });
     }
     /* check đăng nhập */
     function checkLoginAndSetShow(){

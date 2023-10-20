@@ -2,13 +2,14 @@
     @foreach($list as $tour)
     <div class="tourList_item">
         <a href="/{{ $tour->seo->slug_full ?? null }}" class="tourList_item_gallery">
-            <div class="tourList_item_gallery_top">
+            <img src="{{ config('main.svg.loading_main_nobg') }}" data-src="{{ $tour->seo->image ?? config('main.images.default_750x460') }}" alt="{{ $tour->name ?? null }}" title="{{ $tour->name ?? null }}" />
+            {{-- <div class="tourList_item_gallery_top">
                 <img src="{{ config('main.svg.loading_main_nobg') }}" data-src="{{ $tour->seo->image ?? config('main.images.default_750x460') }}" alt="{{ $tour->name ?? null }}" title="{{ $tour->name ?? null }}" />
-                {{-- <div class="tourList_item_gallery_top_time">
+                <div class="tourList_item_gallery_top_time">
                     3N2Đ
-                </div> --}}
-            </div>
-            @php
+                </div>
+            </div> --}}
+            {{-- @php
                 $imagesFile = [];
                 if(!empty($tour->files)&&$tour->files->isNotEmpty()){
                     foreach($tour->files as $file){
@@ -27,7 +28,7 @@
                     </div>
                 @endforeach
             </div>
-            @endif
+            @endif --}}
         </a>
         <div class="tourList_item_info">
             <div class="tourList_item_info_title">
