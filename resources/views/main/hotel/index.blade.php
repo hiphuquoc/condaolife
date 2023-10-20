@@ -118,7 +118,7 @@
                                 {{ $address }}
                             </div>
                         </div>
-                        <div class="hotelInfoHead_right">
+                        <div id="js_hideElement" class="hotelInfoHead_right">
                             @php
                                 $priceMin   = 100000000;
                                 $saleOff    = 0;
@@ -362,6 +362,23 @@
                     loadHotelPrice('{{ $price->id }}');
                 @endforeach
             @endforeach
+
+            /* ẩn button call book */
+            var element = $('#js_hideElement');
+            var isVisible = true; // Biến kiểm tra trạng thái hiển thị
+            $(window).scroll(function() {
+                var elementTop = element.offset().top;
+                // Kiểm tra nếu phần tử nằm dưới vị trí cuộn trang 1000px và vẫn hiển thị
+                if (elementTop > 1000 && isVisible) {
+                    element.stop().fadeOut(400);
+                    isVisible = false; // Đánh dấu phần tử đã ẩn
+                }
+                // Kiểm tra nếu phần tử nằm trên vị trí cuộn trang 1000px và đã bị ẩn
+                if (elementTop <= 1000 && !isVisible) {
+                    element.stop().fadeIn(400);
+                    isVisible = true; // Đánh dấu phần tử đã hiển thị
+                }
+            });
         })
 
         function showHideFullContent(elementButton, classCheck){
