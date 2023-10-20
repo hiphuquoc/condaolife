@@ -88,7 +88,7 @@
                                 <div class="maxLine_1">
                                     Chặng {{ $key }}
                                 </div>
-                                <div class="maxLine_1" style="color:#003B7B;">
+                                <div class="maxLine_1" style="color:#069a8e;">
                                     @foreach(array_unique($value) as $v)
                                         <span style="font-weight:bold;">{{ $v }}</span>{{ !$loop->last ? ' | ' : null }}
                                     @endforeach
