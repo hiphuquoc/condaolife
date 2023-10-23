@@ -617,13 +617,13 @@ Route::prefix('comboBooking')->group(function(){
 Route::prefix('hotelBooking')->group(function(){
     Route::get('/form', [HotelBookingController::class, 'form'])->name('main.hotelBooking.form');
     Route::get('/loadBookingSummary', [HotelBookingController::class, 'loadBookingSummary'])->name('main.hotelBooking.loadBookingSummary');
-    /* chưa dùng */
     Route::post('/create', [HotelBookingController::class, 'create'])->name('main.hotelBooking.create');
+    Route::get('/confirm', [HotelBookingController::class, 'confirm'])->name('main.hotelBooking.confirm');
+    /* chưa dùng */
+    
     // Route::get('/loadCombo', [HotelBookingController::class, 'loadCombo'])->name('main.hotelBooking.loadCombo');
     // Route::get('/loadOption', [HotelBookingController::class, 'loadOption'])->name('main.hotelBooking.loadOption');
     // Route::get('/loadFormQuantityByOption', [HotelBookingController::class, 'loadFormQuantityByOption'])->name('main.hotelBooking.loadFormQuantityByOption');
-    
-    // Route::get('/confirm', [HotelBookingController::class, 'confirm'])->name('main.hotelBooking.confirm');
 });
 /* ===== HOTEL ===== */
 Route::get('/loadHotelInfo', [HotelController::class, 'loadHotelInfo'])->name('main.hotel.loadHotelInfo');
