@@ -45,9 +45,9 @@
 					@include('main.form.sortBooking.combo', compact('item'))
 				</form>
 			</div>
-			<!-- Combo booking form -->
+			<!-- Khách sạn -->
 			<div id="hotelBookingForm" {{ !empty($active)&&$active!='hotel' ? 'style=display:none;' : null }}>
-				<form id="hotelBookingSort" method="get" action="#">
+				<form id="hotelBookingSort" method="GET" action="{{ route('main.hotelBooking.search') }}">
 					@include('main.form.sortBooking.hotel', compact('item'))
 				</form>
 			</div>
