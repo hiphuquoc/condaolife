@@ -335,8 +335,8 @@ $height_headerMain : 55px;
     width: 100%;
     display: none;
     justify-content: space-between;
-    font-size: 1rem;
-    font-family: $fontText;
+    font-size: 0.975rem;
+    font-family: $fontTitle;
     box-shadow: 1px 1px 10px rgba(0,0,0,0.4);
     border-top: 4px solid $colorSLv1;
     top: $height_headerMain;
@@ -354,8 +354,7 @@ $height_headerMain : 55px;
         &:first-child {
             ul {
                 > li:not(:last-child) {
-                    border-bottom: 1px dashed $bg-03;
-
+                    border-bottom: 1px dashed $bg-04;
                 }
             }
         }
@@ -363,8 +362,6 @@ $height_headerMain : 55px;
     &_title {
         > ul {
             > li {
-                font-family: $fontTitle;
-
                 > a, > div {
                     color: #567;
                     border: none;
@@ -404,7 +401,7 @@ $height_headerMain : 55px;
     }
 
     &_content {
-        border-left: 1px solid $bg-03;
+        border-left: 1px solid $bg-04;
 
         > ul {
             width: 100%;
@@ -443,7 +440,7 @@ $height_headerMain : 55px;
                 }
 
                 &:not(:first-child){
-                    border-left: 1px solid $bg-03;
+                    border-left: 1px solid $bg-04;
                 }
             }
 
@@ -455,7 +452,7 @@ $height_headerMain : 55px;
 }
 $width_normalMenu : 250px;
 .normalMenu {
-    font-size: 1rem;
+    font-size: 0.975rem;
     font-family: $fontTitle;
     background: #fff;
     box-shadow: 1px 1px 3px $bg-06;
@@ -524,7 +521,7 @@ $width_normalMenu : 250px;
                 
                 li {
                     list-style: none;
-                    border-bottom: 1px dashed $bg-03;
+                    border-bottom: 1px dashed $bg-04;
                     cursor: pointer;
                     position: relative;
                     
@@ -601,7 +598,7 @@ $width_normalMenu : 250px;
             font-size: 1.6rem;
             text-align: center;
             margin-bottom: 1.5rem;
-            font-family: $fontTitle;
+            font-family: $fontSegoeBold;
         }
     }
     &_body {
@@ -734,7 +731,7 @@ $width_normalMenu : 250px;
         }
         &_title {
             font-size: 1rem;
-            font-family: $fontTitle;
+            font-family: $fontSegoeBold;
             margin-bottom: 0.5rem !important;
             color: #f7ff93;
         }
@@ -829,6 +826,7 @@ $width_normalMenu : 250px;
     }
 }
 .copyright {
+    font-family: $fontTitle;
     font-size: 0.85rem;
     padding: 0.4rem 0;
     @include colorOpacity('background', $colorLv2, 0.8);
@@ -1174,7 +1172,7 @@ $tourGrid_radius : 10px;
                     h2 {
                         color: $colorLv1;
                         font-family: $fontTitle;
-                        font-size: 1.15rem;
+                        font-size: 1.1rem;
                         font-weight: 700;
                         margin: 0;
                     }
@@ -1344,8 +1342,9 @@ $tourGrid_radius : 10px;
         line-height: 1.8;
         &_title {
             font-size: 1.2rem;
-            font-family: $fontTitle;
+            font-family: $fontSegoeBold;
             margin-bottom: 0.5rem;
+            color: $colorTitle;
         }
         ul {
             margin-left: 1rem;
@@ -1503,10 +1502,10 @@ $tourGrid_radius : 10px;
             }
             h2, h3 {
                 font-size: 1.2rem;
-                font-family: $fontTitle;
-                font-weight: 700;
+                font-family: $fontSegoeBold;
+                color: $colorTitle;
                 margin-top: 0 !important;
-                margin-bottom: 0.5rem !important;
+                margin-bottom: 0.75rem !important;
             }
             > i {
                 flex: 0 0 30px;
@@ -1576,7 +1575,7 @@ $tourGrid_radius : 10px;
             &_title {
                 h2, h3 {
                     font-size: 1.1rem;
-                    margin-bottom: 0.25rem !important;
+                    margin-bottom: 0.5rem !important;
                 }
                 i {
                     margin-top: 0.55rem;
@@ -1991,12 +1990,13 @@ blockquote{
         &_content {
             padding: 0.5rem 1rem 0.75rem 1rem;
             &_title {
-                margin-bottom: 0.35rem;
+                margin-bottom: 0.5rem;
                 a {
                     h2, h3 {
                         font-size: 1.05rem;
                         margin-bottom: 0;
-                        color: $colorLv1 !important;
+                        font-family: $fontSegoeBold;
+                        color: $colorTitle;
                         &:hover {
                             color: $colorLv2 !important;
                         }
@@ -2107,16 +2107,16 @@ blockquote{
     margin: 1rem 0;
     &_item {
         width: calc(33.33% - 1rem);
-        border-radius: 10px;
+        border-radius: 5px;
         text-align: left;
         &:not(:first-child){
-            margin-left: 1.25rem;
+            margin-left: 1.5rem;
         }
         &_image {
             display: flex;
             border-radius: inherit;
             img {
-                border-radius: 10px 10px 0 0;
+                border-radius: 5px 5px 0 0;
                 margin: 0;
             }
         }
@@ -2126,8 +2126,9 @@ blockquote{
                 display: flex;
                 h3 {
                     font-size: 1.05rem;
-                    font-weight: 1rem;
-                    margin-bottom: 0.25rem;
+                    color: $colorTitle;
+                    font-family: $fontSegoeBold;
+                    margin-bottom: 0.5rem;
                 }
             }
             &_desc {
@@ -2138,9 +2139,9 @@ blockquote{
     }
     @media (max-width: 767px){
         &_item {
-            width: calc(50% - 0.625rem);
+            width: calc(50% - 0.75rem);
             &:not(:nth-child(2n + 1)){
-                margin-left: 1.25rem;
+                margin-left: 1.5rem;
             }
             &:nth-child(2n + 1){
                 margin-left: 0;
@@ -2149,18 +2150,17 @@ blockquote{
                 margin-top: 0;
             }
             &:nth-child(n + 3){
-                margin-top: 1.25rem;
+                margin-top: 1.5rem;
             }
         }
     }
     @media (max-width: 577px){
         &_item {
-            width: calc(50% - 0.5rem);
             &:not(:nth-child(2n + 1)){
-                margin-left: 0.75rem;
+                margin-left: 1rem;
             }
             &:nth-child(n + 3){
-                margin-top: 0.75rem;
+                margin-top: 1rem;
             }
         }
     }
@@ -2460,12 +2460,12 @@ blockquote{
     &_head {
         display: flex;
         > * {
-            opacity: 0.8;
+            opacity: 0.85;
             background: $bg-02;
             padding: .25rem .75rem;
-            font-family: $fontTitle;
-            font-size: 0.925rem;
-            font-weight: 500;
+            font-family: $fontText;
+            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
             border-left: 1px solid $bg-06;
             border-bottom: 1px solid $bg-06;
@@ -2483,7 +2483,7 @@ blockquote{
                 opacity: 1;
             }
             i {
-                margin-right: 0.5rem;
+                margin-right: 0.35rem;
             }
         }
     }
@@ -2775,9 +2775,10 @@ blockquote{
                     margin-bottom: 0.6rem;
                     letter-spacing: 0.3px;
                     font-size: 1rem;
-                    font-family: $fontTitle;
                     border-radius: 5px;
                     padding-right: 2rem;
+                    color: $colorTitle;
+                    font-family: $fontSegoeBold;
                 }
                 &.off {
                     position: relative;
@@ -3388,7 +3389,7 @@ $width-single-menu  : 260px;
                 text-align: center;
                 padding: 0.75rem;
                 font-size: 1.05rem;
-                font-weight: bold;
+                font-family: $fontSegoeBold;
                 margin: 0;
                 color: $colorLv2;
             }
@@ -3474,6 +3475,8 @@ $width-single-menu  : 260px;
             border-radius: 5px;
             cursor: pointer;
             margin-bottom: 0.5rem;
+            font-family: $fontSegoeBold;
+            color: $colorTitle;
             &:before {
                 content: "";
                 position: absolute;
@@ -3485,11 +3488,6 @@ $width-single-menu  : 260px;
                 top: 0;
                 left: -63px;
             }
-            h3, h4 {
-                font-size: 1.05rem;
-                font-weight: 700;
-                margin-bottom: 0;
-            }
             &_no {
                 position: absolute;
                 left: -51px;
@@ -3500,6 +3498,8 @@ $width-single-menu  : 260px;
         &_text {
             display: none;
             transition: all 1s;
+            font-size: 0.95rem;
+            color: $colorText;
             ul {
                 margin-bottom: 0;
                 margin-top: 0;
@@ -3827,20 +3827,22 @@ $width-single-menu  : 260px;
     float: left;
 }
 .blogListLeftRight {
-    margin-top: 0.5rem;
+    margin-top: 1rem;
     padding-bottom: 1rem;
     &_title {
-        border-radius: 8px 0 0 8px;
         padding-bottom: 0;
         margin-bottom: 1rem;
-        background: linear-gradient(90deg, rgba(0, 85, 85, 0.2) 0, rgb(255, 255, 255) 100%);
+        border-bottom: 2px solid $bg-04;
+        border-radius: 10px;
         h2, h3 {
             font-size: 1.2rem;
             color: $colorTitle;
             margin-top: 0;
             margin-bottom: 0;
             display: inline-block;
-            padding: 0.7rem 1.25rem;
+            padding: 0.25rem 1rem;
+            background: $bg-03;
+            border-radius: 10px 10px 0 10px;
         }
     }
     &_box {
@@ -3862,9 +3864,10 @@ $width-single-menu  : 260px;
                 &_title {
                     display: flex;
                     h2, h3 {
-                        font-size: 1.2rem;
+                        font-size: 1.05rem;
                         margin-bottom: 0.5rem;
                         color: $colorTitle;
+                        font-family: $fontSegoeBold;
                         &:hover {
                             color: $colorLv2;
                         }
@@ -3909,10 +3912,10 @@ $width-single-menu  : 260px;
                 &_content {
                     margin-left: 1rem;
                     width: 100%;
-                    // display: flex;
                     h2, h3 {
-                        font-size: 1.05rem;
+                        font-size: 1rem;
                         color: $colorTitle;
+                        font-family: $fontSegoeBold;
                         margin-bottom: 0.5rem;
                         margin-top: -0.25rem;
                         &:hover {
@@ -3936,7 +3939,7 @@ $width-single-menu  : 260px;
         &_text {
             font-style: italic;
             font-size: 1rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
         }
         &_button {
             display: inline-block;
@@ -3989,6 +3992,11 @@ $width-single-menu  : 260px;
                 }
             }
         }
+        &_footer {
+            &_text {
+                margin-bottom: 0.5rem;
+            }
+        }
     }
     @media(max-width: 577px){
         margin-top: 0.75rem;
@@ -4026,7 +4034,7 @@ $width-single-menu  : 260px;
     margin: 2rem 0 1rem 0;
     &_title {
         font-size: 1.3rem;
-        font-family: $fontTitle;
+        font-family: $fontSegoeBold;
         margin-bottom: 1rem;
     }
     &_box {
@@ -4059,14 +4067,14 @@ $width-single-menu  : 260px;
                 }
             }
             &_content {
-                padding: 0.75rem 1rem;
+                padding: 0.5rem 1rem;
                 text-align: justify;
                 &_title {
                     h3 {
                         color: $colorTitle;
                         font-size: 1.05rem;
                         margin-bottom: 0.5rem;
-                        font-family: $fontTitle;
+                        font-family: $fontSegoeBold;
                         &:hover {
                             color: $colorLv1;
                         }
@@ -4176,13 +4184,13 @@ $width-single-menu  : 260px;
                 }
             }
             &_content {
-                padding: 0.75rem 1rem;
+                padding: 0.5rem 1rem;
                 &_title {
                     h3 {
                         color: $colorTitle;
                         font-size: 1.05rem;
                         margin-bottom: 0.5rem;
-                        font-family: $fontTitle;
+                        font-family: $fontSegoeBold;
                         &:hover {
                             color: $colorLv1;
                         }
@@ -5087,15 +5095,16 @@ $width-single-menu  : 260px;
     &_title {
         padding: 0.6rem 1rem;
         font-weight: bold;
-        font-size: 1rem;
-        text-transform: uppercase;
+        font-size: 1.2rem;
         cursor: pointer;
-        border-bottom: 1px solid $bg-04;
+        border-bottom: 1px solid $bg-05;
+        color:  $colorTitle;
+        font-family: $fontSegoeBold;
         &_icon {
             &::before {
                 @include fontAwesome;
                 content: "\f0ca";
-                margin-right: 1rem;
+                margin-right: 0.5rem;
             }
         }
     }
@@ -5104,9 +5113,11 @@ $width-single-menu  : 260px;
         &_item {
             display: flex;
             margin-top: 0.6rem;
-            font-size: 1rem !important;
+            font-size: 0.95rem !important;
+            color: $colorTitle;
+            font-weight: bold;
             > * {
-                font-size: 1rem !important;
+                font-size: 0.95rem !important;
             }
             &:not(:first-child){
                 padding-top: 0.5rem;
@@ -6037,9 +6048,10 @@ $width-single-menu  : 260px;
     &_title {
         h2, h3 {
             font-size: 1.2rem;
-            font-family: $fontTitle;
+            font-family: $fontSegoeBold;
             margin-bottom: 0.75rem;
             margin-top: 0;
+            color: $colorTitle;
             i {
                 color: $colorLv1;
             }
@@ -6396,16 +6408,16 @@ $width-single-menu  : 260px;
         width: 60%;
         &_item {
             height: fit-content;
-            max-height: 220px;
+            max-height: 225px;
             overflow: hidden;
             &:not(:first-child){
                 margin-top: 1.25rem;
             }
             &_title {
-                font-family: $fontTitle;
-                font-size: 1.15rem;
+                font-family: $fontSegoeBold;
+                font-size: 1.1rem;
                 color: $colorTitle;
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.75rem;
                 letter-spacing: 0.5px;
                 display: flex;
                 cursor: pointer;
@@ -6466,10 +6478,10 @@ $width-single-menu  : 260px;
                 margin-top: 1rem;
             }
             &_title {
-                font-family: $fontTitle;
-                font-size: 1.15rem;
+                font-family: $fontSegoeBold;
+                font-size: 1.1rem;
                 color: $colorTitle;
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.75rem;
                 letter-spacing: 0.5px;
                 display: flex;
             }
@@ -6586,8 +6598,7 @@ $width-single-menu  : 260px;
                     margin-top: 0.5rem;
                 }
                 &_title {
-                    font-size: 1.1rem;
-                    margin-bottom: 0.25rem;
+                    margin-bottom: 0.5rem;
                 }
                 &_list {
                     max-height: 150px;
@@ -6600,8 +6611,7 @@ $width-single-menu  : 260px;
         &_facilities2 {
             &_item {
                 &_title {
-                    font-size: 1.1rem;
-                    margin-bottom: 0.25rem;
+                    margin-bottom: 0.5rem;
                 }
             }
         }
@@ -6621,13 +6631,13 @@ $width-single-menu  : 260px;
         &_facilities {
             &_item {
                 max-height: 215px;
+                &_title {
+                    margin-bottom: 0.25rem;
+                    font-size: 1.05rem;
+                }
                 &_list {
                     max-height: 145px;
                 }
-            }
-            &_title {
-                font-size: 1.05rem;
-                // margin-bottom: 0;
             }
         }
         &_facilities2 {
@@ -6641,7 +6651,7 @@ $width-single-menu  : 260px;
                 }
                 &_title {
                     font-size: 1.05rem;
-                    margin-bottom: 0;
+                    margin-bottom: 0.25rem;
                 }
             }
         }
@@ -6692,10 +6702,9 @@ $width-single-menu  : 260px;
                     > span { /* title */
                         font-size: 1.2rem;
                         color: $colorTitle;
-                        font-weight: bold;
                         margin-bottom: 0.75rem;
                         display: flex;
-                        font-family: $fontTitle;
+                        font-family: $fontSegoeBold;
                     }
                     > div { /* list */
                         gap: 15px 30px;
@@ -6746,7 +6755,12 @@ $width-single-menu  : 260px;
     }
 }
 @mixin modalHeadTitle {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
+    font-family: $fontSegoeBold;
+    color: $colorTitle;
+    @media(max-width: 990px){
+        font-size: 1.15rem;
+    }
     @media(max-width: 767px){
         font-size: 1.1rem;
     }
@@ -6767,49 +6781,52 @@ $width-single-menu  : 260px;
         top: 0;
         left: 50%;
         width: calc(100% - 3rem);
-        max-width: 1200px;
+        max-width: 1000px;
         max-height: 100vh;
         background: #fff;
         transform: translate3d(-50%, 0, 0);
-        border-radius: 12px;
+        border-radius: 15px 15px 0 15px;
         &_close {
             @include modalButtonClose;
         }
         &_body {
             display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            padding: 1.25rem;
             position: unset;
             max-height: calc(100vh - 4.75rem);
+            align-items: stretch;
             &_gallery {
                 display: flex;
                 flex-direction: column;
-                width: 50%;
+                flex: 0 0 600px;
+                overflow: hidden;
                 &_top {
                     width: 100%;
                     margin-bottom: 0.5rem;
                     img {
-                        border-radius: 8px;
+                        // border-radius: 8px;
                     }
                 }
                 &_bottom {
                     display: flex;
                     flex-wrap: wrap;
+                    padding: 0 0 0.5rem 0.5rem;
                     &_item {
-                        width: calc(20% - 0.4rem);
+                        width: calc(33.33% - 0.3333rem);
                         &:not(:first-child){
                             margin-left: 0.5rem;
                         }
-                        &:nth-child(5n + 1){
+                        &:nth-child(3n + 1){
                             margin-left: 0;
                         }
-                        &:nth-child(n + 6){
+                        &:nth-child(n + 4){
                             margin-top: 0.5rem;
+                        }
+                        &:nth-child(n + 13){
+                            display: none;
                         }
                     }
                     img {
-                        border-radius: 5px;
+                        border-radius: 10px;
                     }
                 }
                 img {
@@ -6821,105 +6838,86 @@ $width-single-menu  : 260px;
                 }
             }
             &_info {
-                width: calc(50% - 1.5rem);
+                width: 100%;
+                padding: 1rem;
+                font-size: 0.925rem;
                 &_title {
                     font-size: 1.2rem;
                     line-height: 1.6rem;
-                    font-family: $fontTitle;
-                    letter-spacing: 0.5px;
-                    margin-bottom: 0.5rem;
+                    margin-bottom: 0.75rem;
                     padding-right: 30px;
+                    font-family: $fontSegoeBold;
+                    color: $colorTitle;
                 }
-                &_facilities {
-                    &_label {
-                        margin-bottom: 0.25rem;
+                &_item {
+                    &:not(:last-child){
+                        border-bottom: 1px solid $bg-05;
+                        margin-bottom: 0.5rem;
+                        padding-bottom: 0.75rem;
                     }
-                    &_box {
+                    &_label {
+                        font-size: 1.1rem;
+                        color: $colorTitle;
+                        margin-bottom: 0.75rem;
+                        font-family: $fontSegoeBold;
+                    }
+                    &_text {
                         display: flex;
                         flex-wrap: wrap;
-                        font-size: 0.9rem;
-                        &_item {
+                        > * {
+                            width: calc(50% - 0.25rem);
                             display: flex;
                             align-items: center;
-                            background: $bg-03;
-                            padding: 0 0.35rem;
-                            border-radius: 20px;
-                            margin-top: 0.35rem;
-                            margin-right: 0.25rem;
-                            svg {
-                                margin-right: 0.2rem;
+                            &:not(:nth-child(2n + 1)){
+                                margin-left: 0.5rem;
+                            }
+                            img {
+                                width: 20px;
+                                margin-right: 0.25rem;
                             }
                         }
-                    }
-                }
-                &_size {
-                    margin-bottom: 0.25rem;
-                    margin-top: 0.25rem;
-                    display: flex;
-                    > * {
-                        &:not(:first-child){
-                            margin-left: 0.75rem;
-                            padding-left: 0.75rem;
-                            border-left: 2px solid $bg-03;
-                        }
-                    }
-                }
-                &_include {
-                    > * {
-                        display: inline-block;
-                        &:not(:last-child){
-                            margin-right: 0.5rem;
-                        }
-                    }
-                    i {
-                        font-size: 0.85rem;
-                        color: $colorSuccess;
-                        margin-right: 0.25rem;
-                    }
-                }
-                &_numberpeople {
-                    margin-bottom: 0.25rem;
-                    margin-top: 0.25rem;
-                }
-                &_condition {
-                    margin-bottom: 0.25rem;
-                    margin-top: 0.25rem;
-                    ul {
-                        margin-top: 0;
-                        margin-bottom: 0;
-                    }
-                }
-                &_details {
-                    display: flex;
-                    flex-direction: column;
-                    &_item {
-                        margin-top: 0.5rem;
-                        &_name {
-                            font-family: $fontTitle;
-                            font-size: 1.1rem;
-                            letter-spacing: 0.25px;
-                        }
-                        &_detail {
-                            ul {
+                        ul {
+                            display: flex;
+                            flex-wrap: wrap;
+                            justify-content: space-between;
+                            align-items: stretch;
+                            margin: 0;
+                            width: 100% !important;
+                            line-height: 1.5;
+                            li {
+                                list-style-type: none;
+                                width: calc(50% - 0.5rem);
                                 display: flex;
-                                flex-wrap: wrap;
-                                justify-content: space-between;
-                                margin-left: 0;
-                                margin-right: 0;
-                                li {
-                                    list-style-type: none;
-                                    width: calc(50% - 0.5rem);
-                                    &:nth-child(n + 3){
-                                        margin-top: 0.5rem;
-                                    }
+                                align-items: stretch;
+                                &:nth-child(n + 3){
+                                    margin-top: 0.5rem;
+                                }
+                                svg {
+                                    margin-right: 0.35rem;
+                                    filter: invert(60%) sepia(20%) saturate(10000%) hue-rotate(135deg) brightness(100%) contrast(100%);
+                                    transform: scale(1.1);
                                 }
                             }
                         }
+                        i {
+                            margin-right: 0.25rem;
+                        }
                     }
-                    svg {
-                        margin-right: 0.5rem;
-                        filter: invert(60%) sepia(20%) saturate(10000%) hue-rotate(110deg) brightness(100%) contrast(100%);
-                        transform: scale(1.1);
+                    &_facilities {
+                        font-size: 0.9rem;
+                        > * {
+                            display: inline-block;
+                            padding: 0.1rem 0.5rem;
+                            background: $bg-03;
+                            margin-bottom: 0.5rem;
+                            margin-right: 0.25rem;
+                            border-radius: 10px;
+                            svg {
+                                margin-right: 0.35rem;
+                                filter: invert(60%) sepia(20%) saturate(10000%) hue-rotate(135deg) brightness(100%) contrast(100%);
+                                transform: scale(1.1);
+                            }
+                        }
                     }
                 }
                 .highLight {
@@ -6934,9 +6932,13 @@ $width-single-menu  : 260px;
             width: 100%;
             display: flex;
             justify-content: flex-end;
-            align-items: flex-end;
-            padding: 1rem 1.25rem;
-            border-top: 1px solid $bg-04;
+            align-items: center;
+            padding: 0.75rem 1.25rem 1rem 1.25rem;
+            width: calc(100% - 600px);
+            position: absolute;
+            background: #fff;
+            right: 0;
+            border-radius: 0 0 15px 70px;
             &_price {
                 display: flex;
                 align-items: flex-end; 
@@ -6960,11 +6962,11 @@ $width-single-menu  : 260px;
                     }
                 }
                 &_now {
-                    font-size: 1.2rem;
+                    font-size: 1.4rem;
                     color: $colorPrice;
                     text-align: right;
-                    font-weight: bold;
-                    letter-spacing: 0.75px;
+                    font-family: $fontSegoeBold;
+                    letter-spacing: 0.5px;
                     margin-left: 0.75rem;
                 }
             }
@@ -6998,59 +7000,83 @@ $width-single-menu  : 260px;
         }
     }
     @media(max-width: 767px){
+        overflow: scroll;
         &_box {
             &_body {
-                padding: 1rem;
+                padding: 1rem 1rem 0 1rem;
                 flex-wrap: wrap;
-                max-height: calc(100vh - 4.35rem);
+                max-height: unset;
+                flex-direction: column;
+                height: 100%;
                 &_gallery {
                     width: 100%;
+                    flex: unset;
+                    &_top {
+                        border-radius: 10px;
+                        overflow: hidden;
+                    }
+                    &_bottom {
+                        padding: 0;
+                        > * {
+                            &:nth-child(n + 4){
+                                display: none;
+                            }
+                        }
+                    }
                 }
                 &_info {
                     width: 100%;
-                    margin-top: 1rem;
+                    margin-top: 0.75rem;
+                    padding: 0;
+                    overflow: auto !important;
                     &_title {
                         padding-right: 0;
+                        margin-bottom: 0.5rem;
                     }
                 }
             }
             &_footer {
+                width: 100%;
                 padding: 0.75rem 1rem;
+                position: relative;
+                left: 0;
+                bottom: 0;
             }
         }
     }
     @media(max-width: 577px){
         &_box {
             &_body {
-                padding: 0.75rem;
-                max-height: calc(100vh - 3.95rem);
-                &_info {
-                    margin-top: 0.75rem;
-                    &_details {
-                        &_item {
-                            margin-top: 0;
-                            &_detail {
-                                ul {
-                                    li {
-                                        &:nth-child(n + 3){
-                                            margin-top: 0.35rem;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                padding: 0.75rem 0.75rem 0 0.75rem;
+                // &_gallery {
+                //     width: 100%;
+                //     flex: unset;
+                //     &_top {
+                //         border-radius: 10px;
+                //         overflow: hidden;
+                //     }
+                //     &_bottom {
+                //         padding: 0;
+                //         > * {
+                //             &:nth-child(n + 4){
+                //                 display: none;
+                //             }
+                //         }
+                //     }
+                // }
+                // &_info {
+                //     width: 100%;
+                //     margin-top: 0.75rem;
+                //     padding: 0;
+                //     overflow: auto !important;
+                //     &_title {
+                //         padding-right: 0;
+                //         margin-bottom: 0.5rem;
+                //     }
+                // }
             }
             &_footer {
                 padding: 0.5rem 0.75rem;
-                &_price {
-                    &_old {
-                        &_number {
-                            display: none;
-                        }
-                    }
-                }
             }
         }
     }
@@ -7075,7 +7101,7 @@ $width-single-menu  : 260px;
         border-radius: 10px;
         overflow: hidden;
         &_head {
-            padding: 0.5rem 1.5rem 0.25rem 1.5rem;
+            padding: 0.5rem 1.25rem 0.25rem 1.25rem;
             margin-bottom:1rem;
             position: relative;
             background: $bg-02;
@@ -7084,7 +7110,6 @@ $width-single-menu  : 260px;
             }
             h2 {
                 @include modalHeadTitle;
-                font-family: $fontTitle;
             }
         }
         &_body {
@@ -7145,7 +7170,7 @@ $width-single-menu  : 260px;
         border-radius: 10px;
         overflow: hidden;
         &_head {
-            padding: 0.5rem 1.5rem 0.25rem 1.5rem;
+            padding: 0.5rem 1.25rem 0.25rem 1.25rem;
             background: $bg-02;
             position: relative;
             &_close {
@@ -7167,12 +7192,11 @@ $width-single-menu  : 260px;
             }
             h2 {
                 @include modalHeadTitle;
-                font-family: $fontTitle;
                 padding-right: 35px;
             }
         }
         &_body {
-            padding: 1rem 1.5rem;
+            padding: 1rem 1.25rem;
             max-height: calc(100vh - 8rem);
         }
         
@@ -7223,6 +7247,7 @@ $width-single-menu  : 260px;
     z-index: 9999;
     &_close {
         @include modalButtonClose;
+        border-top-right-radius: 0;
     }
     &_box {
         position: relative;
@@ -7240,7 +7265,7 @@ $width-single-menu  : 260px;
         display: flex;
         flex-wrap: wrap;
         cursor: pointer;
-        padding: 0 1.5rem;
+        padding: 0 1.25rem;
         &_item {
             padding: 0.5rem 1rem;
             border: 1px solid $bg-04;
@@ -7255,7 +7280,7 @@ $width-single-menu  : 260px;
         }
     }
     &_body {
-        padding: 0 2rem 1.5rem 2rem;
+        padding: 0 2rem 1.25rem 2rem;
         max-height: calc(100vh - 11rem);
         &_tab {
             display: none;
@@ -7318,6 +7343,7 @@ $width-single-menu  : 260px;
         font-size: 1.1rem;
         font-family: $fontTitle;
         letter-spacing: 0.5px;
+        position: relative;
         &_item {
             padding: 0.75rem 1.25rem;
             &:not(:first-child){
@@ -7434,7 +7460,7 @@ $width-single-menu  : 260px;
             width: 100%;
             height: 100%;
             position: relative;
-            font-size: 0.95rem;
+            font-size: 0.975rem;
             padding: 0.65rem 1rem;
             display: flex;
             flex-direction: column;
@@ -7444,21 +7470,21 @@ $width-single-menu  : 260px;
                 }
             }
             &_title {
-                margin-bottom: 0.25rem;
+                margin-bottom: 0.5rem;
                 &.hotelList_item_info_title {
                     padding-right: 100px;
                 }
                 h2, h3 {
-                    font-size: 1rem;
-                    letter-spacing: .25px;
+                    font-size: 1.05rem;
                     cursor: pointer;
-                    color: $colorLv1;
+                    color: $colorTitle;
+                    font-family: $fontSegoeBold;
                     margin: 0 !important;
                 }
             }
             &_highlightTitle {
                 display: flex;
-                margin-bottom: 0.25rem;
+                margin-bottom: 0.5rem;
                 h3, h4 {
                     font-size: 1.1rem;
                     font-family: $fontTitle;
@@ -7623,11 +7649,11 @@ $width-single-menu  : 260px;
                 }
                 &_now {
                     font-size: 1.2rem;
+                    font-family: $fontSegoeBold;
                     color: $colorPrice;
                     text-align: right;
-                    font-weight: bold;
                     margin-top: -0.2rem;
-                    letter-spacing: 0.75px;
+                    letter-spacing: 0.5px;
                 }
             }
             &_button {
@@ -7686,6 +7712,7 @@ $width-single-menu  : 260px;
                 border-left: none;
                 flex-direction: row;
                 margin-top: auto;
+                padding-top: 0 !important;
                 &_price {
                     margin-bottom: 0;
                     margin-right: 1rem;
@@ -8068,9 +8095,9 @@ $width-single-menu  : 260px;
             font-size: 0.95rem;
             &_title {
                 font-size: 1.1rem;
-                font-family: $fontTitle;
+                font-family: $fontSegoeBold;
                 color: $colorTitle;
-                margin-bottom: 0.25rem;
+                margin-bottom: 0.5rem;
                 margin-top: -0.2rem;
             }
             &_type {
@@ -8124,7 +8151,7 @@ $width-single-menu  : 260px;
             }
         }
         &_room {
-            border-top: 1px solid $bg-04;
+            border-top: 1px solid $bg-05;
             margin-top: 1.25rem;
             padding-top: 0.75rem;
             &_info {
@@ -8134,10 +8161,10 @@ $width-single-menu  : 260px;
                     margin-bottom: 0.15rem;
                 }
                 &_title {
-                    font-size: 1.1rem;
-                    font-family: $fontTitle;
-                    margin-bottom: 0.25rem;
-                    color: $colorLv1;
+                    font-size: 1.05rem;
+                    font-family: $fontSegoeBold;
+                    margin-bottom: 0.5rem;
+                    color: $colorTitle;
                     padding-right: 1.75rem;
                 }
                 &_include {
@@ -8275,7 +8302,7 @@ $width-single-menu  : 260px;
                 color: $colorDesc;
             }
             &_text {
-                font-size: 1rem;
+                font-size: 1.05rem;
                 font-family: $fontTitle;
                 color: $colorTitle;
             }
@@ -8367,9 +8394,9 @@ $width-single-menu  : 260px;
                 }
                 &_head {
                     font-size: 1.3rem;
-                    font-family: $fontTitle;
+                    font-family: $fontSegoeBold;
                     font-weight: 700;
-                    margin-bottom: 0.5rem;
+                    margin-bottom: 0.75rem;
                     color: $colorTitle;
                 }
                 &_body {
@@ -8470,7 +8497,7 @@ $width-single-menu  : 260px;
                 }
                 .title {
                     font-size: 1.05rem;
-                    font-family: $fontTitle;
+                    font-family: $fontSegoeBold;
                     color: $colorTitle;
                 }
                 i {
@@ -8515,10 +8542,10 @@ $width-single-menu  : 260px;
             &_now {
                 font-size: 1.1rem;
                 color: $colorPrice;
+                font-family: $fontSegoeBold;
                 text-align: right;
-                font-weight: bold;
                 margin-top: -0.2rem;
-                letter-spacing: 0.75px;
+                letter-spacing: 0.5px;
             }
         }
     }

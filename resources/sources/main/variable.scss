@@ -53,8 +53,11 @@ $colorRed: #E74C3C;
     #{$property}: unquote($color + map-get($opacity-to-hex, $opacity)) $important;
 }
 
-$fontTitle: "SVN-Gilroy Bold", serif;
+$fontTitle: "SVN-Gilroy Bold", sans-serif;
 $fontText: "SVN-Gilroy", sans-serif;
+$fontSegoeBold: "Segoe-UI Bold", serif;
+$fontSegoe: "Segoe-UI", serif;
+$fontSegoeSemi: "Segoe-UI Semi", serif;
 
 $backgroundImage: '/storage/images/svg/background-icon.png';
 
