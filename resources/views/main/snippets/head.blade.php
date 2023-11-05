@@ -72,7 +72,7 @@
         font-style: normal;
         font-display: swap;
         font-weight: 500;
-        src: url(//bizwebdktcdn.net/100/438/408/themes/919724/assets/svn-gilroy_medium.ttf?1698220622470);
+        src: url('/fonts/svn-gilroy_medium.ttf');
     }
 
     @font-face {
@@ -80,7 +80,7 @@
         font-style: normal;
         font-display: swap;
         font-weight: 700;
-        src: url(//bizweb.dktcdn.net/100/438/408/themes/919724/assets/svn-gilroy_med.ttf?1698220622470);
+        src: url('/fonts/svn-gilroy_med.ttf');
     }
 
     @font-face {
@@ -88,7 +88,7 @@
         font-style: normal;
         font-weight: 700;
         font-display: swap;
-        src: url(//bizweb.dktcdn.net/100/438/408/themes/919724/assets/svn-gilroy_semibold.ttf?1698220622470);
+        src: url('/fonts/svn-gilroy_semibold.ttf');
     }
 
     @font-face {
@@ -96,7 +96,7 @@
         font-style: normal;
         font-weight: 700;
         font-display: swap;
-        src: url(//bizweb.dktcdn.net/100/438/408/themes/919724/assets/svn-gilroy_semibold.ttf?1698220622470);
+        src: url('/fonts/svn-gilroy_semibold.ttf');
     }
 </style>
 
